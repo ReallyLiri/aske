@@ -3,12 +3,15 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ../../node_modules/react-native/local-cli/cli.js start --projectRoot ../../",
-    "test": "jest"
+    "lint": "tslint -p .",
+    "start": "node ../../node_modules/react-native/local-cli/cli.js start --projectRoot=../../",
+    "test": "jest",
+    "studio": "open -a /Applications/Android\\ Studio.app ./android/",
+    "xcode": "open ios/Unite.xcworkspace"
   },
   "dependencies": {
-    "react": "16.8.3",
-    "react-native": "0.59.9",
+    "react": "16.8.6",
+    "react-native": "0.59.8",
     "components": "*"
   },
   "devDependencies": {

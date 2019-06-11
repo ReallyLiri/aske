@@ -2,18 +2,14 @@
   "name": "web",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "react": "^16.8.3",
-    "react-art": "^16.8.6",
-    "react-dom": "^16.8.3",
-    "react-native-web": "^0.11.4",
-    "react-scripts": "3.0.1"
-  },
+  "homepage": "./",
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject"
+    "build": "yarn compile && react-app-rewired build && rm -rf dist && mv build dist",
+    "clean": "rm -rf dist/*",
+    "eject": "react-app-rewired eject",
+    "lint": "tslint -p .",
+    "test": "react-app-rewired test"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -22,6 +18,7 @@
     "production": [
       ">0.2%",
       "not dead",
+      "not ie <= 9",
       "not op_mini all"
     ],
     "development": [
@@ -29,6 +26,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "dependencies": {
+    "react": "16.8.6",
+    "react-art": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-native-web": "0.11.1",
+    "react-scripts": "2.1.8",
+    "components": "*"
   },
   "devDependencies": {
     "babel-plugin-react-native-web": "^0.11.4",

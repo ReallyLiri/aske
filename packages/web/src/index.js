@@ -1,8 +1,5 @@
-import { AppRegistry } from 'react-native'
+import React from 'react';
+import ReactDom from 'react-dom';
+import App from 'components/src/App';
 
-import App from 'components/src/App'
-
-AppRegistry.registerComponent('unite', () => App);
-AppRegistry.runApplication('unite', {
-  rootTag: document.getElementById('root'),
-});
+ReactDom.render(<App />, document.getElementById("root"));

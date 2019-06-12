@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, Share, Button, Platform } from 'react-native';
 import { Link } from '../components/Router/routing';
 
 const Pokemon = props => {
@@ -12,6 +12,14 @@ const Pokemon = props => {
     </View>
   );
 
+  const handlePress = async () => {
+    await Share.share({
+      message: 'Check out my favorite Pokemon!',
+      url: props.selectedPokemon.photoUrl
+    });
+    console.error("WAT");
+  };
+
   if (!props.selectedPokemon) {
     return (
       <View>
@@ -22,13 +30,23 @@ const Pokemon = props => {
   }
 
   const {
-    selectedPokemon: { name, number, type, photoUrl }
+    selectedPokemon: {name, number, type, photoUrl}
   } = props;
 
   return (
     <View>
       <View>
         {backButton}
+        {Platform.OS !== 'web' &&
+        <View>
+          <Button title="Share" onPress={handlePress}/>
+        </View>
+        }
+        {Platform.OS === 'web' &&
+        <View>
+          <Text>{'(Cannot share)'}</Text>
+        </View>
+        }
         <View>
           <Text>{`#${number}`}</Text>
         </View>

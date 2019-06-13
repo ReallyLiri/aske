@@ -1,23 +1,20 @@
 import React from 'react';
 import { View, Text, Image, Share, Button, Platform } from 'react-native';
-import { Link } from '../components/Router/routing';
+import { Navigation } from "../components/navigation";
 
 const Pokemon = props => {
 
   const backButton = (
     <View>
-      <Link to="/">
-        <Text>Go Back</Text>
-      </Link>
+      <Button title={"Go Back"} onPress={() => Navigation.navigateBack(props)} />
     </View>
   );
 
-  const handlePress = async () => {
+  const sharingIsCaring = async () => {
     await Share.share({
       message: 'Check out my favorite Pokemon!',
       url: props.selectedPokemon.photoUrl
     });
-    console.error("WAT");
   };
 
   if (!props.selectedPokemon) {
@@ -39,7 +36,7 @@ const Pokemon = props => {
         {backButton}
         {Platform.OS !== 'web' &&
         <View>
-          <Button title="Share" onPress={handlePress}/>
+          <Button title="Share" onPress={sharingIsCaring}/>
         </View>
         }
         {Platform.OS === 'web' &&

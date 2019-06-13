@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
-import { Router, Switch, Route } from './components/Router/routing';
+import { Router, Switch, Route } from './components/routing/routing';
 import Home from "./pages/Home";
 import Pokemon from "./pages/Pokemon";
+import { Navigation } from './components/navigation'
 
 const instructions = Platform.select({
   web: 'Free reload!',
@@ -27,6 +28,7 @@ export default class App extends Component<Props> {
   };
 
   render() {
+
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Welcome to Unite.!</Text>

@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import pokemon from './pokemonStore';
+import { Navigation } from "../components/navigation";
 
 const Home = props => {
 
   const handlePress = pokemon => {
     props.selectPokemon(pokemon);
-    props.history.push('/pokemon');
+    Navigation.navigateTo(props, '/pokemon');
   };
 
   return (

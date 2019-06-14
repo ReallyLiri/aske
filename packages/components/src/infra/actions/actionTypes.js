@@ -1,0 +1,5 @@
+
+export const INCREMENT = 'INCREMENT';
+export const DECREMENT = 'DECREMENT';
+export const SELECT_POKEMON = 'SELECT_POKEMON';
+export const DESELECT_POKEMON = 'DESELECT_POKEMON';

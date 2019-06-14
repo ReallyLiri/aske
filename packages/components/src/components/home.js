@@ -1,20 +1,23 @@
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
-import pokemon from './pokemonStore';
-import { Navigation } from "../components/navigation";
+import pokeStore from '../assets/pokemonStore';
+import { Navigation } from "../infra/navigation";
 
-const Home = props => {
+export default function(props) {
+
+  const {pokemon, selectPokemon, history} = props;
 
   const handlePress = pokemon => {
-    props.selectPokemon(pokemon);
-    Navigation.navigateTo(props, '/pokemon');
+    console.log(pokemon);
+    selectPokemon(pokemon);
+    history.push('/pokemon');
   };
 
   return (
     <View>
       <FlatList
         keyExtractor={pokemon => pokemon.number}
-        data={pokemon}
+        data={pokeStore}
         renderItem={({item}) => (
           <TouchableOpacity onPress={() => handlePress(item)}>
             <Text>{item.name}</Text>
@@ -24,5 +27,3 @@ const Home = props => {
     </View>
   );
 };
-
-export default Home;

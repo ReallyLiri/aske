@@ -1,12 +1,17 @@
 import React from 'react';
 import { View, Text, Image, Share, Button, Platform } from 'react-native';
-import { Navigation } from "../components/navigation";
+import { Navigation } from "../infra/navigation";
 
-const Pokemon = props => {
+export default function(props) {
 
   const backButton = (
     <View>
-      <Button title={"Go Back"} onPress={() => Navigation.navigateBack(props)} />
+      <Button title={"Go Back"} onPress={
+        () => {
+          deselectPokemon();
+          history.goBack();
+        }
+      } />
     </View>
   );
 
@@ -27,7 +32,9 @@ const Pokemon = props => {
   }
 
   const {
-    selectedPokemon: {name, number, type, photoUrl}
+    selectedPokemon: {name, number, type, photoUrl},
+    deselectPokemon,
+    history
   } = props;
 
   return (
@@ -63,5 +70,3 @@ const Pokemon = props => {
     </View>
   );
 };
-
-export default Pokemon;

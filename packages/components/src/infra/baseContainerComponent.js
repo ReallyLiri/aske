@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import * as navigationActions from "../redux/actions/navigationActions";
+
 export default class BaseContainerComponent extends Component {
 
   constructor(props) {
@@ -16,14 +18,25 @@ export default class BaseContainerComponent extends Component {
       case 'POP':
         if (props.history.length <= 2) {
           props.history.push('/');
-        }
-        else {
+        } else {
           props.history.goBack();
         }
         break;
       case 'REPLACE':
         props.history.replace(props.navigationState.currentRoute);
         break;
+    }
+  }
+
+  static connectState(state) {
+    return {
+      navigationState: state.navigation
+    }
+  }
+
+  static connectActions() {
+    return {
+      navigationActions: navigationActions
     }
   }
 

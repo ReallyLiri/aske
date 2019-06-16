@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, Image, Share, Button, Platform } from 'react-native';
-import { Navigation } from "../infra/navigation";
 
 export default function(props) {
 
@@ -9,8 +8,7 @@ export default function(props) {
       <Button title={"Go Back"} onPress={
         () => {
           deselectPokemon();
-          pushNavigation('/');
-          //history.goBack();
+          popNavigation('/');
         }
       } />
     </View>
@@ -23,6 +21,11 @@ export default function(props) {
     });
   };
 
+  const {
+    deselectPokemon,
+    popNavigation
+  } = props;
+
   if (!props.selectedPokemon) {
     return (
       <View>
@@ -33,9 +36,7 @@ export default function(props) {
   }
 
   const {
-    selectedPokemon: {name, number, type, photoUrl},
-    deselectPokemon,
-    pushNavigation
+    selectedPokemon: {name, number, type, photoUrl}
   } = props;
 
   return (

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
-import { Router, Switch, Route } from './infra/routing/routing';
+import { Router, Switch, Route } from './infra/routing';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
-import * as reducers from './infra/reducers';
-import HomeApp from "./containers/home";
-import PokemonApp from "./containers/pokemon";
+import * as reducers from './redux/reducers';
+import HomeContainer from "./containers/home/homeContainer";
+import PokemonContainer from "./containers/pokemon/pokemonContainer";
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const reducer = combineReducers(reducers);
@@ -29,7 +29,7 @@ export default class App extends Component {
               <Route
                 exact path="/"
                 render={
-                  props => <HomeApp
+                  props => <HomeContainer
                       {...props}
                   />
                 }
@@ -37,7 +37,7 @@ export default class App extends Component {
               <Route
                 path="/pokemon"
                 render={
-                  props => <PokemonApp
+                  props => <PokemonContainer
                     {...props}
                   />
                 }

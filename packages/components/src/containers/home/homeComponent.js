@@ -1,16 +1,15 @@
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
-import pokeStore from '../assets/pokemonStore';
-import { Navigation } from "../infra/navigation";
+
+import pokeStore from '../../assets/pokemonStore';
 
 export default function(props) {
 
-  const {pokemon, selectPokemon, history, pushNavigation, currentRoute} = props;
+  const {selectPokemon, pushNavigation, currentRoute} = props;
 
   const handlePress = pokemon => {
     selectPokemon(pokemon);
     pushNavigation('/pokemon');
-    //history.push('/pokemon');
   };
 
   return (

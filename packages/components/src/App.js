@@ -8,7 +8,6 @@ import thunk from 'redux-thunk';
 import * as reducers from './infra/reducers';
 import HomeApp from "./containers/home";
 import PokemonApp from "./containers/pokemon";
-import CounterApp from "./containers/counterApp";
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const reducer = combineReducers(reducers);
@@ -21,12 +20,10 @@ export default class App extends Component {
   }
 
   render() {
-    const {state, actions} = this.props;
     return (
       <Provider store={store}>
         <View style={styles.container}>
           <Text style={styles.welcome}>Welcome to Unite.!</Text>
-          <CounterApp/>
           <Router>
             <Switch>
               <Route

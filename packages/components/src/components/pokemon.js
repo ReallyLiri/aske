@@ -9,7 +9,8 @@ export default function(props) {
       <Button title={"Go Back"} onPress={
         () => {
           deselectPokemon();
-          history.goBack();
+          pushNavigation('/');
+          //history.goBack();
         }
       } />
     </View>
@@ -34,7 +35,7 @@ export default function(props) {
   const {
     selectedPokemon: {name, number, type, photoUrl},
     deselectPokemon,
-    history
+    pushNavigation
   } = props;
 
   return (

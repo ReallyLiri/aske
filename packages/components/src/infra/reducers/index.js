@@ -1,7 +1,7 @@
-import counter from './counter';
 import pokemon from './pokemon'
+import navigation from './navigation'
 
 export {
-  counter,
-  pokemon
+  pokemon,
+  navigation
 }

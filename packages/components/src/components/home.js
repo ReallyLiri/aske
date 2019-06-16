@@ -5,16 +5,17 @@ import { Navigation } from "../infra/navigation";
 
 export default function(props) {
 
-  const {pokemon, selectPokemon, history} = props;
+  const {pokemon, selectPokemon, history, pushNavigation, currentRoute} = props;
 
   const handlePress = pokemon => {
-    console.log(pokemon);
     selectPokemon(pokemon);
-    history.push('/pokemon');
+    pushNavigation('/pokemon');
+    //history.push('/pokemon');
   };
 
   return (
     <View>
+      <Text>{currentRoute}</Text>
       <FlatList
         keyExtractor={pokemon => pokemon.number}
         data={pokeStore}

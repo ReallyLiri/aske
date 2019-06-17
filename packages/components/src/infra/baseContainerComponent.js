@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 
 import * as navigationActions from "../redux/actions/navigationActions";
 import * as userActions from "../redux/actions/userActions";
-import Storage from '../infra/storage'
+import PersistentStorage from './persistent-storage'
 
 export default class BaseContainerComponent extends Component {
 
@@ -18,7 +18,7 @@ export default class BaseContainerComponent extends Component {
       return;
     }
     const {setUser} = this.props.userActions;
-    const user = await Storage.getUser();
+    const user = await PersistentStorage.getUser();
     setUser(user);
     const {replaceNavigation} = this.props.navigationActions;
     if (!user) {

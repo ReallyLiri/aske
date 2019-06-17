@@ -1,8 +1,8 @@
-import { AsyncStorage } from "react-native-web";
+import { AsyncStorage } from "./async-storage";
 
 const USER_KEY = 'USER_KEY';
 
-export default class Storage {
+export default class PersistentStorage {
 
   static async getUser() {
     return JSON.parse(await AsyncStorage.getItem(USER_KEY));

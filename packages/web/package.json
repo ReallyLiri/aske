@@ -5,7 +5,7 @@
   "homepage": "./",
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "yarn compile && react-app-rewired build && rm -rf dist && mv build dist",
+    "build": "react-app-rewired build && rm -rf dist && mv build dist",
     "clean": "rm -rf dist/*",
     "eject": "react-app-rewired eject",
     "lint": "tslint -p .",

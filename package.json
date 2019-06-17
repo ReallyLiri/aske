@@ -11,6 +11,7 @@
     "clean": "yarn workspaces run clean",
     "mobile": "yarn workspace mobile start",
     "web": "yarn workspace web start",
+    "web:build": "yarn workspace web build",
     "studio": "yarn workspace mobile studio",
     "xcode": "yarn workspace mobile xcode"
   }

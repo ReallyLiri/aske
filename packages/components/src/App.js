@@ -8,6 +8,8 @@ import thunk from 'redux-thunk';
 import * as reducers from './redux/reducers';
 import HomeContainer from "./containers/home/homeContainer";
 import PokemonContainer from "./containers/pokemon/pokemonContainer";
+import InitializingContainer from "./containers/initializing/initializing";
+import SignUpContainer from "./containers/signup/signup";
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const reducer = combineReducers(reducers);
@@ -29,7 +31,23 @@ export default class App extends Component {
               <Route
                 exact path="/"
                 render={
+                  props => <InitializingContainer
+                      {...props}
+                  />
+                }
+              />
+              <Route
+                path="/home"
+                render={
                   props => <HomeContainer
+                      {...props}
+                  />
+                }
+              />
+              <Route
+                path="/signup"
+                render={
+                  props => <SignUpContainer
                       {...props}
                   />
                 }

@@ -8,11 +8,15 @@ import connectComponent from "../../redux/connect";
 export class HomeContainer extends BaseContainerComponent {
 
   render() {
-    const {pokemonState, pokemonActions, navigationActions, navigationState} = this.props;
+    if (!this.isLoaded()) {
+      return super.render();
+    }
+    const {pokemonState, pokemonActions, navigationActions, navigationState, userState} = this.props;
     return (
       <Home
         pokemon={pokemonState.pokemon}
         currentRoute={navigationState.currentRoute}
+        user={userState.user}
         {...pokemonActions}
         {...navigationActions}
       />
@@ -21,7 +25,8 @@ export class HomeContainer extends BaseContainerComponent {
 
   static mapStateToProps(state) {
     return {
-      pokemonState: state.pokemon
+      pokemonState: state.pokemon,
+      userState: state.user
     };
   }
 

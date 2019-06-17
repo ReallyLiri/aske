@@ -8,6 +8,9 @@ import connectComponent from '../../redux/connect'
 export class PokemonContainer extends BaseContainerComponent {
 
   render() {
+    if (!this.isLoaded()) {
+      return super.render();
+    }
     const {pokemonState, pokemonActions, navigationActions} = this.props;
     return (
       <Pokemon

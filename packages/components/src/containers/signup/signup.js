@@ -6,8 +6,9 @@ import {
   StyleSheet, AsyncStorage
 } from 'react-native'
 import BaseContainerComponent from "../../infra/baseContainerComponent";
-import * as pokemonActions from "../../redux/actions/pokemonActions";
 import connectComponent from "../../redux/connect";
+import * as userActions from "../../redux/actions/userActions";
+import {setUser} from '../../infra/storage'
 
 export class SignUpContainer extends BaseContainerComponent {
 
@@ -21,16 +22,18 @@ export class SignUpContainer extends BaseContainerComponent {
   signUp = async () => {
     const { username, password, email, phone_number } = this.state;
     const {replaceNavigation} = this.props.navigationActions;
-    try {
-      AsyncStorage.setItem('USER_KEY', this.state);
-      console.log('user successfully signed up!: ')
-    } catch (err) {
-      console.log('error signing up: ', err)
-    }
+    const {setUser} = this.props.userActions;
+    await AsyncStorage.setItem('USER_KEY', this.state);
+    setUser(this.state);
     replaceNavigation('/home');
   };
 
+  isLoaded() {
+    return true;
+  }
+
   render() {
+    console.error("SIGNUP!");
     return (
       <View style={styles.container}>
         <TextInput
@@ -72,13 +75,12 @@ export class SignUpContainer extends BaseContainerComponent {
 
   static mapStateToProps(state) {
     return {
-      pokemonState: state.pokemon
     };
   }
 
   static mapDispatchToProps() {
     return {
-      pokemonActions: pokemonActions
+      userActions: userActions
     };
   }
 }

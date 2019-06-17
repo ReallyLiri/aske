@@ -5,7 +5,7 @@ import pokeStore from '../../assets/pokemonStore';
 
 export default function(props) {
 
-  const {selectPokemon, pushNavigation, currentRoute} = props;
+  const {selectPokemon, pushNavigation, currentRoute, user} = props;
 
   const handlePress = pokemon => {
     selectPokemon(pokemon);
@@ -15,6 +15,7 @@ export default function(props) {
   return (
     <View>
       <Text>{currentRoute}</Text>
+      <Text>User: {user.username}</Text>
       <FlatList
         keyExtractor={pokemon => pokemon.number}
         data={pokeStore}

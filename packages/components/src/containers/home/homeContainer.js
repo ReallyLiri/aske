@@ -19,13 +19,13 @@ export class HomeContainer extends BaseContainerComponent {
     )
   }
 
-  static connectState(state) {
+  static mapStateToProps(state) {
     return {
       pokemonState: state.pokemon
     };
   }
 
-  static connectActions() {
+  static mapDispatchToProps() {
     return {
       pokemonActions: pokemonActions
     };

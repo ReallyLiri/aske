@@ -13,6 +13,9 @@ export default class BaseContainerComponent extends Component {
   componentWillReceiveProps(props) {
     switch (props.navigationState.requiredAction) {
       case 'PUSH':
+        if (props.location.pathname === props.navigationState.currentRoute) {
+          return;
+        }
         props.history.push(props.navigationState.currentRoute);
         break;
       case 'POP':
@@ -23,18 +26,21 @@ export default class BaseContainerComponent extends Component {
         }
         break;
       case 'REPLACE':
+        if (props.location.pathname === props.navigationState.currentRoute) {
+          return;
+        }
         props.history.replace(props.navigationState.currentRoute);
         break;
     }
   }
 
-  static connectState(state) {
+  static mapStateToProps(state) {
     return {
       navigationState: state.navigation
     }
   }
 
-  static connectActions() {
+  static mapDispatchToProps() {
     return {
       navigationActions: navigationActions
     }

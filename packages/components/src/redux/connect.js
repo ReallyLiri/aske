@@ -18,12 +18,12 @@ function bindActionsCreators(actions, dispatch) {
 export default function connectComponent(component) {
   console.assert(component.prototype instanceof BaseContainerComponent);
   return connect(state => ({
-      ...BaseContainerComponent.connectState(state),
-      ...component.connectState(state)
+      ...BaseContainerComponent.mapStateToProps(state),
+      ...component.mapStateToProps(state)
     }),
     (dispatch) => bindActionsCreators({
-      ...BaseContainerComponent.connectActions(),
-      ...component.connectActions()
+      ...BaseContainerComponent.mapDispatchToProps(),
+      ...component.mapDispatchToProps()
     }, dispatch)
   )(component);
 }

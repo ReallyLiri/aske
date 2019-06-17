@@ -12,13 +12,12 @@ export class InitializingContainer extends BaseContainerComponent {
   async componentDidMount() {
     const {replaceNavigation} = this.props.navigationActions;
     try {
-       await new Promise(resolve => setTimeout(resolve, 2000));
+       await new Promise(resolve => setTimeout(resolve, 2000)); // for show
       const user = await AsyncStorage.getItem('USER_KEY');
-      console.error(user);
-      console.error(this.props);
       if (user) {
         replaceNavigation('/home');
       } else {
+        console.log("No user - signup");
         replaceNavigation('/signup');
       }
     } catch (err) {
@@ -35,12 +34,12 @@ export class InitializingContainer extends BaseContainerComponent {
     )
   }
 
-  static connectState(state) {
+  static mapStateToProps(state) {
     return {
     };
   }
 
-  static connectActions() {
+  static mapDispatchToProps() {
     return {
     };
   }

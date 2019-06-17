@@ -60,6 +60,14 @@ export default class App extends Component {
                   />
                 }
               />
+              <Route
+                // Default case - 404
+                render={
+                  props => <InitializingContainer
+                      {...props}
+                  />
+                }
+              />
             </Switch>
           </Router>
           <Text style={styles.instructions}>{instructions}</Text>
@@ -75,7 +83,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-    marginTop: 50,
     padding: 50
   },
   welcome: {

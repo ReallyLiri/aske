@@ -3,12 +3,12 @@ import {
   View,
   Button,
   TextInput,
-  StyleSheet, AsyncStorage
+  StyleSheet
 } from 'react-native'
 import BaseContainerComponent from "../../infra/baseContainerComponent";
 import connectComponent from "../../redux/connect";
 import * as userActions from "../../redux/actions/userActions";
-import {setUser} from '../../infra/storage'
+import Storage from '../../infra/storage'
 
 export class SignUpContainer extends BaseContainerComponent {
 
@@ -23,9 +23,9 @@ export class SignUpContainer extends BaseContainerComponent {
     const { username, password, email, phone_number } = this.state;
     const {replaceNavigation} = this.props.navigationActions;
     const {setUser} = this.props.userActions;
-    await AsyncStorage.setItem('USER_KEY', this.state);
     setUser(this.state);
-    replaceNavigation('/home');
+    await Storage.setUser(this.state);
+    replaceNavigation('/');
   };
 
   isLoaded() {
@@ -33,7 +33,6 @@ export class SignUpContainer extends BaseContainerComponent {
   }
 
   render() {
-    console.error("SIGNUP!");
     return (
       <View style={styles.container}>
         <TextInput

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, AsyncStorage, FlatList, TouchableOpacity } from "react-native";
+import { View, Text } from "react-native";
 
 import * as navigationActions from "../redux/actions/navigationActions";
 import * as userActions from "../redux/actions/userActions";
-import pokeStore from "../assets/pokemonStore";
+import Storage from '../infra/storage'
 
 export default class BaseContainerComponent extends Component {
 
@@ -18,7 +18,7 @@ export default class BaseContainerComponent extends Component {
       return;
     }
     const {setUser} = this.props.userActions;
-    const user = await AsyncStorage.getItem('USER_KEY');
+    const user = await Storage.getUser();
     setUser(user);
     const {replaceNavigation} = this.props.navigationActions;
     if (!user) {
@@ -41,26 +41,23 @@ export default class BaseContainerComponent extends Component {
 
   // Base navigation handling:
 
-  componentWillReceiveProps(props) {
-    switch (props.navigationState.requiredAction) {
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.navigationState.currentRoute === prevProps.navigationState.currentRoute) {
+      return;
+    }
+    switch (this.props.navigationState.requiredAction) {
       case 'PUSH':
-        if (props.location.pathname === props.navigationState.currentRoute) {
-          return;
-        }
-        props.history.push(props.navigationState.currentRoute);
+        this.props.history.push(this.props.navigationState.currentRoute);
         break;
       case 'POP':
-        if (props.history.length <= 2) {
-          props.history.push('/');
+        if (this.props.history.length <= 2) {
+          this.props.history.push('/');
         } else {
-          props.history.goBack();
+          this.props.history.goBack();
         }
         break;
       case 'REPLACE':
-        if (props.location.pathname === props.navigationState.currentRoute) {
-          return;
-        }
-        props.history.replace(props.navigationState.currentRoute);
+        this.props.history.replace(this.props.navigationState.currentRoute);
         break;
     }
   }

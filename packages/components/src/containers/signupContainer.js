@@ -5,10 +5,10 @@ import {
   TextInput,
   StyleSheet
 } from 'react-native'
-import BaseContainerComponent from "../../infra/baseContainerComponent";
-import connectComponent from "../../redux/connect";
-import * as userActions from "../../redux/actions/userActions";
-import PersistentStorage from '../../infra/persistent-storage'
+import BaseContainerComponent from "../infra/baseContainerComponent";
+import connectComponent from "../redux/connect";
+import * as userActions from "../redux/actions/userActions";
+import PersistentStorage from '../infra/persistent-storage'
 
 export class SignUpContainer extends BaseContainerComponent {
 
@@ -20,17 +20,12 @@ export class SignUpContainer extends BaseContainerComponent {
   };
 
   signUp = async () => {
-    const { username, password, email, phone_number } = this.state;
     const {replaceNavigation} = this.props.navigationActions;
     const {setUser} = this.props.userActions;
     setUser(this.state);
     await PersistentStorage.setUser(this.state);
     replaceNavigation('/');
   };
-
-  isLoaded() {
-    return true;
-  }
 
   render() {
     return (

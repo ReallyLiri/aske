@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Router, Switch, Route } from './infra/routing';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 import * as reducers from './redux/reducers';
-import HomeContainer from "./containers/home/homeContainer";
-import PokemonContainer from "./containers/pokemon/pokemonContainer";
-import SignUpContainer from "./containers/signup/signup";
+import { ColorScheme } from './theme/colorScheme';
+import HomeContainer from "./containers/homeContainer";
+import QuestionsContainer from "./containers/questionsContainer";
+import SignUpContainer from "./containers/signupContainer";
+import Header from "./components/header";
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const reducer = combineReducers(reducers);
@@ -24,44 +26,52 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <View style={styles.container}>
-          <Text style={styles.welcome}>Welcome to Unite.!</Text>
-          <Router>
-            <Switch>
-              <Route
-                exact path="/"
-                render={
-                  props => <HomeContainer
+          <Header
+            {...this.props}
+            title="UNITE HEADER"
+          />
+          <View style={styles.content}>
+            <Router>
+              <Switch>
+                <Route
+                  exact path="/"
+                  render={
+                    props => <HomeContainer
                       {...props}
-                  />
-                }
-              />
-              <Route
-                path="/signup"
-                render={
-                  props => <SignUpContainer
+                    />
+                  }
+                />
+                <Route
+                  path="/signup"
+                  render={
+                    props => <SignUpContainer
                       {...props}
-                  />
-                }
-              />
-              <Route
-                path="/pokemon"
-                render={
-                  props => <PokemonContainer
-                    {...props}
-                  />
-                }
-              />
-              <Route
-                // Default case - 404
-                render={
-                  props => <HomeContainer
+                    />
+                  }
+                />
+                <Route
+                  path="/questions"
+                  render={
+                    props => <QuestionsContainer
                       {...props}
-                  />
-                }
-              />
-            </Switch>
-          </Router>
-          <Text style={styles.instructions}>{instructions}</Text>
+                    />
+                  }
+                />
+                <Route
+                  // Default case - 404
+                  render={
+                    props => <HomeContainer
+                      {...props}
+                    />
+                  }
+                />
+              </Switch>
+            </Router>
+          </View>
+          <Header
+            {...this.props}
+            title="UNITE FOOTER"
+          />
         </View>
       </Provider>
     );
@@ -70,30 +80,13 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: ColorScheme.darkPurple,
     padding: 50
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginTop: 15,
-    marginBottom: 5,
-  },
-});
-
-
-const instructions = Platform.select({
-  web: 'Free reload!',
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
+  content: {
+    padding: 50,
+    height: '100%'
+  }
 });

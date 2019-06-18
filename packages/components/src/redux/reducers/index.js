@@ -1,9 +1,9 @@
-import pokemon from './pokemonReducer'
 import navigation from './navigationReducer'
 import user from './userReducer'
+import questions from './questionsReducer'
 
 export {
-  pokemon,
   navigation,
-  user
+  user,
+  questions
 }

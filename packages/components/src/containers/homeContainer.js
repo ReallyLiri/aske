@@ -36,7 +36,7 @@ export class HomeContainer extends BaseContainerComponent {
       return this.loadingPlaceholder();
     }
     return (
-    <View>
+    <View style={{width: 200}}>
       <Text>User: {this.props.userState.user.username}</Text>
       <Text>Responses:<br/>{JSON.stringify(this.props.questionsState.questions)}</Text>
       <Button onPress={async () => this.clearData()} title={"Clear Data"}/>

@@ -4,7 +4,7 @@ import BaseContainerComponent from '../infra/baseContainerComponent';
 import connectComponent from '../redux/connect'
 import { QUESTIONS } from "../data/questions";
 import PersistentStorage from "../infra/persistent-storage"
-import { Image, Text, View, Button } from "react-native";
+import { Image, Text, View, Button, StyleSheet, TouchableOpacity } from "react-native";
 import * as responses from "../data/questionResponse";
 
 export class QuestionsContainer extends BaseContainerComponent {
@@ -79,41 +79,41 @@ export class QuestionsContainer extends BaseContainerComponent {
             <Text>{title}</Text>
           </View>
           <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            <View style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}}>
-              <View style={{flex: 1, alignSelf: 'stretch'}}>
+            <View style={styles.row}>
+              <View style={styles.col}>
                 <Text>{leftAnswer}</Text>
               </View>
-              <View style={{flex: 1, alignSelf: 'stretch'}}>
+              <View style={styles.col}>
                 <Text>{rightAnswer}</Text>
               </View>
             </View>
-            <View style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}}>
-              <View style={{flex: 1, alignSelf: 'stretch'}}>
+            <View style={styles.row}>
+              <TouchableOpacity style={styles.col}>
                 <Image
-                  style={{width: 50, height: 50}}
+                  style={styles.button}
                   source={{uri: leftPicture}}
                   onClick={() => this.onQuestionResponse(responses.RIGHT_ANSWER)}
                 />
-              </View>
-              <View style={{flex: 1, alignSelf: 'stretch'}}>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.col}>
                 <Image
-                  style={{width: 50, height: 50}}
+                  style={styles.button}
                   source={{uri: rightPicture}}
                   onClick={() => this.onQuestionResponse(responses.LEFT_ANSWER)}
                 />
-              </View>
+              </TouchableOpacity>
             </View>
-            <View style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}}>
-              <View style={{flex: 1, alignSelf: 'stretch'}}>
+            <View style={styles.row}>
+              <View style={styles.col}>
                 <Button
-                  style={{width: 50, height: 50}}
+                  style={styles.button}
                   onPress={() => this.onQuestionResponse(responses.LEFT_ANSWER)}
                    title={"Both"}
                 />
               </View>
-              <View style={{flex: 1, alignSelf: 'stretch'}}>
+              <View style={styles.col}>
                 <Button
-                  style={{width: 50, height: 50}}
+                  style={styles.button}
                   onPress={() => this.onQuestionResponse(responses.LEFT_ANSWER)}
                    title={"None"}
                 />
@@ -133,5 +133,23 @@ export class QuestionsContainer extends BaseContainerComponent {
     return {};
   }
 }
+
+const styles = StyleSheet.create({
+  row: {
+    flex: 1, 
+    alignSelf: 'stretch',
+    flexDirection: 'row'
+  },
+  col: {
+    flex: 1,
+    alignSelf: 'stretch',
+    padding: 10
+  },
+  button: {
+    width: 250,
+    height: 250
+  }
+});
+
 
 export default connectComponent(QuestionsContainer);

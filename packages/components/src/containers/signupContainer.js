@@ -3,20 +3,22 @@ import {
   View,
   Button,
   TextInput,
-  StyleSheet
+  StyleSheet, Text, TouchableOpacity
 } from 'react-native'
 import BaseContainerComponent from "../infra/baseContainerComponent";
 import connectComponent from "../redux/connect";
 import * as userActions from "../redux/actions/userActions";
 import PersistentStorage from '../infra/persistent-storage'
+import { ColorScheme } from "../theme/colorScheme";
+import * as responses from "../data/questionResponse";
 
 export class SignUpContainer extends BaseContainerComponent {
 
   state = {
-    username: '', password: '', email: '', phone_number: ''
+    username: '', mantra: ''
   };
   onChangeText = (key, val) => {
-    this.setState({ [key]: val })
+    this.setState({[key]: val});
   };
 
   signUp = async () => {
@@ -27,49 +29,43 @@ export class SignUpContainer extends BaseContainerComponent {
     replaceNavigation('/');
   };
 
+  commitEnabled() {
+    return this.state.username && this.state.mantra;
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <TextInput
           style={styles.input}
-          placeholder='Username'
+          placeholder='Enter name'
+          placeholderTextColor={ColorScheme.primary}
           autoCapitalize="none"
-          placeholderTextColor='white'
           onChangeText={val => this.onChangeText('username', val)}
         />
         <TextInput
           style={styles.input}
-          placeholder='Password'
-          secureTextEntry={true}
+          placeholder='Enter your mantra for life'
+          placeholderTextColor={ColorScheme.primary}
           autoCapitalize="none"
-          placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('password', val)}
+          onChangeText={val => this.onChangeText('mantra', val)}
         />
-        <TextInput
-          style={styles.input}
-          placeholder='Email'
-          autoCapitalize="none"
-          placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('email', val)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder='Phone Number'
-          autoCapitalize="none"
-          placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('phone_number', val)}
-        />
-        <Button
-          title='Sign Up'
-          onPress={this.signUp}
-        />
+        {
+          this.commitEnabled() ?
+            <TouchableOpacity
+              style={styles.commit}
+              onPress={this.signUp}>
+              <Text style={styles.buttonText}>Join us!</Text>
+            </TouchableOpacity>
+            :
+            <Text style={{height: 75}}/> // 75 is height+padding
+        }
       </View>
     )
   }
 
   static mapStateToProps(state) {
-    return {
-    };
+    return {};
   }
 
   static mapDispatchToProps() {
@@ -85,13 +81,27 @@ const styles = StyleSheet.create({
   input: {
     width: 350,
     height: 55,
-    backgroundColor: '#42A5F5',
+    backgroundColor: ColorScheme.lightPurple,
+    color: ColorScheme.darkPurple,
     margin: 10,
-    padding: 8,
-    color: 'white',
+    padding: 20,
     borderRadius: 14,
     fontSize: 18,
     fontWeight: '500',
+  },
+  commit: {
+    width: 150,
+    height: 55,
+    margin: 10,
+    padding: 20,
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: ColorScheme.primary
+  },
+  buttonText: {
+    fontWeight: 'bold',
+    color: ColorScheme.secondary
   },
   container: {
     flex: 1,

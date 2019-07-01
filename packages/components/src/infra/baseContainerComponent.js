@@ -77,7 +77,7 @@ export default class BaseContainerComponent extends Component {
         break;
       case 'POP':
         if (this.props.history.length <= 2) {
-          this.props.history.push('/');
+          this.props.history.push(ROUTES.HOME); // No history - fallback
         } else {
           this.props.history.goBack();
         }

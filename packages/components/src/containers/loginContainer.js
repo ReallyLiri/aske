@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity
 } from 'react-native'
+
 import BaseContainerComponent from "../infra/baseContainerComponent";
 import connectComponent from "../redux/connect";
 import * as userActions from "../redux/actions/userActions";
@@ -13,17 +14,25 @@ import PersistentStorage from '../infra/persistent-storage'
 import { ColorScheme } from "../theme/colorScheme";
 import { Strings } from "../data/strings";
 import { ROUTES } from "../routes";
+import AuthService from "../services/authService";
+import { condVisibility } from "../theme/styleSheets";
 
 export class LoginContainer extends BaseContainerComponent {
 
   state = {
-    username: ''
+    username: '',
+    error: null
   };
 
   login = async () => {
+    const response = await AuthService.login(this.state.username);
+    if (response.error) {
+      this.setState({error: response.error});
+      return;
+    }
     const {replaceNavigation} = this.props.navigationActions;
     const {setUser} = this.props.userActions;
-    setUser(this.state);
+    setUser(response.userData);
     await PersistentStorage.setUser(this.state);
     replaceNavigation(ROUTES.HOME);
   };
@@ -31,22 +40,20 @@ export class LoginContainer extends BaseContainerComponent {
   render() {
     return (
       <View style={styles.container}>
+        <Text style={[{color: 'red', height: 20}, condVisibility(this.state.error)]}>{this.state.error}</Text>
         <TextInput
           style={styles.input}
           placeholder={Strings.ENTER_NAME}
           placeholderTextColor={ColorScheme.primary}
           autoCapitalize="none"
-          onChangeText={val => this.setState({username: val})}
+          onChangeText={val => this.setState({username: val, error: null})}
         />
         {
-          this.state.username ?
-            <TouchableOpacity
-              style={styles.loginButton}
-              onPress={this.login}>
-              <Text style={styles.buttonText}>{Strings.LOGIN}</Text>
-            </TouchableOpacity>
-            :
-            <Text style={{height: 75}}/> // 75 is height+padding
+          <TouchableOpacity
+            style={[styles.loginButton, condVisibility(this.state.username)]}
+            onPress={this.login}>
+            <Text style={styles.buttonText}>{Strings.LOGIN}</Text>
+          </TouchableOpacity>
         }
       </View>
     )

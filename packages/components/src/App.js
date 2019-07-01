@@ -10,7 +10,10 @@ import { ColorScheme } from './theme/colorScheme';
 import HomeContainer from "./containers/homeContainer";
 import QuestionsContainer from "./containers/questionsContainer";
 import SignUpContainer from "./containers/signupContainer";
+import WelcomeContainer from "./containers/welcomeComponent";
+import LoginContainer from "./containers/loginContainer";
 import Header from "./components/header";
+import {ROUTES} from './routes';
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const reducer = combineReducers(reducers);
@@ -34,7 +37,7 @@ export default class App extends Component {
             <Router>
               <Switch>
                 <Route
-                  exact path="/"
+                  exact path={ROUTES.HOME}
                   render={
                     props => <HomeContainer
                       {...props}
@@ -42,7 +45,23 @@ export default class App extends Component {
                   }
                 />
                 <Route
-                  path="/signup"
+                  path={ROUTES.WELCOME}
+                  render={
+                    props => <WelcomeContainer
+                      {...props}
+                    />
+                  }
+                />
+                <Route
+                  path={ROUTES.LOGIN}
+                  render={
+                    props => <LoginContainer
+                      {...props}
+                    />
+                  }
+                />
+                <Route
+                  path={ROUTES.SINGUP}
                   render={
                     props => <SignUpContainer
                       {...props}
@@ -50,7 +69,7 @@ export default class App extends Component {
                   }
                 />
                 <Route
-                  path="/questions"
+                  path={ROUTES.QUESTIONS}
                   render={
                     props => <QuestionsContainer
                       {...props}

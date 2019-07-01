@@ -14,28 +14,19 @@ import { ColorScheme } from "../theme/colorScheme";
 import { Strings } from "../data/strings";
 import { ROUTES } from "../routes";
 
-export class SignUpContainer extends BaseContainerComponent {
+export class LoginContainer extends BaseContainerComponent {
 
   state = {
-    username: '',
-    mantra: ''
+    username: ''
   };
 
-  onChangeText = (key, val) => {
-    this.setState({[key]: val});
-  };
-
-  signUp = async () => {
+  login = async () => {
     const {replaceNavigation} = this.props.navigationActions;
     const {setUser} = this.props.userActions;
     setUser(this.state);
     await PersistentStorage.setUser(this.state);
     replaceNavigation(ROUTES.HOME);
   };
-
-  commitEnabled() {
-    return this.state.username && this.state.mantra;
-  }
 
   render() {
     return (
@@ -45,21 +36,14 @@ export class SignUpContainer extends BaseContainerComponent {
           placeholder={Strings.ENTER_NAME}
           placeholderTextColor={ColorScheme.primary}
           autoCapitalize="none"
-          onChangeText={val => this.onChangeText('username', val)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder={Strings.ENTER_MANTRA}
-          placeholderTextColor={ColorScheme.primary}
-          autoCapitalize="none"
-          onChangeText={val => this.onChangeText('mantra', val)}
+          onChangeText={val => this.setState({username: val})}
         />
         {
-          this.commitEnabled() ?
+          this.state.username ?
             <TouchableOpacity
-              style={styles.commit}
-              onPress={this.signUp}>
-              <Text style={styles.buttonText}>{Strings.REGISTER}</Text>
+              style={styles.loginButton}
+              onPress={this.login}>
+              <Text style={styles.buttonText}>{Strings.LOGIN}</Text>
             </TouchableOpacity>
             :
             <Text style={{height: 75}}/> // 75 is height+padding
@@ -79,7 +63,7 @@ export class SignUpContainer extends BaseContainerComponent {
   }
 }
 
-export default connectComponent(SignUpContainer);
+export default connectComponent(LoginContainer);
 
 const styles = StyleSheet.create({
   input: {
@@ -93,7 +77,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
   },
-  commit: {
+  loginButton: {
     width: 150,
     height: 55,
     margin: 10,

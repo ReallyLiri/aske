@@ -87,7 +87,7 @@ export class QuestionsContainer extends BaseContainerComponent {
               </View>
             </View>
             <View style={styles.row}>
-              <TouchableOpacity style={styles.col} onPress={() => this.onQuestionResponse(responses.RIGHT_ANSWER)}>
+              <TouchableOpacity style={styles.col} onPress={(ev) => console.error(ev)}>
                 <Image
                   style={styles.button}
                   source={{uri: leftPicture}}

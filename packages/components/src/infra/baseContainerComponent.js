@@ -5,6 +5,7 @@ import * as navigationActions from "../redux/actions/navigationActions";
 import * as userActions from "../redux/actions/userActions";
 import * as questionActions from "../redux/actions/questionActions";
 import PersistentStorage from './persistent-storage'
+import { ROUTES } from "../routes";
 
 export default class BaseContainerComponent extends Component {
 
@@ -27,8 +28,7 @@ export default class BaseContainerComponent extends Component {
     const {replaceNavigation} = this.props.navigationActions;
     const user = await this.loadUser();
     if (!user) {
-      console.log("No user - signup");
-      replaceNavigation('/signup');
+      replaceNavigation(ROUTES.WELCOME);
       return false;
     }
     return true;
@@ -51,8 +51,7 @@ export default class BaseContainerComponent extends Component {
     const {replaceNavigation} = this.props.navigationActions;
     const {questions, completed} = await this.loadQuestions();
     if (!completed) {
-      console.log("Need to answer questions");
-      replaceNavigation('/questions');
+      replaceNavigation(ROUTES.QUESTIONS);
       return false;
     }
     return true;

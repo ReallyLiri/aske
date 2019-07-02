@@ -75,14 +75,14 @@ export class QuestionsContainer extends BaseContainerComponent {
       return this.loadingPlaceholder();
     }
 
-    const {title, leftAnswer, rightAnswer, leftPicture, rightPicture} = this.state.questions[this.state.currentQuestionIdx];
+    const {leftAnswer, rightAnswer, leftPicture, rightPicture} = this.state.questions[this.state.currentQuestionIdx];
 
     return (
       <View>
         <View>
           <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 10}}>
             <Text>{`Question #${this.state.currentQuestionIdx + 1}/${this.state.questions.length}`}</Text>
-            <Text style={styles.titleText}>{title}</Text>
+            <Text style={styles.titleText}>---</Text>
             <View style={styles.row}>
               <View style={styles.col}>
                 <Text>{leftAnswer}</Text>

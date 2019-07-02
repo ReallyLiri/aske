@@ -7,6 +7,10 @@ export const condVisibility = (predicate) => {
 };
 
 export const uniteStyle = StyleSheet.create({
+  errorMessage: {
+    color: 'red',
+    height: 20
+  },
   input: {
     width: 350,
     height: 55,
@@ -18,7 +22,7 @@ export const uniteStyle = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
   },
-  loginButton: {
+  actionButton: {
     width: 150,
     height: 55,
     margin: 10,
@@ -28,7 +32,7 @@ export const uniteStyle = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: ColorScheme.primary
   },
-  buttonText: {
+  actionButtonText: {
     fontWeight: 'bold',
     color: ColorScheme.secondary
   },

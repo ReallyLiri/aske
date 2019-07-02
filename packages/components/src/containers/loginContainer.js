@@ -2,7 +2,6 @@ import React from 'react'
 import {
   View,
   TextInput,
-  StyleSheet,
   Text,
   TouchableOpacity
 } from 'react-native'
@@ -15,7 +14,7 @@ import { ColorScheme } from "../theme/colorScheme";
 import { Strings } from "../data/strings";
 import { ROUTES } from "../routes";
 import AuthService from "../services/authService";
-import { condVisibility } from "../theme/styleSheets";
+import { condVisibility, uniteStyle } from "../theme/styleSheets";
 
 export class LoginContainer extends BaseContainerComponent {
 
@@ -39,10 +38,10 @@ export class LoginContainer extends BaseContainerComponent {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={[{color: 'red', height: 20}, condVisibility(this.state.error)]}>{this.state.error}</Text>
+      <View style={uniteStyle.container}>
+        <Text style={[uniteStyle.errorMessage, condVisibility(this.state.error)]}>{this.state.error}</Text>
         <TextInput
-          style={styles.input}
+          style={uniteStyle.input}
           placeholder={Strings.ENTER_NAME}
           placeholderTextColor={ColorScheme.primary}
           autoCapitalize="none"
@@ -50,9 +49,9 @@ export class LoginContainer extends BaseContainerComponent {
         />
         {
           <TouchableOpacity
-            style={[styles.loginButton, condVisibility(this.state.username)]}
+            style={[uniteStyle.actionButton, condVisibility(this.state.username)]}
             onPress={this.login}>
-            <Text style={styles.buttonText}>{Strings.LOGIN}</Text>
+            <Text style={uniteStyle.actionButtonText}>{Strings.LOGIN}</Text>
           </TouchableOpacity>
         }
       </View>
@@ -71,36 +70,3 @@ export class LoginContainer extends BaseContainerComponent {
 }
 
 export default connectComponent(LoginContainer);
-
-const styles = StyleSheet.create({
-  input: {
-    width: 350,
-    height: 55,
-    backgroundColor: ColorScheme.lightPurple,
-    color: ColorScheme.darkPurple,
-    margin: 10,
-    padding: 20,
-    borderRadius: 14,
-    fontSize: 18,
-    fontWeight: '500',
-  },
-  loginButton: {
-    width: 150,
-    height: 55,
-    margin: 10,
-    padding: 20,
-    borderRadius: 14,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: ColorScheme.primary
-  },
-  buttonText: {
-    fontWeight: 'bold',
-    color: ColorScheme.secondary
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-});

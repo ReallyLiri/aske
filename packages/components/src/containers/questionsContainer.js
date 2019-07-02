@@ -1,12 +1,14 @@
 import React from 'react';
+import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 
 import BaseContainerComponent from '../infra/baseContainerComponent';
 import connectComponent from '../redux/connect'
 import { QUESTIONS } from "../data/questions";
 import PersistentStorage from "../infra/persistent-storage"
-import { Image, Text, View, Button, StyleSheet, TouchableOpacity } from "react-native";
 import * as responses from "../data/questionResponse";
 import { ColorScheme } from "../theme/colorScheme";
+import { ROUTES } from "../routes";
+import ResponseService from "../services/responseService";
 
 export class QuestionsContainer extends BaseContainerComponent {
 
@@ -26,22 +28,19 @@ export class QuestionsContainer extends BaseContainerComponent {
 
     let {questions, completed} = await this.loadQuestions();
     if (completed) {
-      this.props.navigationActions.pushNavigation('/');
+      this.props.navigationActions.pushNavigation(ROUTES.HOME);
       return;
     }
 
+    let firstUnansweredQuestionIdx;
     if (!questions) {
       questions = QUESTIONS;
       await PersistentStorage.setQuestions(questions);
-      this.setState({
-        isReady: true,
-        questions: questions,
-        currentQuestionIdx: 0
-      });
-      return;
+      firstUnansweredQuestionIdx = 0;
+    } else {
+      firstUnansweredQuestionIdx = questions.findIndex(q => !q.response);
     }
 
-    const firstUnansweredQuestionIdx = questions.findIndex(q => !q.response);
     this.setState({
       isReady: true,
       questions: questions,
@@ -49,13 +48,19 @@ export class QuestionsContainer extends BaseContainerComponent {
     });
   }
 
+  async onQuestionsCompleted() {
+    this.props.questionActions.markQuestionsCompleted();
+    const {userData} = this.props.userState;
+    await ResponseService.postResponses(userData, this.state.questions);
+    this.props.navigationActions.pushNavigation(ROUTES.HOME);
+  }
+
   async onQuestionResponse(response) {
     const {questions, currentQuestionIdx} = this.state;
     questions[this.state.currentQuestionIdx].response = response;
     await PersistentStorage.setQuestions(this.state.questions);
     if (currentQuestionIdx === questions.length - 1) {
-      this.props.questionActions.markQuestionsCompleted();
-      this.props.navigationActions.pushNavigation('/');
+      await this.onQuestionsCompleted();
       return;
     }
     this.setState({
@@ -87,7 +92,7 @@ export class QuestionsContainer extends BaseContainerComponent {
               </View>
             </View>
             <View style={styles.row}>
-              <TouchableOpacity style={styles.col} onPress={(ev) => console.error(ev)}>
+              <TouchableOpacity style={styles.col} onPress={() => this.onQuestionResponse(responses.RIGHT_ANSWER)}>
                 <Image
                   style={styles.button}
                   source={{uri: leftPicture}}

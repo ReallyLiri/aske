@@ -13,7 +13,8 @@ import SignUpContainer from "./containers/signupContainer";
 import WelcomeContainer from "./containers/welcomeComponent";
 import LoginContainer from "./containers/loginContainer";
 import Header from "./components/header";
-import {ROUTES} from './routes';
+import { ROUTES } from './routes';
+import FireBase from "./services/firebase";
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const reducer = combineReducers(reducers);
@@ -23,6 +24,7 @@ export default class App extends Component {
 
   constructor(props) {
     super(props);
+    FireBase.initialize();
   }
 
   render() {

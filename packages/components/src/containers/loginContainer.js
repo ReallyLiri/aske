@@ -32,7 +32,7 @@ export class LoginContainer extends BaseContainerComponent {
     const {replaceNavigation} = this.props.navigationActions;
     const {setUser} = this.props.userActions;
     setUser(response.userData);
-    await PersistentStorage.setUser(this.state);
+    await PersistentStorage.setUser(response.userData);
     replaceNavigation(ROUTES.HOME);
   };
 

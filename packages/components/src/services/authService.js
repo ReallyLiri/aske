@@ -1,36 +1,32 @@
+import FireBase from "./firebase";
+import { Strings } from "../data/strings";
+
+const USERS_COLLECTION = "users";
+
 export default class AuthService {
 
-  static makeTrouble() {
-    // small chance to return true ...
-    return Math.floor((Math.random() * 100) + 1) % 4 === 0;
-  }
-
   static async login(username) {
-    // TODO - its a mock!
-    if (this.makeTrouble()) {
+    const results = await FireBase.query(USERS_COLLECTION, 'username', username);
+    if (!results || !results.length) {
       return {
-        error: 'Error: Unknown username'
+        error: Strings.ERROR_LOGIN
       }
     }
     return {
-      userData: {
-        username: username,
-        mantra: 'TODO from server'
-      },
-      token: 'auth-token'
+      userData: results[0]
     };
   }
 
   static async register(userData) {
-    // TODO - its a mock!
-    if (this.makeTrouble()) {
+    const existing = await FireBase.query(USERS_COLLECTION, 'username', userData.username);
+    if (existing && existing.length) {
       return {
-        error: 'Error: Username already taken'
+        error: Strings.ERROR_REGISTER
       }
     }
+    const userId = await FireBase.add(USERS_COLLECTION, userData);
     return {
-      userData: userData,
-      token: 'auth-token'
+      userData: {...userData, id: userId}
     };
   }
 

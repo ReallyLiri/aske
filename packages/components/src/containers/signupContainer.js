@@ -37,8 +37,8 @@ export class SignUpContainer extends BaseContainerComponent {
     }
     const {replaceNavigation} = this.props.navigationActions;
     const {setUser} = this.props.userActions;
-    setUser(this.state.userData);
-    await PersistentStorage.setUser(this.state.userData);
+    setUser(response.userData);
+    await PersistentStorage.setUser(response.userData);
     replaceNavigation(ROUTES.HOME);
   };
 

@@ -50,8 +50,8 @@ export class QuestionsContainer extends BaseContainerComponent {
 
   async onQuestionsCompleted() {
     this.props.questionActions.markQuestionsCompleted();
-    const {userData} = this.props.userState;
-    await ResponseService.postResponses(userData, this.state.questions);
+    const {user} = this.props.userState;
+    await ResponseService.postResponses(user, this.state.questions);
     this.props.navigationActions.pushNavigation(ROUTES.HOME);
   }
 

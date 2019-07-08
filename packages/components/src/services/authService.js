@@ -6,25 +6,25 @@ const USERS_COLLECTION = "users";
 export default class AuthService {
 
   static async login(username) {
-    const results = await FireBase.query(USERS_COLLECTION, 'username', username);
+    const results = await FireBase.query(USERS_COLLECTION, 'userData.username', username);
     if (!results || !results.length) {
       return {
         error: Strings.ERROR_LOGIN
       }
     }
     return {
-      userData: results[0]
+      userData: {...results[0].userData, id: results[0].id}
     };
   }
 
   static async register(userData) {
-    const existing = await FireBase.query(USERS_COLLECTION, 'username', userData.username);
+    const existing = await FireBase.query(USERS_COLLECTION, 'userData.username', userData.username);
     if (existing && existing.length) {
       return {
         error: Strings.ERROR_REGISTER
       }
     }
-    const userId = await FireBase.add(USERS_COLLECTION, userData);
+    const userId = await FireBase.add(USERS_COLLECTION, {userData: userData, responses: []});
     return {
       userData: {...userData, id: userId}
     };

@@ -29,7 +29,9 @@ export default class FireBase {
   static async query(collection, field, value) {
     const response = await firebase.firestore().collection(collection)
       .where(field, "==", value).get();
-    return response.docs.map(doc => doc.data());
+    return response.docs.map(doc => {
+      return {...doc.data(), id: doc.id}
+    });
   }
 
   static async set(collection, id, data) {

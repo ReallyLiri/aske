@@ -1,3 +1,5 @@
+import jsSHA from "jssha";
+
 export function minStr(s1, s2) {
   if (s1.localeCompare(s2) <= 0) {
     return s1;
@@ -20,4 +22,11 @@ export function utcTimestampToDate(timestamp) {
   const date = new Date(timestamp * 1000);
   const localOffset = (-1) * date.getTimezoneOffset() * 60000;
   return new Date(date - localOffset);
+}
+
+export function hashPassword(password) {
+  const sha256 = new jsSHA('SHA-256', 'TEXT');
+  sha256.update(password);
+  const hash = sha256.getHash("HEX");
+  return hash;
 }

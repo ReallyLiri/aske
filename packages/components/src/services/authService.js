@@ -5,9 +5,15 @@ const USERS_COLLECTION = "users";
 
 export default class AuthService {
 
-  static async login(username) {
+  static async login(username, password) {
     const results = await FireBase.query(USERS_COLLECTION, 'userData.username', username);
     if (!results || !results.length) {
+      return {
+        error: Strings.ERROR_LOGIN
+      }
+    }
+    const result = results[0];
+    if (result.userData.password !== password) {
       return {
         error: Strings.ERROR_LOGIN
       }

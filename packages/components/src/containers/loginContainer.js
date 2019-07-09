@@ -17,16 +17,18 @@ import { ROUTES } from "../routes";
 import AuthService from "../services/authService";
 import { condVisibility, uniteStyle } from "../theme/styleSheets";
 import { QUESTIONS } from "../data/questions";
+import { hashPassword } from "../infra/utils";
 
 export class LoginContainer extends BaseContainerComponent {
 
   state = {
     username: '',
+    password: '',
     error: null
   };
 
   login = async () => {
-    const doc = await AuthService.login(this.state.username);
+    const doc = await AuthService.login(this.state.username, this.state.password);
     if (doc.error) {
       this.setState({error: doc.error});
       return;
@@ -65,8 +67,19 @@ export class LoginContainer extends BaseContainerComponent {
           autoCapitalize="none"
           onChangeText={val => this.setState({username: val, error: null})}
         />
+        <TextInput
+          style={uniteStyle.input}
+          placeholder={Strings.ENTER_PASSWORD}
+          placeholderTextColor={ColorScheme.primary}
+          autoCapitalize="none"
+          secureTextEntry={true}
+          onChangeText={val => this.setState({password: hashPassword(val), error: null})}
+        />
         <TouchableOpacity
-          style={[uniteStyle.actionButton, condVisibility(this.state.username)]}
+          style={[
+            uniteStyle.actionButton,
+            condVisibility(this.state.username && this.state.password)
+          ]}
           onPress={this.login}>
           <Text style={uniteStyle.actionButtonText}>{Strings.LOGIN}</Text>
         </TouchableOpacity>

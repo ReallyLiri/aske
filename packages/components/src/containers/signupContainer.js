@@ -14,12 +14,14 @@ import { Strings } from "../data/strings";
 import { ROUTES } from "../routes";
 import { condVisibility, uniteStyle } from "../theme/styleSheets";
 import AuthService from "../services/authService";
+import { hashPassword } from "../infra/utils";
 
 export class SignUpContainer extends BaseContainerComponent {
 
   state = {
     userData: {
       username: '',
+      password: '',
       mantra: ''
     },
     error: null
@@ -60,6 +62,14 @@ export class SignUpContainer extends BaseContainerComponent {
         />
         <TextInput
           style={uniteStyle.input}
+          placeholder={Strings.ENTER_PASSWORD}
+          placeholderTextColor={ColorScheme.primary}
+          autoCapitalize="none"
+          secureTextEntry={true}
+          onChangeText={val => this.onChangeText('password', hashPassword(val))}
+        />
+        <TextInput
+          style={uniteStyle.input}
           placeholder={Strings.ENTER_MANTRA}
           placeholderTextColor={ColorScheme.primary}
           autoCapitalize="none"
@@ -68,7 +78,7 @@ export class SignUpContainer extends BaseContainerComponent {
         <TouchableOpacity
           style={[
             uniteStyle.actionButton,
-            condVisibility(this.state.userData.username && this.state.userData.mantra)
+            condVisibility(this.state.userData.username && this.state.userData.password && this.state.userData.mantra)
           ]}
           onPress={this.signUp}>
           <Text style={uniteStyle.actionButtonText}>{Strings.REGISTER}</Text>

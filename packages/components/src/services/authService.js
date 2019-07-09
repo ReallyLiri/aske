@@ -13,7 +13,8 @@ export default class AuthService {
       }
     }
     return {
-      userData: {...results[0].userData, id: results[0].id}
+      userData: {...results[0].userData, id: results[0].id},
+      responses: results[0].responses
     };
   }
 

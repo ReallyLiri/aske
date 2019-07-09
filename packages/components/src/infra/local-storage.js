@@ -3,7 +3,7 @@ import { AsyncStorage } from "./async-storage";
 const USER_KEY = 'USER_KEY';
 const QUESTIONS_KEY = 'QUESTIONS_KEY';
 
-export default class PersistentStorage {
+export default class LocalStorage {
 
   // Basic funcs:
 
@@ -22,29 +22,29 @@ export default class PersistentStorage {
   // User:
 
   static async getUser() {
-    return PersistentStorage.get(USER_KEY);
+    return LocalStorage.get(USER_KEY);
   }
 
   static async setUser(user) {
-    await PersistentStorage.set(USER_KEY, user);
+    await LocalStorage.set(USER_KEY, user);
   }
 
   static async clearUser() {
-    await PersistentStorage.clear(USER_KEY);
+    await LocalStorage.clear(USER_KEY);
   }
 
   // Questions:
 
   static async getQuestions() {
-    return PersistentStorage.get(QUESTIONS_KEY);
+    return LocalStorage.get(QUESTIONS_KEY);
   }
 
   static async setQuestions(questions) {
-    await PersistentStorage.set(QUESTIONS_KEY, questions);
+    await LocalStorage.set(QUESTIONS_KEY, questions);
   }
 
   static async clearQuestions() {
-    await PersistentStorage.clear(QUESTIONS_KEY);
+    await LocalStorage.clear(QUESTIONS_KEY);
   }
 
 }

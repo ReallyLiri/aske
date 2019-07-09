@@ -12,6 +12,7 @@ import QuestionsContainer from "./containers/questionsContainer";
 import SignUpContainer from "./containers/signupContainer";
 import WelcomeContainer from "./containers/welcomeComponent";
 import LoginContainer from "./containers/loginContainer";
+import ChatContainer from "./containers/chatContainer";
 import Header from "./components/header";
 import { ROUTES } from './routes';
 import FireBase from "./services/firebase";
@@ -74,6 +75,14 @@ export default class App extends Component {
                   path={ROUTES.QUESTIONS}
                   render={
                     props => <QuestionsContainer
+                      {...props}
+                    />
+                  }
+                />
+                <Route
+                  path={ROUTES.CHAT}
+                  render={
+                    props => <ChatContainer
                       {...props}
                     />
                   }

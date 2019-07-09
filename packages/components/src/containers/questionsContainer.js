@@ -4,7 +4,7 @@ import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import BaseContainerComponent from '../infra/baseContainerComponent';
 import connectComponent from '../redux/connect'
 import { QUESTIONS } from "../data/questions";
-import PersistentStorage from "../infra/persistent-storage"
+import LocalStorage from "../infra/local-storage"
 import * as responses from "../data/questionResponse";
 import { ColorScheme } from "../theme/colorScheme";
 import { ROUTES } from "../routes";
@@ -35,7 +35,7 @@ export class QuestionsContainer extends BaseContainerComponent {
     let firstUnansweredQuestionIdx;
     if (!questions) {
       questions = QUESTIONS;
-      await PersistentStorage.setQuestions(questions);
+      await LocalStorage.setQuestions(questions);
       firstUnansweredQuestionIdx = 0;
     } else {
       firstUnansweredQuestionIdx = questions.findIndex(q => !q.response);
@@ -58,7 +58,7 @@ export class QuestionsContainer extends BaseContainerComponent {
   async onQuestionResponse(response) {
     const {questions, currentQuestionIdx} = this.state;
     questions[this.state.currentQuestionIdx].response = response;
-    await PersistentStorage.setQuestions(this.state.questions);
+    await LocalStorage.setQuestions(this.state.questions);
     if (currentQuestionIdx === questions.length - 1) {
       await this.onQuestionsCompleted();
       return;

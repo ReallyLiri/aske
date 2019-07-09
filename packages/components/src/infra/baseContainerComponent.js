@@ -4,7 +4,7 @@ import { View, Text } from "react-native";
 import * as navigationActions from "../redux/actions/navigationActions";
 import * as userActions from "../redux/actions/userActions";
 import * as questionActions from "../redux/actions/questionActions";
-import PersistentStorage from './persistent-storage'
+import LocalStorage from './local-storage'
 import { ROUTES } from "../routes";
 
 export default class BaseContainerComponent extends Component {
@@ -19,7 +19,7 @@ export default class BaseContainerComponent extends Component {
     if (this.props.userState.user) {
       return this.props.userState.user;
     }
-    const user = await PersistentStorage.getUser();
+    const user = await LocalStorage.getUser();
     this.props.userActions.setUser(user);
     return user;
   }
@@ -38,7 +38,7 @@ export default class BaseContainerComponent extends Component {
     if (this.props.questionsState.questions) {
       return this.props.questionsState;
     }
-    const questions = await PersistentStorage.getQuestions();
+    const questions = await LocalStorage.getQuestions();
     this.props.questionActions.setQuestions(questions);
     const allCompleted = questions && questions.every(q => !!q.response);
     if (allCompleted) {

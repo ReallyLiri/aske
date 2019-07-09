@@ -1,10 +1,13 @@
 import React from 'react';
-import { Text, Button, View } from "react-native";
+import { Text, Button, View, TouchableOpacity } from "react-native";
 
 import BaseContainerComponent from '../infra/baseContainerComponent';
 import connectComponent from "../redux/connect";
-import PersistentStorage from "../infra/persistent-storage"
+import LocalStorage from "../infra/local-storage"
 import MatchingService from "../services/matchingService";
+import { uniteStyle } from "../theme/styleSheets";
+import { ROUTES } from "../routes";
+import * as chatActions from "../redux/actions/chatActions";
 
 export class HomeContainer extends BaseContainerComponent {
 
@@ -28,9 +31,14 @@ export class HomeContainer extends BaseContainerComponent {
     this.setState({ready: false});
     this.props.userActions.clearUser();
     this.props.questionActions.clearQuestions();
-    await PersistentStorage.clearQuestions();
-    await PersistentStorage.clearUser();
+    await LocalStorage.clearQuestions();
+    await LocalStorage.clearUser();
     await this.guardUser();
+  }
+
+  onMatchClick(match) {
+    this.props.chatActions.setChatContact(match.userData);
+    this.props.navigationActions.pushNavigation(ROUTES.CHAT);
   }
 
   render() {
@@ -44,7 +52,12 @@ export class HomeContainer extends BaseContainerComponent {
         {
           this.state.matches && this.state.matches.length ?
             this.state.matches.map(match => (
-              <Text key={match.userData.id}>Match with {match.userData.username}: {match.score}%</Text>
+              <TouchableOpacity
+                key={match.userData.id}
+                style={uniteStyle.actionButton}
+                onPress={() => this.onMatchClick(match)}>
+                <Text style={uniteStyle.actionButtonText}>Match with {match.userData.username}: {match.score}%</Text>
+              </TouchableOpacity>
             ))
             :
             <Text>No matches :(</Text>
@@ -59,7 +72,9 @@ export class HomeContainer extends BaseContainerComponent {
   }
 
   static mapDispatchToProps() {
-    return {};
+    return {
+      chatActions: chatActions
+    };
   }
 }
 

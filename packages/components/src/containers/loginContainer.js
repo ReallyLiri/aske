@@ -9,12 +9,14 @@ import {
 import BaseContainerComponent from "../infra/baseContainerComponent";
 import connectComponent from "../redux/connect";
 import * as userActions from "../redux/actions/userActions";
-import PersistentStorage from '../infra/persistent-storage'
+import * as questionActions from "../redux/actions/questionActions";
+import LocalStorage from '../infra/local-storage'
 import { ColorScheme } from "../theme/colorScheme";
 import { Strings } from "../data/strings";
 import { ROUTES } from "../routes";
 import AuthService from "../services/authService";
 import { condVisibility, uniteStyle } from "../theme/styleSheets";
+import { QUESTIONS } from "../data/questions";
 
 export class LoginContainer extends BaseContainerComponent {
 
@@ -24,15 +26,31 @@ export class LoginContainer extends BaseContainerComponent {
   };
 
   login = async () => {
-    const response = await AuthService.login(this.state.username);
-    if (response.error) {
-      this.setState({error: response.error});
+    const doc = await AuthService.login(this.state.username);
+    if (doc.error) {
+      this.setState({error: doc.error});
       return;
     }
-    const {replaceNavigation} = this.props.navigationActions;
+
     const {setUser} = this.props.userActions;
-    setUser(response.userData);
-    await PersistentStorage.setUser(response.userData);
+    setUser(doc.userData);
+    await LocalStorage.setUser(doc.userData);
+
+    if (doc.responses && doc.responses.length) {
+      const {setQuestions, markQuestionsCompleted} = this.props.questionActions;
+      const questions = QUESTIONS;
+      for (let i = 0; i < doc.responses.length; i++) {
+        questions[i].response = doc.responses[i].response;
+      }
+      setQuestions(questions);
+      console.error(questions);
+      await LocalStorage.setQuestions(questions);
+      if (doc.responses.length === questions.length) {
+        markQuestionsCompleted();
+      }
+    }
+
+    const {replaceNavigation} = this.props.navigationActions;
     replaceNavigation(ROUTES.HOME);
   };
 
@@ -47,13 +65,11 @@ export class LoginContainer extends BaseContainerComponent {
           autoCapitalize="none"
           onChangeText={val => this.setState({username: val, error: null})}
         />
-        {
-          <TouchableOpacity
-            style={[uniteStyle.actionButton, condVisibility(this.state.username)]}
-            onPress={this.login}>
-            <Text style={uniteStyle.actionButtonText}>{Strings.LOGIN}</Text>
-          </TouchableOpacity>
-        }
+        <TouchableOpacity
+          style={[uniteStyle.actionButton, condVisibility(this.state.username)]}
+          onPress={this.login}>
+          <Text style={uniteStyle.actionButtonText}>{Strings.LOGIN}</Text>
+        </TouchableOpacity>
       </View>
     )
   }
@@ -64,7 +80,8 @@ export class LoginContainer extends BaseContainerComponent {
 
   static mapDispatchToProps() {
     return {
-      userActions: userActions
+      userActions: userActions,
+      questionActions: questionActions
     };
   }
 }

@@ -8,7 +8,7 @@ import {
 import BaseContainerComponent from "../infra/baseContainerComponent";
 import connectComponent from "../redux/connect";
 import * as userActions from "../redux/actions/userActions";
-import PersistentStorage from '../infra/persistent-storage'
+import LocalStorage from '../infra/local-storage'
 import { ColorScheme } from "../theme/colorScheme";
 import { Strings } from "../data/strings";
 import { ROUTES } from "../routes";
@@ -38,7 +38,7 @@ export class SignUpContainer extends BaseContainerComponent {
     const {replaceNavigation} = this.props.navigationActions;
     const {setUser} = this.props.userActions;
     setUser(response.userData);
-    await PersistentStorage.setUser(response.userData);
+    await LocalStorage.setUser(response.userData);
     replaceNavigation(ROUTES.HOME);
   };
 

@@ -1,25 +1,27 @@
 import React from 'react';
+import { Text, Button, View } from "react-native";
 
 import BaseContainerComponent from '../infra/baseContainerComponent';
 import connectComponent from "../redux/connect";
-import { Text, Button, View } from "react-native";
 import PersistentStorage from "../infra/persistent-storage"
+import MatchingService from "../services/matchingService";
 
 export class HomeContainer extends BaseContainerComponent {
 
   constructor(props) {
     super(props);
-    this.state = {ready: false};
+    this.state = {ready: false, matches: []};
   }
 
   async componentDidMount() {
-    if(!await this.guardUser()) {
+    if (!await this.guardUser()) {
       return;
     }
     if (!await this.guardQuestions()) {
       return;
     }
-    this.setState({ready: true});
+    const matches = await MatchingService.getMatches(this.props.userState.user.id);
+    this.setState({ready: true, matches: matches});
   }
 
   async clearData() {
@@ -35,23 +37,29 @@ export class HomeContainer extends BaseContainerComponent {
     if (!this.state.ready) {
       return this.loadingPlaceholder();
     }
+    console.error(this.state.matches);
     return (
-    <View style={{width: 200}}>
-      <Text>User: {this.props.userState.user.username}<br/><br/></Text>
-      <Text>Responses:<br/>{JSON.stringify(this.props.questionsState.questions)}<br/><br/></Text>
-      <Button onPress={async () => this.clearData()} title={"Clear Data"}/>
-    </View>
-  );
+      <View style={{width: 200}}>
+        <Text>Matches for {this.props.userState.user.username}:<br/><br/></Text>
+        {
+          this.state.matches && this.state.matches.length ?
+            this.state.matches.map(match => (
+              <Text key={match.userData.id}>Match with {match.userData.username}: {match.score}%</Text>
+            ))
+            :
+            <Text>No matches :(</Text>
+        }
+        <Button onPress={async () => this.clearData()} title={"Clear Data"}/>
+      </View>
+    );
   }
 
   static mapStateToProps(state) {
-    return {
-    };
+    return {};
   }
 
   static mapDispatchToProps() {
-    return {
-    };
+    return {};
   }
 }
 

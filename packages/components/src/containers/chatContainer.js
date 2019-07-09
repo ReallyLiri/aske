@@ -8,6 +8,7 @@ import { ROUTES } from "../routes";
 import { condVisibility, uniteStyle } from "../theme/styleSheets";
 import { Strings } from "../data/strings";
 import { ColorScheme } from "../theme/colorScheme";
+import { utcTimestampToDate } from "../infra/utils";
 
 export class ChatContainer extends BaseContainerComponent {
 
@@ -44,7 +45,7 @@ export class ChatContainer extends BaseContainerComponent {
     this.usersById.set(contactUserData.id, contactUserData);
 
     this.unsubscribe = ChatService.register(myUserData.id, contactUserData.id, this, ChatContainer.onNewMessage);
-    const messages = await ChatService.history(myUserData.id, contactUserData.id, 10);
+    const messages = await ChatService.latestMessages(myUserData.id, contactUserData.id, 10);
     this.setState({isReady: true, messages: messages});
   }
 
@@ -70,7 +71,7 @@ export class ChatContainer extends BaseContainerComponent {
       <View>
         {
           this.state.messages.map(message => (
-            <Text key={message.id}>{this.usersById.get(message.owner).username} says: "{message.text}"</Text>
+            <Text key={message.id}>[{utcTimestampToDate(message.timestamp).toLocaleString()}] {this.usersById.get(message.owner).username} says: "{message.text}"</Text>
           ))
         }
         <TextInput

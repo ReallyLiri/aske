@@ -63,14 +63,14 @@ export class LoginContainer extends BaseContainerComponent {
         <TextInput
           style={uniteStyle.input}
           placeholder={Strings.ENTER_NAME}
-          placeholderTextColor={ColorScheme.primary}
+          placeholderTextColor={ColorScheme.overlay}
           autoCapitalize="none"
           onChangeText={val => this.setState({username: val, error: null})}
         />
         <TextInput
           style={uniteStyle.input}
           placeholder={Strings.ENTER_PASSWORD}
-          placeholderTextColor={ColorScheme.primary}
+          placeholderTextColor={ColorScheme.overlay}
           autoCapitalize="none"
           secureTextEntry={true}
           onChangeText={val => this.setState({password: hashPassword(val), error: null})}

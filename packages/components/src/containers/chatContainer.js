@@ -76,7 +76,7 @@ export class ChatContainer extends BaseContainerComponent {
         }
         <TextInput
           style={uniteStyle.input}
-          placeholderTextColor={ColorScheme.primary}
+          placeholderTextColor={ColorScheme.overlay}
           autoCapitalize="none"
           onChangeText={val => this.setState({nextMessage: val})}
           value={this.state.nextMessage}

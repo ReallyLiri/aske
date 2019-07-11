@@ -56,14 +56,14 @@ export class SignUpContainer extends BaseContainerComponent {
         <TextInput
           style={uniteStyle.input}
           placeholder={Strings.ENTER_NAME}
-          placeholderTextColor={ColorScheme.primary}
+          placeholderTextColor={ColorScheme.overlay}
           autoCapitalize="none"
           onChangeText={val => this.onChangeText('username', val)}
         />
         <TextInput
           style={uniteStyle.input}
           placeholder={Strings.ENTER_PASSWORD}
-          placeholderTextColor={ColorScheme.primary}
+          placeholderTextColor={ColorScheme.overlay}
           autoCapitalize="none"
           secureTextEntry={true}
           onChangeText={val => this.onChangeText('password', hashPassword(val))}
@@ -71,7 +71,7 @@ export class SignUpContainer extends BaseContainerComponent {
         <TextInput
           style={uniteStyle.input}
           placeholder={Strings.ENTER_MANTRA}
-          placeholderTextColor={ColorScheme.primary}
+          placeholderTextColor={ColorScheme.overlay}
           autoCapitalize="none"
           onChangeText={val => this.onChangeText('mantra', val)}
         />

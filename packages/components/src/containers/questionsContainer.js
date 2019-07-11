@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: ColorScheme.lightPurple,
-    borderColor: ColorScheme.primary,
+    borderColor: ColorScheme.overlay,
     borderWidth: 5,
     borderRadius: 15
   },

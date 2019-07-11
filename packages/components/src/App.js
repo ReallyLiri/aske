@@ -7,13 +7,14 @@ import thunk from 'redux-thunk';
 
 import * as reducers from './redux/reducers';
 import { ColorScheme } from './theme/colorScheme';
-import HomeContainer from "./containers/homeContainer";
+import HomeContainer from "./containers/matchesContainer";
 import QuestionsContainer from "./containers/questionsContainer";
 import SignUpContainer from "./containers/signupContainer";
 import WelcomeContainer from "./containers/welcomeComponent";
 import LoginContainer from "./containers/loginContainer";
 import ChatContainer from "./containers/chatContainer";
 import Header from "./components/header";
+import Footer from "./components/footer";
 import { ROUTES } from './routes';
 import FireBase from "./services/firebase";
 
@@ -32,12 +33,11 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <View style={styles.container}>
-          <Header
-            {...this.props}
-            title="UNITE HEADER"
-          />
-          <View style={styles.content}>
-            <Router>
+          <Router>
+            <Header
+              {...this.props}
+            />
+            <View style={styles.content}>
               <Switch>
                 <Route
                   exact path={ROUTES.HOME}
@@ -96,12 +96,11 @@ export default class App extends Component {
                   }
                 />
               </Switch>
-            </Router>
-          </View>
-          <Header
-            {...this.props}
-            title="UNITE FOOTER"
-          />
+              <Footer
+                {...this.props}
+              />
+            </View>
+          </Router>
         </View>
       </Provider>
     );
@@ -112,10 +111,10 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: ColorScheme.darkPurple,
-    padding: 50
+    backgroundColor: ColorScheme.background,
+    flex: 1,
   },
   content: {
-    height: '100%'
+    flex: 1,
   }
 });

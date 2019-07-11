@@ -1,7 +1,8 @@
 export const ColorScheme = {
-  lightPurple: '#E0BBE4',
-  darkPurple: '#957DAD',
-  primary: '#D291BC',
-  secondary: '#FEC8D8',
-  third: '#FFDFD3',
+  background: '#4a2685',
+  overlay: '#6b37c1',
+  text: '#c1abe7',
+  matchBackgroundMax: '#4844b2',
+  matchBackgroundMin: '#898989',
+  matchText: 'white'
 };

@@ -14,8 +14,8 @@ export const uniteStyle = StyleSheet.create({
   input: {
     width: 350,
     height: 55,
-    backgroundColor: ColorScheme.lightPurple,
-    color: ColorScheme.darkPurple,
+    backgroundColor: ColorScheme.overlay,
+    color: ColorScheme.background,
     margin: 10,
     padding: 20,
     borderRadius: 14,
@@ -30,11 +30,11 @@ export const uniteStyle = StyleSheet.create({
     borderRadius: 14,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: ColorScheme.primary
+    backgroundColor: ColorScheme.overlay
   },
   actionButtonText: {
     fontWeight: 'bold',
-    color: ColorScheme.secondary
+    color: ColorScheme.text
   },
   container: {
     flex: 1,

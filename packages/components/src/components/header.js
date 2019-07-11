@@ -10,23 +10,23 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: ColorScheme.lightPurple,
+    backgroundColor: ColorScheme.overlay,
     width: '100%',
     height: 50
   },
   title: {
     fontWeight: 'bold',
-    color: ColorScheme.primary
+    color: ColorScheme.text,
+    fontSize: 25
   }
 });
 
 export default class Header extends Component {
 
   render() {
-    const {title} = this.props;
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.title}>U N I T E</Text>
       </View>
     )
   }

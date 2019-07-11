@@ -2,5 +2,6 @@ export {
   NativeRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  withRouter
 } from 'react-router-native';

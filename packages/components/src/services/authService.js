@@ -1,11 +1,13 @@
 import FireBase from "./firebase";
 import { Strings } from "../data/strings";
+import { hashPassword } from "../infra/utils";
 
 const USERS_COLLECTION = "users";
 
 export default class AuthService {
 
   static async login(username, password) {
+    password = hashPassword(password);
     const results = await FireBase.query(USERS_COLLECTION, 'userData.username', username);
     if (!results || !results.length) {
       return {
@@ -25,6 +27,7 @@ export default class AuthService {
   }
 
   static async register(userData) {
+    userData.password = hashPassword(userData.password);
     const existing = await FireBase.query(USERS_COLLECTION, 'userData.username', userData.username);
     if (existing && existing.length) {
       return {

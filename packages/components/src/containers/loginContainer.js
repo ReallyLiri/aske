@@ -17,7 +17,6 @@ import { ROUTES } from "../routes";
 import AuthService from "../services/authService";
 import { condVisibility, uniteStyle } from "../theme/styleSheets";
 import { QUESTIONS } from "../data/questions";
-import { hashPassword } from "../infra/utils";
 
 export class LoginContainer extends BaseContainerComponent {
 
@@ -30,7 +29,11 @@ export class LoginContainer extends BaseContainerComponent {
   login = async () => {
     const doc = await AuthService.login(this.state.username, this.state.password);
     if (doc.error) {
-      this.setState({error: doc.error});
+      this.setState({
+        username: '',
+        password: '',
+        error: doc.error
+      });
       return;
     }
 
@@ -59,21 +62,20 @@ export class LoginContainer extends BaseContainerComponent {
   render() {
     return (
       <View style={uniteStyle.container}>
-        <Text style={[uniteStyle.errorMessage, condVisibility(this.state.error)]}>{this.state.error}</Text>
+        <Text style={uniteStyle.titleText}>{Strings.USERNAME}</Text>
         <TextInput
           style={uniteStyle.input}
-          placeholder={Strings.ENTER_NAME}
-          placeholderTextColor={ColorScheme.overlay}
           autoCapitalize="none"
           onChangeText={val => this.setState({username: val, error: null})}
+          value={this.state.username}
         />
+        <Text style={uniteStyle.titleText}>{Strings.PASSWORD}</Text>
         <TextInput
           style={uniteStyle.input}
-          placeholder={Strings.ENTER_PASSWORD}
-          placeholderTextColor={ColorScheme.overlay}
           autoCapitalize="none"
           secureTextEntry={true}
-          onChangeText={val => this.setState({password: hashPassword(val), error: null})}
+          onChangeText={val => this.setState({password: val, error: null})}
+          value={this.state.password}
         />
         <TouchableOpacity
           style={[
@@ -83,6 +85,7 @@ export class LoginContainer extends BaseContainerComponent {
           onPress={this.login}>
           <Text style={uniteStyle.actionButtonText}>{Strings.LOGIN}</Text>
         </TouchableOpacity>
+        <Text style={[uniteStyle.errorMessage, condVisibility(this.state.error)]}>{this.state.error}</Text>
       </View>
     )
   }

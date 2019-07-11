@@ -1,28 +1,17 @@
 import React, { Component } from 'react'
-import {
-  View,
-  Text,
-  StyleSheet
-} from 'react-native'
-import { ColorScheme } from '../theme/colorScheme';
+import { StyleSheet, View } from 'react-native'
+import { withRouter } from '../infra/routing';
 
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: ColorScheme.lightPurple,
-    width: '100%',
-    height: 50
-  },
-  title: {
-    fontWeight: 'bold',
-    color: ColorScheme.overlay
-  }
-});
+import { isRouteWithFooter } from "../routes";
+import { ColorScheme } from "../theme/colorScheme";
 
-export default class Header extends Component {
+class Footer extends Component {
 
   render() {
+    const {pathname} = this.props.location;
+    if (!isRouteWithFooter(pathname)) {
+      return null;
+    }
     return (
       <View style={{
         position: 'absolute', left: 0, right: 0, bottom: 0,
@@ -39,3 +28,5 @@ export default class Header extends Component {
   }
 
 }
+
+export default withRouter(Footer);

@@ -1,10 +1,13 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
   View,
   Text,
   StyleSheet
 } from 'react-native'
-import {ColorScheme} from '../theme/colorScheme';
+import { withRouter } from '../infra/routing';
+
+import { ColorScheme } from '../theme/colorScheme';
+import { isRouteWithHeader } from "../routes";
 
 const styles = StyleSheet.create({
   container: {
@@ -21,9 +24,13 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class Header extends Component {
+class Header extends Component {
 
   render() {
+    const {pathname} = this.props.location;
+    if (!isRouteWithHeader(pathname)) {
+      return null;
+    }
     return (
       <View style={styles.container}>
         <Text style={styles.title}>U N I T E</Text>
@@ -32,3 +39,5 @@ export default class Header extends Component {
   }
 
 }
+
+export default withRouter(Header);

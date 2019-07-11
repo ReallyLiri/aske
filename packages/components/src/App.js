@@ -10,7 +10,7 @@ import { ColorScheme } from './theme/colorScheme';
 import HomeContainer from "./containers/matchesContainer";
 import QuestionsContainer from "./containers/questionsContainer";
 import SignUpContainer from "./containers/signupContainer";
-import WelcomeContainer from "./containers/welcomeComponent";
+import WelcomeContainer from "./containers/welcomeContainer";
 import LoginContainer from "./containers/loginContainer";
 import ChatContainer from "./containers/chatContainer";
 import Header from "./components/header";
@@ -34,9 +34,7 @@ export default class App extends Component {
       <Provider store={store}>
         <View style={styles.container}>
           <Router>
-            <Header
-              {...this.props}
-            />
+            <Header {...this.props}/>
             <View style={styles.content}>
               <Switch>
                 <Route
@@ -96,9 +94,7 @@ export default class App extends Component {
                   }
                 />
               </Switch>
-              <Footer
-                {...this.props}
-              />
+              <Footer {...this.props}/>
             </View>
           </Router>
         </View>

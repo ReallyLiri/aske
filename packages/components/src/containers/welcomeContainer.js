@@ -2,20 +2,23 @@ import React from 'react'
 import {
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity, StyleSheet
 } from 'react-native'
 import BaseContainerComponent from "../infra/baseContainerComponent";
 import connectComponent from "../redux/connect";
 import { Strings } from "../data/strings";
 import { ROUTES } from "../routes";
 import { uniteStyle } from "../theme/styleSheets";
+import { ColorScheme } from "../theme/colorScheme";
 
 export class WelcomeContainer extends BaseContainerComponent {
 
   render() {
     return (
       <View style={uniteStyle.container}>
-        <Text style={uniteStyle.actionButtonText}>{Strings.WELCOME}</Text>
+        <Text style={style.welcome}>{Strings.WELCOME}</Text>
+        <Text style={style.welcome}>U N I T E</Text>
+        <View style={{paddingTop: 50}}>
         <TouchableOpacity
           style={uniteStyle.actionButton}
           onPress={() => this.props.navigationActions.pushNavigation(ROUTES.LOGIN)}>
@@ -26,6 +29,7 @@ export class WelcomeContainer extends BaseContainerComponent {
           onPress={() => this.props.navigationActions.pushNavigation(ROUTES.SINGUP)}>
           <Text style={uniteStyle.actionButtonText}>{Strings.SINGUP}</Text>
         </TouchableOpacity>
+        </View>
       </View>
     )
   }
@@ -38,5 +42,13 @@ export class WelcomeContainer extends BaseContainerComponent {
     return {};
   }
 }
+
+const style = StyleSheet.create({
+  welcome: {
+    fontWeight: 'bold',
+    color: ColorScheme.text,
+    fontSize: 40
+  }
+});
 
 export default connectComponent(WelcomeContainer);

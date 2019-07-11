@@ -9,16 +9,20 @@ export const condVisibility = (predicate) => {
 export const uniteStyle = StyleSheet.create({
   errorMessage: {
     color: 'red',
-    height: 20
+    height: 20,
+    fontSize: 20,
+    marginBottom: 20
   },
   input: {
     width: 350,
     height: 55,
-    backgroundColor: ColorScheme.overlay,
-    color: ColorScheme.background,
+    backgroundColor: 'transparent',
+    color: ColorScheme.lightText,
     margin: 10,
     padding: 20,
     borderRadius: 14,
+    borderWidth: 5,
+    borderColor: ColorScheme.button,
     fontSize: 18,
     fontWeight: '500',
   },
@@ -28,13 +32,21 @@ export const uniteStyle = StyleSheet.create({
     margin: 10,
     padding: 20,
     borderRadius: 14,
+    borderWidth: 5,
+    borderColor: ColorScheme.button,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: ColorScheme.overlay
+    backgroundColor: 'transparent'
+  },
+  titleText: {
+    fontWeight: 'bold',
+    color: ColorScheme.text,
+    fontSize: 25,
   },
   actionButtonText: {
     fontWeight: 'bold',
-    color: ColorScheme.text
+    color: ColorScheme.text,
+    fontSize: 25,
   },
   container: {
     flex: 1,

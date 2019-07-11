@@ -9,12 +9,10 @@ import BaseContainerComponent from "../infra/baseContainerComponent";
 import connectComponent from "../redux/connect";
 import * as userActions from "../redux/actions/userActions";
 import LocalStorage from '../infra/local-storage'
-import { ColorScheme } from "../theme/colorScheme";
 import { Strings } from "../data/strings";
 import { ROUTES } from "../routes";
 import { condVisibility, uniteStyle } from "../theme/styleSheets";
 import AuthService from "../services/authService";
-import { hashPassword } from "../infra/utils";
 
 export class SignUpContainer extends BaseContainerComponent {
 
@@ -22,7 +20,7 @@ export class SignUpContainer extends BaseContainerComponent {
     userData: {
       username: '',
       password: '',
-      mantra: ''
+      passwordVerify: ''
     },
     error: null
   };
@@ -32,9 +30,19 @@ export class SignUpContainer extends BaseContainerComponent {
   };
 
   signUp = async () => {
+    if (this.state.userData.password !== this.state.userData.passwordVerify) {
+      this.setState({
+        userData: {username: '', password: '', passwordVerify: ''},
+        error: Strings.ERROR_PASSWORD
+      });
+      return;
+    }
     const response = await AuthService.register(this.state.userData);
     if (response.error) {
-      this.setState({error: response.error});
+      this.setState({
+        userData: {username: '', password: '', passwordVerify: ''},
+        error: response.error
+      });
       return;
     }
     const {replaceNavigation} = this.props.navigationActions;
@@ -47,42 +55,43 @@ export class SignUpContainer extends BaseContainerComponent {
   render() {
     return (
       <View style={uniteStyle.container}>
+        <Text style={uniteStyle.titleText}>{Strings.USERNAME}</Text>
+        <TextInput
+          style={uniteStyle.input}
+          autoCapitalize="none"
+          onChangeText={val => this.onChangeText('username', val)}
+          value={this.state.userData.username}
+        />
+        <Text style={uniteStyle.titleText}>{Strings.PASSWORD}</Text>
+        <TextInput
+          style={uniteStyle.input}
+          autoCapitalize="none"
+          secureTextEntry={true}
+          onChangeText={val => this.onChangeText('password', val)}
+          value={this.state.userData.password}
+        />
+        <Text style={uniteStyle.titleText}>{Strings.PASSWORD_AGAIN}</Text>
+        <TextInput
+          style={uniteStyle.input}
+          autoCapitalize="none"
+          secureTextEntry={true}
+          onChangeText={val => this.onChangeText('passwordVerify', val)}
+          value={this.state.userData.passwordVerify}
+        />
+        <TouchableOpacity
+          style={[
+            uniteStyle.actionButton,
+            condVisibility(this.state.userData.username && this.state.userData.password && this.state.userData.passwordVerify)
+          ]}
+          onPress={this.signUp}>
+          <Text style={uniteStyle.actionButtonText}>{Strings.REGISTER}</Text>
+        </TouchableOpacity>
         <Text style={[
           uniteStyle.errorMessage,
           condVisibility(this.state.error)
         ]}>
           {this.state.error}
         </Text>
-        <TextInput
-          style={uniteStyle.input}
-          placeholder={Strings.ENTER_NAME}
-          placeholderTextColor={ColorScheme.overlay}
-          autoCapitalize="none"
-          onChangeText={val => this.onChangeText('username', val)}
-        />
-        <TextInput
-          style={uniteStyle.input}
-          placeholder={Strings.ENTER_PASSWORD}
-          placeholderTextColor={ColorScheme.overlay}
-          autoCapitalize="none"
-          secureTextEntry={true}
-          onChangeText={val => this.onChangeText('password', hashPassword(val))}
-        />
-        <TextInput
-          style={uniteStyle.input}
-          placeholder={Strings.ENTER_MANTRA}
-          placeholderTextColor={ColorScheme.overlay}
-          autoCapitalize="none"
-          onChangeText={val => this.onChangeText('mantra', val)}
-        />
-        <TouchableOpacity
-          style={[
-            uniteStyle.actionButton,
-            condVisibility(this.state.userData.username && this.state.userData.password && this.state.userData.mantra)
-          ]}
-          onPress={this.signUp}>
-          <Text style={uniteStyle.actionButtonText}>{Strings.REGISTER}</Text>
-        </TouchableOpacity>
       </View>
     )
   }

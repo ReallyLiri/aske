@@ -28,12 +28,12 @@
     ]
   },
   "dependencies": {
+    "components": "*",
     "react": "16.8.6",
     "react-art": "16.8.6",
     "react-dom": "16.8.6",
     "react-native-web": "0.11.1",
-    "react-scripts": "2.1.8",
-    "components": "*"
+    "react-scripts": "2.1.8"
   },
   "devDependencies": {
     "babel-plugin-react-native-web": "0.11.4",

@@ -4,4 +4,5 @@ node_modules/
 yarn-error.log
 .idea/workspace.xml
 .idea/tasks.xmlvenv
+.idea/dictionaries
 **/dist

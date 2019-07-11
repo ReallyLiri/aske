@@ -6,6 +6,7 @@
     "@datastructures-js/max-heap": "2.0.0",
     "firebase": "6.2.4",
     "jssha": "2.3.1",
+    "prop-types": "^15.7.2",
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "react-load-script": "0.0.6",

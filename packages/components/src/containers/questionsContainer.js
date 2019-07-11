@@ -8,7 +8,7 @@ import LocalStorage from "../infra/local-storage"
 import * as responses from "../data/questionResponse";
 import { ColorScheme } from "../theme/colorScheme";
 import { ROUTES } from "../routes";
-import ResponseService from "../services/responseService";
+import UserDataService from "../services/userDataService";
 
 export class QuestionsContainer extends BaseContainerComponent {
 
@@ -51,7 +51,7 @@ export class QuestionsContainer extends BaseContainerComponent {
   async onQuestionsCompleted() {
     this.props.questionActions.markQuestionsCompleted();
     const {user} = this.props.userState;
-    await ResponseService.postResponses(user, this.state.questions);
+    await UserDataService.update(user, this.state.questions);
     this.props.navigationActions.pushNavigation(ROUTES.HOME);
   }
 
@@ -81,24 +81,26 @@ export class QuestionsContainer extends BaseContainerComponent {
       <View>
         <View>
           <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 10}}>
-            <Text>{`Question #${this.state.currentQuestionIdx + 1}/${this.state.questions.length}`}</Text>
-            <Text style={styles.titleText}>---</Text>
+            <Text
+              style={styles.titleText}>{`${this.state.currentQuestionIdx + 1}/${this.state.questions.length}`}</Text>
             <View style={styles.row}>
               <View style={styles.col}>
-                <Text>{leftAnswer}</Text>
+                <Text style={styles.questionTitle}>{leftAnswer}</Text>
               </View>
               <View style={styles.col}>
-                <Text>{rightAnswer}</Text>
+                <Text style={styles.questionTitle}>{rightAnswer}</Text>
               </View>
             </View>
             <View style={styles.row}>
               <TouchableOpacity style={styles.col} onPress={() => this.onQuestionResponse(responses.RIGHT_ANSWER)}>
+                <Text style={styles.imagePlaceholder}>...</Text>
                 <Image
                   style={styles.button}
                   source={{uri: leftPicture}}
                 />
               </TouchableOpacity>
               <TouchableOpacity style={styles.col} onPress={() => this.onQuestionResponse(responses.LEFT_ANSWER)}>
+                <Text style={styles.imagePlaceholder}>...</Text>
                 <Image
                   style={styles.button}
                   source={{uri: rightPicture}}
@@ -140,7 +142,14 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 30,
     fontWeight: 'bold',
+    color: ColorScheme.text,
     padding: 30
+  },
+  questionTitle: {
+    alignSelf: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: ColorScheme.text
   },
   row: {
     flex: 1,
@@ -150,21 +159,30 @@ const styles = StyleSheet.create({
   col: {
     flex: 1,
     alignSelf: 'stretch',
-    padding: 10
+    padding: 10,
+    justifyContent: 'center'
+  },
+  imagePlaceholder: {
+    alignSelf: 'center',
+    position: 'absolute',
+    color: ColorScheme.text,
+    fontWeight: 'bold',
+    fontSize: 30
   },
   button: {
     height: 150,
     width: 150,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: ColorScheme.lightPurple,
+    backgroundColor: 'transparent',
     borderColor: ColorScheme.overlay,
     borderWidth: 5,
     borderRadius: 15
   },
   buttonText: {
     fontSize: 30,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: ColorScheme.text
   }
 });
 

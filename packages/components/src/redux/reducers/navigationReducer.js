@@ -7,12 +7,6 @@ const initialState = {
 };
 
 export default function navigation(state = initialState, action = {}) {
-  if (action.route === state.currentRoute) {
-    return {
-      ...state,
-      requiredAction: 'NOP'
-    }
-  }
   switch (action.type) {
     case actions.PUSH_NAVIGATION:
       Logging.debug(`NavigationReducer: Push navigation from '${state.currentRoute}' to '${action.route}'`);

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, TouchableOpacity, TextInput } from "react-native";
+import { Text, View, TouchableOpacity, TextInput, StyleSheet } from "react-native";
 
 import BaseContainerComponent from "../infra/baseContainerComponent";
 import connectComponent from "../redux/connect";
@@ -56,6 +56,9 @@ export class ChatContainer extends BaseContainerComponent {
   }
 
   async publishMessage() {
+    if (!this.state.nextMessage) {
+      return;
+    }
     const myUserData = this.props.userState.user;
     const {contactUserData} = this.props.chatState;
     this.setState({nextMessage: ''});
@@ -66,26 +69,41 @@ export class ChatContainer extends BaseContainerComponent {
     if (!this.state.isReady) {
       return this.loadingPlaceholder();
     }
+    const {contactUserData} = this.props.chatState;
 
     return (
-      <View>
+      <View style={uniteStyle.container}>
+        <Text
+          style={[uniteStyle.titleText, style.titleText]}>{`${Strings.CHAT_WITH} ${contactUserData.username}`}</Text>
         {
           this.state.messages.map(message => (
-            <Text key={message.id}>[{utcTimestampToDate(message.timestamp).toLocaleString()}] {this.usersById.get(message.owner).username} says: "{message.text}"</Text>
+            <Text
+              style={{color: ColorScheme.text}}
+              key={message.id}>
+              [{utcTimestampToDate(message.timestamp).toLocaleString()}] {this.usersById.get(message.owner).username} says:
+              "{message.text}"
+            </Text>
           ))
         }
-        <TextInput
-          style={uniteStyle.input}
-          placeholderTextColor={ColorScheme.overlay}
-          autoCapitalize="none"
-          onChangeText={val => this.setState({nextMessage: val})}
-          value={this.state.nextMessage}
-        />
-        <TouchableOpacity
-          style={[uniteStyle.actionButton, condVisibility(this.state.nextMessage)]}
-          onPress={() => this.publishMessage()}>
-          <Text style={uniteStyle.actionButtonText}>{Strings.SEND}</Text>
-        </TouchableOpacity>
+        <View style={{
+          flex: 1,
+          alignSelf: 'stretch',
+          flexDirection: 'row',
+          paddingTop: 25
+        }}>
+          <TextInput
+            style={[uniteStyle.input, {width: 250}]}
+            placeholderTextColor={ColorScheme.overlay}
+            autoCapitalize="none"
+            onChangeText={val => this.setState({nextMessage: val})}
+            value={this.state.nextMessage}
+          />
+          <TouchableOpacity
+            style={[uniteStyle.actionButton, {width: 70}]}
+            onPress={() => this.publishMessage()}>
+            <Text style={[uniteStyle.actionButtonText, {fontSize: 16}]}>{Strings.SEND}</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }
@@ -100,5 +118,12 @@ export class ChatContainer extends BaseContainerComponent {
     return {};
   }
 }
+
+const style = StyleSheet.create({
+  titleText: {
+    textAlign: 'center',
+    padding: 20
+  }
+});
 
 export default connectComponent(ChatContainer);

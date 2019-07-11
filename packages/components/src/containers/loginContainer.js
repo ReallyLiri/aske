@@ -48,7 +48,6 @@ export class LoginContainer extends BaseContainerComponent {
         questions[i].response = doc.responses[i].response;
       }
       setQuestions(questions);
-      console.error(questions);
       await LocalStorage.setQuestions(questions);
       if (doc.responses.length === questions.length) {
         markQuestionsCompleted();
@@ -83,7 +82,7 @@ export class LoginContainer extends BaseContainerComponent {
             condVisibility(this.state.username && this.state.password)
           ]}
           onPress={this.login}>
-          <Text style={uniteStyle.actionButtonText}>{Strings.LOGIN}</Text>
+          <Text style={uniteStyle.actionButtonText}>{Strings.ENTER}</Text>
         </TouchableOpacity>
         <Text style={[uniteStyle.errorMessage, condVisibility(this.state.error)]}>{this.state.error}</Text>
       </View>

@@ -1,11 +1,38 @@
 import React, { Component } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { TouchableOpacity, View, Text } from 'react-native'
 import { withRouter } from '../infra/routing';
+import { bindActionCreators } from "redux";
+import {connect} from "react-redux";
 
-import { isRouteWithFooter } from "../routes";
+import { isRouteWithFooter, ROUTES } from "../routes";
 import { ColorScheme } from "../theme/colorScheme";
+import { Strings } from "../data/strings";
+import * as navigationActions from "../redux/actions/navigationActions";
 
 class Footer extends Component {
+
+  link(to, text) {
+    return (
+      <TouchableOpacity
+        style={{
+          width: 80,
+          height: 30,
+          backgroundColor: ColorScheme.background,
+          borderRadius: 14,
+          margin: 10
+        }}
+        onPress={() => this.props.navigationActions.pushNavigation(to)}
+      >
+        <Text
+          style={{
+            color: ColorScheme.text,
+            textAlign: 'center',
+          }}>
+          {text}
+        </Text>
+      </TouchableOpacity>
+    )
+  };
 
   render() {
     const {pathname} = this.props.location;
@@ -14,19 +41,34 @@ class Footer extends Component {
     }
     return (
       <View style={{
-        position: 'absolute', left: 0, right: 0, bottom: 0,
+        position: 'absolute',
+        bottom: 0,
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'stretch'
+        alignItems: 'center',
+        backgroundColor: ColorScheme.overlay,
+        height: 70,
+        width: '100%'
       }}>
-        <View style={{width: '100%', height: 50, backgroundColor: 'powderblue'}}/>
-        <View style={{width: '100%', height: 50, backgroundColor: 'skyblue'}}/>
-        <View style={{width: '100%', height: 50, backgroundColor: 'steelblue'}}/>
+        {this.link(ROUTES.PROFILE, Strings.PROFILE)}
+        {this.link(ROUTES.QUESTIONS, Strings.QUESTIONS)}
+        {this.link(ROUTES.HOME, Strings.MATCHES)}
       </View>
     )
   }
 
+  static mapStateToProps(state) {
+    return {
+    }
+  }
+
+  static mapDispatchToProps(dispatch) {
+    return {
+      navigationActions: bindActionCreators(navigationActions, dispatch)
+    }
+  }
+
 }
 
-export default withRouter(Footer);
+export default withRouter(connect(Footer.mapStateToProps, Footer.mapDispatchToProps)(Footer));

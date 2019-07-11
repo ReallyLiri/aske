@@ -17,6 +17,7 @@ import Header from "./components/header";
 import Footer from "./components/footer";
 import { ROUTES } from './routes';
 import FireBase from "./services/firebase";
+import ProfileContainer from "./containers/profileContainer";
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const reducer = combineReducers(reducers);
@@ -86,6 +87,14 @@ export default class App extends Component {
                   }
                 />
                 <Route
+                  path={ROUTES.PROFILE}
+                  render={
+                    props => <ProfileContainer
+                      {...props}
+                    />
+                  }
+                />
+                <Route
                   // Default case - 404
                   render={
                     props => <HomeContainer
@@ -112,5 +121,6 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    width: '100%'
   }
 });

@@ -49,7 +49,7 @@ export class SignUpContainer extends BaseContainerComponent {
     const {setUser} = this.props.userActions;
     setUser(response.userData);
     await LocalStorage.setUser(response.userData);
-    replaceNavigation(ROUTES.HOME);
+    replaceNavigation(ROUTES.PROFILE);
   };
 
   render() {
@@ -84,7 +84,7 @@ export class SignUpContainer extends BaseContainerComponent {
             condVisibility(this.state.userData.username && this.state.userData.password && this.state.userData.passwordVerify)
           ]}
           onPress={this.signUp}>
-          <Text style={uniteStyle.actionButtonText}>{Strings.REGISTER}</Text>
+          <Text style={uniteStyle.actionButtonText}>{Strings.NEXT}</Text>
         </TouchableOpacity>
         <Text style={[
           uniteStyle.errorMessage,

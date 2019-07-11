@@ -49,7 +49,7 @@ export default class BaseContainerComponent extends Component {
 
   async guardQuestions() {
     const {replaceNavigation} = this.props.navigationActions;
-    const {questions, completed} = await this.loadQuestions();
+    const {completed} = await this.loadQuestions();
     if (!completed) {
       replaceNavigation(ROUTES.QUESTIONS);
       return false;
@@ -68,7 +68,7 @@ export default class BaseContainerComponent extends Component {
   // Base navigation handling:
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.navigationState.currentRoute === prevProps.navigationState.currentRoute) {
+    if (this.props.navigationState.currentRoute === this.props.location.pathname) {
       return;
     }
     switch (this.props.navigationState.requiredAction) {

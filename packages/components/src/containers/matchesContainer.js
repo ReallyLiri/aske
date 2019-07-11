@@ -37,7 +37,6 @@ export class MatchesContainer extends BaseContainerComponent {
     if (!this.state.ready) {
       return this.loadingPlaceholder();
     }
-    console.error(this.state.matches);
     return (
       <View style={uniteStyle.container}>
         {
@@ -52,7 +51,9 @@ export class MatchesContainer extends BaseContainerComponent {
                       ColorScheme.matchBackgroundMin,
                       ColorScheme.matchBackgroundMax,
                       match.score / 100
-                    )
+                    ),
+                    alignSelf: 'center',
+                    width: '90%'
                   }
                 ]}
                 onPress={() => this.onMatchClick(match)}>

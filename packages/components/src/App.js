@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { Router, Switch, Route } from './infra/routing';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
@@ -36,7 +36,7 @@ export default class App extends Component {
         <View style={styles.container}>
           <Router>
             <Header {...this.props}/>
-            <View style={styles.content}>
+            <ScrollView style={styles.content}>
               <Switch>
                 <Route
                   exact path={ROUTES.HOME}
@@ -103,8 +103,8 @@ export default class App extends Component {
                   }
                 />
               </Switch>
-              <Footer {...this.props}/>
-            </View>
+            </ScrollView>
+            <Footer {...this.props}/>
           </Router>
         </View>
       </Provider>
@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    width: '100%'
+    width: '100%',
+    paddingBottom: 80
   }
 });

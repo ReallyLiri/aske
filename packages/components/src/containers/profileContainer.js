@@ -20,7 +20,7 @@ export class ProfileContainer extends BaseContainerComponent {
     isReady: false,
     isNewUser: null,
     name: '',
-    age: null,
+    age: '',
     phrase: ''
   };
 
@@ -38,9 +38,9 @@ export class ProfileContainer extends BaseContainerComponent {
     this.setState({
       isReady: true,
       isNewUser: !hasAnyResponse,
-      name: user.name,
-      age: user.age,
-      phrase: user.phrase
+      name: user.name || '',
+      age: user.age || '',
+      phrase: user.phrase || ''
     })
   }
 

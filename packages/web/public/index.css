@@ -10,3 +10,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+input:focus {outline:0;}
+
+@media (hover: hover) {
+    input:hover {
+        outline:0;
+    }
+}

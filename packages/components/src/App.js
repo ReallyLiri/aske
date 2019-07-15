@@ -18,6 +18,7 @@ import Footer from "./components/footer";
 import { ROUTES } from './routes';
 import FireBase from "./services/firebase";
 import ProfileContainer from "./containers/profileContainer";
+import ProfilePictureContainer from "./containers/profilePictureContainer";
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const reducer = combineReducers(reducers);
@@ -94,6 +95,14 @@ export default class App extends Component {
                   path={ROUTES.PROFILE}
                   render={
                     props => <ProfileContainer
+                      {...props}
+                    />
+                  }
+                />
+                <Route
+                  path={ROUTES.PROFILE_PICTURE}
+                  render={
+                    props => <ProfilePictureContainer
                       {...props}
                     />
                   }

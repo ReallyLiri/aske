@@ -13,6 +13,7 @@ import { Strings } from "../data/strings";
 import { ROUTES } from "../routes";
 import { condVisibility, uniteStyle } from "../theme/styleSheets";
 import AuthService from "../services/authService";
+import { DEFAULT_PICTURE } from "../data/profilePictures";
 
 export class SignUpContainer extends BaseContainerComponent {
 
@@ -20,7 +21,8 @@ export class SignUpContainer extends BaseContainerComponent {
     userData: {
       username: '',
       password: '',
-      passwordVerify: ''
+      passwordVerify: '',
+      image: DEFAULT_PICTURE
     },
     error: null
   };

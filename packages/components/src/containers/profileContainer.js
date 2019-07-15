@@ -3,7 +3,8 @@ import {
   View,
   TextInput,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  Image, StyleSheet
 } from 'react-native'
 
 import BaseContainerComponent from "../infra/baseContainerComponent";
@@ -13,6 +14,8 @@ import { Strings } from "../data/strings";
 import { ROUTES } from "../routes";
 import { uniteStyle } from "../theme/styleSheets";
 import UserDataService from "../services/userDataService";
+import { ColorScheme } from "../theme/colorScheme";
+import { DEFAULT_PICTURE } from "../data/profilePictures";
 
 export class ProfileContainer extends BaseContainerComponent {
 
@@ -60,6 +63,10 @@ export class ProfileContainer extends BaseContainerComponent {
     }
     return (
       <View style={uniteStyle.container}>
+        <TouchableOpacity
+          onPress={() => this.props.history.push(ROUTES.PROFILE_PICTURE)}>
+          <Image style={styles.profilePicture} source={this.props.userState.user.image || DEFAULT_PICTURE}/>
+        </TouchableOpacity>
         <Text style={uniteStyle.titleText}>{Strings.NAME}</Text>
         <TextInput
           style={uniteStyle.input}
@@ -101,5 +108,17 @@ export class ProfileContainer extends BaseContainerComponent {
     return {};
   }
 }
+
+const styles = StyleSheet.create({
+  profilePicture: {
+    margin: 10,
+    height: 100,
+    width: 100,
+    borderRadius: '100%',
+    borderWidth: 5,
+    borderColor: ColorScheme.button,
+    backgroundColor: 'white'
+  }
+});
 
 export default connectComponent(ProfileContainer);

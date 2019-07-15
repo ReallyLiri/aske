@@ -5,7 +5,8 @@ export const ROUTES = {
   LOGIN: '/login',
   QUESTIONS: '/questions',
   CHAT: '/chat',
-  PROFILE: '/profile'
+  PROFILE: '/profile',
+  PROFILE_PICTURE: '/profilePicture'
 };
 
 export function isRouteWithHeader(route) {
@@ -16,6 +17,7 @@ export function isRouteWithHeader(route) {
     case ROUTES.SINGUP:
     case ROUTES.LOGIN:
     case ROUTES.PROFILE:
+    case ROUTES.PROFILE_PICTURE:
       return true;
     case ROUTES.WELCOME:
       return false;
@@ -28,6 +30,7 @@ export function isRouteWithFooter(route) {
     case ROUTES.QUESTIONS:
     case ROUTES.CHAT:
     case ROUTES.PROFILE:
+    case ROUTES.PROFILE_PICTURE:
       return true;
     case ROUTES.WELCOME:
     case ROUTES.SINGUP:

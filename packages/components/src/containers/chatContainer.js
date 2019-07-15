@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, TouchableOpacity, TextInput, StyleSheet } from "react-native";
+import { Text, View, TouchableOpacity, TextInput, StyleSheet, Image } from "react-native";
 import queryString from 'query-string';
 
 import BaseContainerComponent from "../infra/baseContainerComponent";
@@ -11,6 +11,7 @@ import { Strings } from "../data/strings";
 import { ColorScheme } from "../theme/colorScheme";
 import { utcTimestampToDate } from "../infra/utils";
 import UserDataService from "../services/userDataService";
+import { DEFAULT_PICTURE } from "../data/profilePictures";
 
 export class ChatContainer extends BaseContainerComponent {
 
@@ -81,8 +82,10 @@ export class ChatContainer extends BaseContainerComponent {
 
     return (
       <View style={uniteStyle.container}>
-        <Text
-          style={[uniteStyle.titleText, style.titleText]}>{`${Strings.CHAT_WITH} ${this.contactUserData.username}`}</Text>
+        <Text style={[uniteStyle.titleText, style.titleText]}>
+          {`${Strings.CHAT_WITH} ${this.contactUserData.username}`}
+        </Text>
+        <Image style={style.profilePicture} source={this.contactUserData.image || DEFAULT_PICTURE}/>
         {
           this.state.messages.map(message => (
             <Text
@@ -131,6 +134,15 @@ const style = StyleSheet.create({
   titleText: {
     textAlign: 'center',
     padding: 20
+  },
+  profilePicture: {
+    margin: 10,
+    height: 100,
+    width: 100,
+    borderRadius: '100%',
+    borderWidth: 5,
+    borderColor: ColorScheme.button,
+    backgroundColor: 'white'
   }
 });
 

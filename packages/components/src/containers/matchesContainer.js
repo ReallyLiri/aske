@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, Image } from "react-native";
 
 import BaseContainerComponent from '../infra/baseContainerComponent';
 import connectComponent from "../redux/connect";
@@ -9,6 +9,7 @@ import { ROUTES } from "../routes";
 import * as chatActions from "../redux/actions/chatActions";
 import { ColorScheme } from "../theme/colorScheme";
 import { mergeColors } from "../infra/utils";
+import { DEFAULT_PICTURE } from "../data/profilePictures";
 
 export class MatchesContainer extends BaseContainerComponent {
 
@@ -45,7 +46,7 @@ export class MatchesContainer extends BaseContainerComponent {
               <TouchableOpacity
                 key={match.userData.id}
                 style={[
-                  style.match,
+                  styles.match,
                   {
                     backgroundColor: mergeColors(
                       ColorScheme.matchBackgroundMin,
@@ -57,7 +58,8 @@ export class MatchesContainer extends BaseContainerComponent {
                   }
                 ]}
                 onPress={() => this.onMatchClick(match)}>
-                <Text style={style.matchText}>Match with {match.userData.username}: {match.score}%</Text>
+                <Image style={styles.profilePicture} source={match.userData.image || DEFAULT_PICTURE}/>
+                <Text style={styles.matchText}>Match with {match.userData.username}: {match.score}%</Text>
               </TouchableOpacity>
             ))
             :
@@ -78,21 +80,31 @@ export class MatchesContainer extends BaseContainerComponent {
   }
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   match: {
     alignSelf: 'stretch',
     width: '100%',
     height: 55,
     margin: 10,
-    padding: 20,
     borderRadius: 14,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: ColorScheme.matchBackgroundMax
+    backgroundColor: ColorScheme.matchBackgroundMax,
+    flex: 1,
+    flexDirection: 'row'
   },
   matchText: {
     fontWeight: 'bold',
     color: ColorScheme.matchText
+  },
+  profilePicture: {
+    margin: 10,
+    height: 50,
+    width: 50,
+    borderRadius: '100%',
+    borderWidth: 5,
+    borderColor: ColorScheme.button,
+    backgroundColor: 'white'
   }
 });
 

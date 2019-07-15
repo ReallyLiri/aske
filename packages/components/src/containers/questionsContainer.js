@@ -41,6 +41,11 @@ export class QuestionsContainer extends BaseContainerComponent {
       firstUnansweredQuestionIdx = completed ? questions.length - 1 : questions.findIndex(q => !q.response);
     }
 
+    questions.forEach(question => {
+      Image.prefetch(question.leftPicture);
+      Image.prefetch(question.rightPicture);
+    });
+
     this.setState({
       isReady: true,
       questions: questions,

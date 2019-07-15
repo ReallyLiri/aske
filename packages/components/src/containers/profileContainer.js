@@ -33,7 +33,7 @@ export class ProfileContainer extends BaseContainerComponent {
       return;
     }
     const {questions} = await this.loadQuestions();
-    const hasAnyResponse = questions.find(q => q.response);
+    const hasAnyResponse = questions && questions.find(q => q.response);
     const {user} = this.props.userState;
     this.setState({
       isReady: true,

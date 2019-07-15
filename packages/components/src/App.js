@@ -36,7 +36,11 @@ export default class App extends Component {
         <View style={styles.container}>
           <Router>
             <Header {...this.props}/>
-            <ScrollView style={styles.content}>
+            <ScrollView
+              style={styles.content}
+              contentContainerStyle={{
+                justifyContent: 'center', alignItems: 'center'
+              }}>
               <Switch>
                 <Route
                   exact path={ROUTES.HOME}

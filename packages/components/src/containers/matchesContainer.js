@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, Image, Dimensions } from "react-native";
 
 import BaseContainerComponent from '../infra/baseContainerComponent';
 import connectComponent from "../redux/connect";
@@ -38,11 +38,12 @@ export class MatchesContainer extends BaseContainerComponent {
     if (!this.state.ready) {
       return this.loadingPlaceholder();
     }
+    const matchWidth = Dimensions.get('window').width - 20;
     return (
       <View style={uniteStyle.container}>
         {
           this.state.matches && this.state.matches.length ?
-            this.state.matches.map(match => (
+            this.state.matches.map((match, index) => (
               <TouchableOpacity
                 key={match.userData.id}
                 style={[
@@ -51,15 +52,18 @@ export class MatchesContainer extends BaseContainerComponent {
                     backgroundColor: mergeColors(
                       ColorScheme.matchBackgroundMin,
                       ColorScheme.matchBackgroundMax,
-                      match.score / 100
+                      (1-index/this.state.matches.length)
                     ),
                     alignSelf: 'center',
-                    width: '90%'
+                    width: matchWidth
                   }
                 ]}
                 onPress={() => this.onMatchClick(match)}>
                 <Image style={styles.profilePicture} source={match.userData.image || DEFAULT_PICTURE}/>
-                <Text style={styles.matchText}>Match with {match.userData.username}: {match.score}%</Text>
+                <View>
+                  <Text style={styles.matchName}>{match.userData.username}</Text>
+                  <Text style={styles.matchPhrase}>{match.userData.phrase}</Text>
+                </View>
               </TouchableOpacity>
             ))
             :
@@ -83,9 +87,8 @@ export class MatchesContainer extends BaseContainerComponent {
 const styles = StyleSheet.create({
   match: {
     alignSelf: 'stretch',
-    width: '100%',
     height: 55,
-    margin: 10,
+    margin: 5,
     borderRadius: 14,
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -93,9 +96,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row'
   },
-  matchText: {
+  matchName: {
     fontWeight: 'bold',
-    color: ColorScheme.matchText
+    color: ColorScheme.lightText
+  },
+  matchPhrase: {
+    fontWeight: 'bold',
+    color: ColorScheme.text,
+    fontSize: 12
   },
   profilePicture: {
     margin: 10,

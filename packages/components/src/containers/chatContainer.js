@@ -78,8 +78,6 @@ export class ChatContainer extends BaseContainerComponent {
     if (!this.state.isReady) {
       return this.loadingPlaceholder();
     }
-    console.error(this.props);
-
     return (
       <View style={uniteStyle.container}>
         <Text style={[uniteStyle.titleText, style.titleText]}>

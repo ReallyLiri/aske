@@ -8,8 +8,6 @@ const USERS_COLLECTION = "users";
 export default class MatchingService {
 
   static calculateScore(responses1, responses2) {
-    console.error(responses1);
-    console.error(responses2);
     const minLength = Math.min(responses1.length, responses2.length);
     const maxLength = Math.max(responses1.length, responses2.length);
     let sum = 0;

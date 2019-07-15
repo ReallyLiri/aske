@@ -53,8 +53,7 @@ export class LoginContainer extends BaseContainerComponent {
       }
     }
 
-    const {replaceNavigation} = this.props.navigationActions;
-    replaceNavigation(ROUTES.HOME);
+    this.props.history.replace(ROUTES.HOME);
   };
 
   render() {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from "react-native";
 
-import * as navigationActions from "../redux/actions/navigationActions";
 import * as userActions from "../redux/actions/userActions";
 import * as questionActions from "../redux/actions/questionActions";
 import LocalStorage from './local-storage'
@@ -25,10 +24,9 @@ export default class BaseContainerComponent extends Component {
   }
 
   async guardUser() {
-    const {replaceNavigation} = this.props.navigationActions;
     const user = await this.loadUser();
     if (!user) {
-      replaceNavigation(ROUTES.WELCOME);
+      this.props.history.replace(ROUTES.WELCOME);
       return false;
     }
     return true;
@@ -48,10 +46,9 @@ export default class BaseContainerComponent extends Component {
   }
 
   async guardQuestions() {
-    const {replaceNavigation} = this.props.navigationActions;
     const {completed} = await this.loadQuestions();
     if (!completed) {
-      replaceNavigation(ROUTES.QUESTIONS);
+      this.props.history.replace(ROUTES.QUESTIONS);
       return false;
     }
     return true;
@@ -65,32 +62,8 @@ export default class BaseContainerComponent extends Component {
     );
   }
 
-  // Base navigation handling:
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.navigationState.currentRoute === this.props.location.pathname) {
-      return;
-    }
-    switch (this.props.navigationState.requiredAction) {
-      case 'PUSH':
-        this.props.history.push(this.props.navigationState.currentRoute);
-        break;
-      case 'POP':
-        if (this.props.history.length <= 2) {
-          this.props.history.push(ROUTES.HOME); // No history - fallback
-        } else {
-          this.props.history.goBack();
-        }
-        break;
-      case 'REPLACE':
-        this.props.history.replace(this.props.navigationState.currentRoute);
-        break;
-    }
-  }
-
   static mapStateToProps(state) {
     return {
-      navigationState: state.navigation,
       userState: state.user,
       questionsState: state.questions
     }
@@ -98,7 +71,6 @@ export default class BaseContainerComponent extends Component {
 
   static mapDispatchToProps() {
     return {
-      navigationActions: navigationActions,
       userActions: userActions,
       questionActions: questionActions
     }

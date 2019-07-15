@@ -8,12 +8,15 @@ const USERS_COLLECTION = "users";
 export default class MatchingService {
 
   static calculateScore(responses1, responses2) {
-    console.assert(responses1.length === responses2.length);
+    console.error(responses1);
+    console.error(responses2);
+    const minLength = Math.min(responses1.length, responses2.length);
+    const maxLength = Math.max(responses1.length, responses2.length);
     let sum = 0;
-    for (let i = 0; i<responses1.length; i++) {
+    for (let i = 0; i<minLength; i++) {
       sum += matchScore(responses1[i].response, responses2[i].response);
     }
-    return Math.floor(100*sum/responses1.length);
+    return Math.floor(100*sum/maxLength);
   }
 
   static* orderedMatches(maxHeap, top) {

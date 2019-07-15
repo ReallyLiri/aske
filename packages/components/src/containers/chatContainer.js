@@ -1,19 +1,22 @@
 import React from 'react'
 import { Text, View, TouchableOpacity, TextInput, StyleSheet } from "react-native";
+import queryString from 'query-string';
 
 import BaseContainerComponent from "../infra/baseContainerComponent";
 import connectComponent from "../redux/connect";
 import ChatService from "../services/chatService";
 import { ROUTES } from "../routes";
-import { condVisibility, uniteStyle } from "../theme/styleSheets";
+import { uniteStyle } from "../theme/styleSheets";
 import { Strings } from "../data/strings";
 import { ColorScheme } from "../theme/colorScheme";
 import { utcTimestampToDate } from "../infra/utils";
+import UserDataService from "../services/userDataService";
 
 export class ChatContainer extends BaseContainerComponent {
 
   unsubscribe = null;
   usersById = new Map();
+  contactUserData = null;
 
   state = {
     isReady: false,
@@ -34,18 +37,23 @@ export class ChatContainer extends BaseContainerComponent {
     if (!await this.guardQuestions()) {
       return;
     }
+
     const myUserData = this.props.userState.user;
-    const {contactUserData} = this.props.chatState;
-    if (!contactUserData) {
-      this.props.navigationActions.replaceNavigation(ROUTES.HOME);
-      return;
+    this.contactUserData = this.props.chatState.contactUserData;
+    if (!this.contactUserData) {
+      const contactUserId = queryString.parse(this.props.location.search).u;
+      if (!contactUserId) {
+        this.props.history.replace(ROUTES.HOME);
+        return;
+      }
+      this.contactUserData = (await UserDataService.get(contactUserId)).userData;
     }
 
     this.usersById.set(myUserData.id, myUserData);
-    this.usersById.set(contactUserData.id, contactUserData);
+    this.usersById.set(this.contactUserData.id, this.contactUserData);
 
-    this.unsubscribe = ChatService.register(myUserData.id, contactUserData.id, this, ChatContainer.onNewMessage);
-    const messages = await ChatService.latestMessages(myUserData.id, contactUserData.id, 10);
+    this.unsubscribe = ChatService.register(myUserData.id, this.contactUserData.id, this, ChatContainer.onNewMessage);
+    const messages = await ChatService.latestMessages(myUserData.id, this.contactUserData.id, 10);
     this.setState({isReady: true, messages: messages});
   }
 
@@ -69,12 +77,12 @@ export class ChatContainer extends BaseContainerComponent {
     if (!this.state.isReady) {
       return this.loadingPlaceholder();
     }
-    const {contactUserData} = this.props.chatState;
+    console.error(this.props);
 
     return (
       <View style={uniteStyle.container}>
         <Text
-          style={[uniteStyle.titleText, style.titleText]}>{`${Strings.CHAT_WITH} ${contactUserData.username}`}</Text>
+          style={[uniteStyle.titleText, style.titleText]}>{`${Strings.CHAT_WITH} ${this.contactUserData.username}`}</Text>
         {
           this.state.messages.map(message => (
             <Text

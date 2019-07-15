@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import { TouchableOpacity, View, Text } from 'react-native'
 import { withRouter } from '../infra/routing';
-import { bindActionCreators } from "redux";
 import {connect} from "react-redux";
 
 import { isRouteWithFooter, ROUTES } from "../routes";
 import { ColorScheme } from "../theme/colorScheme";
 import { Strings } from "../data/strings";
-import * as navigationActions from "../redux/actions/navigationActions";
 
 class Footer extends Component {
 
@@ -21,7 +19,7 @@ class Footer extends Component {
           borderRadius: 14,
           margin: 10
         }}
-        onPress={() => this.props.navigationActions.pushNavigation(to)}
+        onPress={() => this.props.history.push(to)}
       >
         <Text
           style={{
@@ -65,7 +63,6 @@ class Footer extends Component {
 
   static mapDispatchToProps(dispatch) {
     return {
-      navigationActions: bindActionCreators(navigationActions, dispatch)
     }
   }
 

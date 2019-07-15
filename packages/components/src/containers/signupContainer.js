@@ -45,11 +45,10 @@ export class SignUpContainer extends BaseContainerComponent {
       });
       return;
     }
-    const {replaceNavigation} = this.props.navigationActions;
     const {setUser} = this.props.userActions;
     setUser(response.userData);
     await LocalStorage.setUser(response.userData);
-    replaceNavigation(ROUTES.PROFILE);
+    this.props.history.replace(ROUTES.PROFILE);
   };
 
   render() {

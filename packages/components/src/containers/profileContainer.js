@@ -51,7 +51,7 @@ export class ProfileContainer extends BaseContainerComponent {
     await UserDataService.update(userData, completed ? questions : null);
     this.props.userActions.setUser(userData);
     await LocalStorage.setUser(userData);
-    this.props.navigationActions.pushNavigation(ROUTES.HOME);
+    this.props.history.push(ROUTES.HOME);
   };
 
   render() {

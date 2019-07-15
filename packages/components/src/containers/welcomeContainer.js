@@ -21,12 +21,12 @@ export class WelcomeContainer extends BaseContainerComponent {
         <View style={{paddingTop: 50}}>
         <TouchableOpacity
           style={uniteStyle.actionButton}
-          onPress={() => this.props.navigationActions.pushNavigation(ROUTES.LOGIN)}>
+          onPress={() => this.props.history.push(ROUTES.LOGIN)}>
           <Text style={uniteStyle.actionButtonText}>{Strings.LOGIN}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={uniteStyle.actionButton}
-          onPress={() => this.props.navigationActions.pushNavigation(ROUTES.SINGUP)}>
+          onPress={() => this.props.history.push(ROUTES.SINGUP)}>
           <Text style={uniteStyle.actionButtonText}>{Strings.SINGUP}</Text>
         </TouchableOpacity>
         </View>

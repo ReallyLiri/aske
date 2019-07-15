@@ -30,7 +30,7 @@ export class MatchesContainer extends BaseContainerComponent {
 
   onMatchClick(match) {
     this.props.chatActions.setChatContact(match.userData);
-    this.props.navigationActions.pushNavigation(ROUTES.CHAT);
+    this.props.history.push(`${ROUTES.CHAT}?u=${match.userData.id}`);
   }
 
   render() {

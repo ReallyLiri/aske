@@ -7,3 +7,7 @@ export const PROFILE_PICTURES = [
 ];
 
 export const DEFAULT_PICTURE = PROFILE_PICTURES[4];
+
+export function randomPicture() {
+  return PROFILE_PICTURES[Math.floor(Math.random()*PROFILE_PICTURES.length)];
+}

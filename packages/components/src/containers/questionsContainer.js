@@ -19,7 +19,8 @@ export class QuestionsContainer extends BaseContainerComponent {
     this.state = {
       isReady: false,
       questions: null,
-      currentQuestionIdx: null
+      currentQuestionIdx: null,
+      showTitles: false
     };
   }
 
@@ -104,67 +105,75 @@ export class QuestionsContainer extends BaseContainerComponent {
 
     return (
       <View>
-        <View>
-          <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 10}}>
-            <Text
-              style={styles.titleText}>{`${this.state.currentQuestionIdx + 1}/${this.state.questions.length}`}</Text>
-            <View style={styles.row}>
-              <View style={styles.col}>
-                <Text style={styles.questionTitle}>{leftAnswer}</Text>
-              </View>
-              <View style={styles.col}>
-                <Text style={styles.questionTitle}>{rightAnswer}</Text>
-              </View>
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 10}}>
+          <Text
+            style={styles.titleText}>{`${this.state.currentQuestionIdx + 1}/${this.state.questions.length}`}
+          </Text>
+          <View style={[styles.row, condVisibility(this.state.showTitles)]}>
+            <View style={styles.col}>
+              <Text style={styles.questionTitle}>{leftAnswer}</Text>
             </View>
-            <View style={styles.row}>
-              <TouchableOpacity style={styles.col} onPress={() => this.onQuestionResponse(responses.LEFT_ANSWER)}>
-                <Text style={styles.imagePlaceholder}>...</Text>
-                <Image
-                  style={this.buttonStyle(responses.LEFT_ANSWER)}
-                  source={{uri: leftPicture}}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.col} onPress={() => this.onQuestionResponse(responses.RIGHT_ANSWER)}>
-                <Text style={styles.imagePlaceholder}>...</Text>
-                <Image
-                  style={this.buttonStyle(responses.RIGHT_ANSWER)}
-                  source={{uri: rightPicture}}
-                />
-              </TouchableOpacity>
+            <View style={styles.col}>
+              <Text style={styles.questionTitle}>{rightAnswer}</Text>
             </View>
-            <View style={styles.row}>
-              <View style={styles.col}>
-                <TouchableOpacity
-                  style={this.buttonStyle(responses.BOTH_ANSWERS)}
-                  onPress={() => this.onQuestionResponse(responses.BOTH_ANSWERS)}>
-                  <Text style={styles.buttonText}>Both</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.col}>
-                <TouchableOpacity
-                  style={this.buttonStyle(responses.NONE_ANSWERS)}
-                  onPress={() => this.onQuestionResponse(responses.BOTH_ANSWERS)}>
-                  <Text style={styles.buttonText}>None</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={styles.navButtons}>
+          </View>
+          <View style={styles.row}>
+            <TouchableOpacity style={styles.col} onPress={() => this.onQuestionResponse(responses.LEFT_ANSWER)}>
+              <Text style={styles.imagePlaceholder}>...</Text>
+              <Image
+                style={this.buttonStyle(responses.LEFT_ANSWER)}
+                source={{uri: leftPicture}}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.col} onPress={() => this.onQuestionResponse(responses.RIGHT_ANSWER)}>
+              <Text style={styles.imagePlaceholder}>...</Text>
+              <Image
+                style={this.buttonStyle(responses.RIGHT_ANSWER)}
+                source={{uri: rightPicture}}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.row}>
+            <View style={styles.col}>
               <TouchableOpacity
-                disabled={this.state.currentQuestionIdx === 0}
-                style={condVisibility(this.state.currentQuestionIdx > 0)}
-                onPress={() => this.navigate('PREV')}>
-                <Text style={[uniteStyle.actionButtonText, {fontSize: 14, textAlign: 'left'}]}>← Previous</Text>
+                style={this.buttonStyle(responses.BOTH_ANSWERS)}
+                onPress={() => this.onQuestionResponse(responses.BOTH_ANSWERS)}>
+                <Text style={styles.buttonText}>Both</Text>
               </TouchableOpacity>
-              <View style={{width: 200}}/>
+            </View>
+            <View style={styles.col}>
               <TouchableOpacity
-                disabled={!this.currentQuestion().response}
-                style={condVisibility(!!this.currentQuestion().response)}
-                onPress={() => this.navigate('NEXT')}>
-                <Text style={[uniteStyle.actionButtonText, {fontSize: 14}]}>Next →</Text>
+                style={this.buttonStyle(responses.NONE_ANSWERS)}
+                onPress={() => this.onQuestionResponse(responses.BOTH_ANSWERS)}>
+                <Text style={styles.buttonText}>None</Text>
               </TouchableOpacity>
             </View>
           </View>
+          <View style={styles.navButtons}>
+            <TouchableOpacity
+              disabled={this.state.currentQuestionIdx === 0}
+              style={condVisibility(this.state.currentQuestionIdx > 0)}
+              onPress={() => this.navigate('PREV')}>
+              <Text style={[uniteStyle.actionButtonText, {fontSize: 14, textAlign: 'left'}]}>← Previous</Text>
+            </TouchableOpacity>
+            <View style={{width: 200}}/>
+            <TouchableOpacity
+              disabled={!this.currentQuestion().response}
+              style={condVisibility(!!this.currentQuestion().response)}
+              onPress={() => this.navigate('NEXT')}>
+              <Text style={[uniteStyle.actionButtonText, {fontSize: 14}]}>Next →</Text>
+            </TouchableOpacity>
+          </View>
         </View>
+
+        <TouchableOpacity
+          style={[styles.explainContent, {top: this.state.showTitles ? 150 : 190}]}
+          onPress={() => this.setState({showTitles: !this.state.showTitles})}>
+          <Text style={[
+            styles.explainMark,
+            {fontSize: this.state.showTitles ? 120 : 80}
+          ]}>?</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -231,6 +240,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 35,
     width: '100%'
+  },
+  explainContent: {
+    alignSelf: 'center',
+    position: 'absolute'
+  },
+  explainMark: {
+    fontWeight: 'bold',
+    color: ColorScheme.lightText
   }
 });
 

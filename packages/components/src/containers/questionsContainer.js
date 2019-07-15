@@ -9,6 +9,8 @@ import * as responses from "../data/questionResponse";
 import { ColorScheme } from "../theme/colorScheme";
 import { ROUTES } from "../routes";
 import UserDataService from "../services/userDataService";
+import { condVisibility, uniteStyle } from "../theme/styleSheets";
+import { conditionalExpression } from "@babel/types";
 
 export class QuestionsContainer extends BaseContainerComponent {
 
@@ -44,6 +46,10 @@ export class QuestionsContainer extends BaseContainerComponent {
     });
   }
 
+  currentQuestion() {
+    return this.state.questions[this.state.currentQuestionIdx];
+  }
+
   async onQuestionsCompleted() {
     this.setState({
       isReady: false
@@ -70,11 +76,23 @@ export class QuestionsContainer extends BaseContainerComponent {
   }
 
   buttonStyle(associatedResponse) {
-    const selectedResponse = this.state.questions[this.state.currentQuestionIdx].response;
+    const selectedResponse = this.currentQuestion().response;
     if (associatedResponse !== selectedResponse) {
       return styles.button
     }
     return [styles.button, {borderColor: ColorScheme.text}]
+  }
+
+  async navigate(direction) {
+    if (direction === 'PREV') {
+      this.setState({currentQuestionIdx: this.state.currentQuestionIdx - 1})
+    } else if (direction === 'NEXT') {
+      if (this.state.currentQuestionIdx === this.state.questions.length - 1) {
+        await this.onQuestionsCompleted();
+      } else {
+        this.setState({currentQuestionIdx: this.state.currentQuestionIdx + 1})
+      }
+    }
   }
 
   render() {
@@ -82,7 +100,7 @@ export class QuestionsContainer extends BaseContainerComponent {
       return this.loadingPlaceholder();
     }
 
-    const {leftAnswer, rightAnswer, leftPicture, rightPicture} = this.state.questions[this.state.currentQuestionIdx];
+    const {leftAnswer, rightAnswer, leftPicture, rightPicture} = this.currentQuestion();
 
     return (
       <View>
@@ -129,6 +147,21 @@ export class QuestionsContainer extends BaseContainerComponent {
                   <Text style={styles.buttonText}>None</Text>
                 </TouchableOpacity>
               </View>
+            </View>
+            <View style={styles.navButtons}>
+              <TouchableOpacity
+                disabled={this.state.currentQuestionIdx === 0}
+                style={condVisibility(this.state.currentQuestionIdx > 0)}
+                onPress={() => this.navigate('PREV')}>
+                <Text style={[uniteStyle.actionButtonText, {fontSize: 14, textAlign: 'left'}]}>← Previous</Text>
+              </TouchableOpacity>
+              <View style={{width: 200}}/>
+              <TouchableOpacity
+                disabled={!this.currentQuestion().response}
+                style={condVisibility(!!this.currentQuestion().response)}
+                onPress={() => this.navigate('NEXT')}>
+                <Text style={[uniteStyle.actionButtonText, {fontSize: 14}]}>Next →</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -190,6 +223,14 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     color: ColorScheme.text
+  },
+  navButtons: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 35,
+    width: '100%'
   }
 });
 

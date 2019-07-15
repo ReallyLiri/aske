@@ -15,7 +15,7 @@ export class WelcomeContainer extends BaseContainerComponent {
 
   render() {
     return (
-      <View style={uniteStyle.container}>
+      <View style={[uniteStyle.container, {paddingTop: 200}]}>
         <Text style={style.welcome}>{Strings.WELCOME}</Text>
         <Text style={style.welcome}>U N I T E</Text>
         <View style={{paddingTop: 50}}>

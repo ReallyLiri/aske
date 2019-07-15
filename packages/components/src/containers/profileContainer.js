@@ -63,6 +63,7 @@ export class ProfileContainer extends BaseContainerComponent {
         <Text style={uniteStyle.titleText}>{Strings.NAME}</Text>
         <TextInput
           style={uniteStyle.input}
+          autoFocus
           autoCapitalize="none"
           onChangeText={val => this.onChangeText('name', val)}
           value={this.state.name}

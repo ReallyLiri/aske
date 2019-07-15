@@ -11,7 +11,6 @@ import connectComponent from "../redux/connect";
 import * as userActions from "../redux/actions/userActions";
 import * as questionActions from "../redux/actions/questionActions";
 import LocalStorage from '../infra/local-storage'
-import { ColorScheme } from "../theme/colorScheme";
 import { Strings } from "../data/strings";
 import { ROUTES } from "../routes";
 import AuthService from "../services/authService";
@@ -60,10 +59,11 @@ export class LoginContainer extends BaseContainerComponent {
 
   render() {
     return (
-      <View style={uniteStyle.container}>
+      <View style={[uniteStyle.container, {paddingTop: 150}]}>
         <Text style={uniteStyle.titleText}>{Strings.USERNAME}</Text>
         <TextInput
           style={uniteStyle.input}
+          autoFocus
           autoCapitalize="none"
           onChangeText={val => this.setState({username: val, error: null})}
           value={this.state.username}

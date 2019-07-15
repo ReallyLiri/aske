@@ -54,10 +54,11 @@ export class SignUpContainer extends BaseContainerComponent {
 
   render() {
     return (
-      <View style={uniteStyle.container}>
+      <View style={[uniteStyle.container, {paddingTop: 150}]}>
         <Text style={uniteStyle.titleText}>{Strings.USERNAME}</Text>
         <TextInput
           style={uniteStyle.input}
+          autoFocus
           autoCapitalize="none"
           onChangeText={val => this.onChangeText('username', val)}
           value={this.state.userData.username}

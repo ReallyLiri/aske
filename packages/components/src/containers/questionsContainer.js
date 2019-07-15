@@ -10,7 +10,7 @@ import { ColorScheme } from "../theme/colorScheme";
 import { ROUTES } from "../routes";
 import UserDataService from "../services/userDataService";
 import { condVisibility, uniteStyle } from "../theme/styleSheets";
-import { conditionalExpression } from "@babel/types";
+import { Strings } from "../data/strings";
 
 export class QuestionsContainer extends BaseContainerComponent {
 
@@ -20,7 +20,8 @@ export class QuestionsContainer extends BaseContainerComponent {
       isReady: false,
       questions: null,
       currentQuestionIdx: null,
-      showTitles: false
+      showTitles: false,
+      inClickTransition: false
     };
   }
 
@@ -62,18 +63,20 @@ export class QuestionsContainer extends BaseContainerComponent {
   }
 
   async onQuestionResponse(response) {
-    const {questions, currentQuestionIdx} = this.state;
-    questions[this.state.currentQuestionIdx].response = response;
-    await LocalStorage.setQuestions(this.state.questions);
-    if (currentQuestionIdx === questions.length - 1) {
-      await this.onQuestionsCompleted();
+    if (this.state.inClickTransition) {
       return;
     }
-    this.setState({
-      isReady: true,
-      questions: this.state.questions,
-      currentQuestionIdx: this.state.currentQuestionIdx + 1
-    });
+    const {questions, currentQuestionIdx} = this.state;
+    questions[this.state.currentQuestionIdx].response = response;
+    this.setState({inClickTransition: true, questions: questions});
+    setTimeout(async () => {
+      await LocalStorage.setQuestions(this.state.questions);
+      if (currentQuestionIdx === questions.length - 1) {
+        await this.onQuestionsCompleted();
+        return;
+      }
+      this.setState({currentQuestionIdx: this.state.currentQuestionIdx + 1, inClickTransition: false});
+    }, 1000);
   }
 
   buttonStyle(associatedResponse) {
@@ -138,14 +141,14 @@ export class QuestionsContainer extends BaseContainerComponent {
               <TouchableOpacity
                 style={this.buttonStyle(responses.BOTH_ANSWERS)}
                 onPress={() => this.onQuestionResponse(responses.BOTH_ANSWERS)}>
-                <Text style={styles.buttonText}>Both</Text>
+                <Text style={styles.buttonText}>{Strings.BOTH}</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.col}>
               <TouchableOpacity
                 style={this.buttonStyle(responses.NONE_ANSWERS)}
-                onPress={() => this.onQuestionResponse(responses.BOTH_ANSWERS)}>
-                <Text style={styles.buttonText}>None</Text>
+                onPress={() => this.onQuestionResponse(responses.NONE_ANSWERS)}>
+                <Text style={styles.buttonText}>{Strings.NONE}</Text>
               </TouchableOpacity>
             </View>
           </View>

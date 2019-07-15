@@ -19,5 +19,7 @@ export const Strings = {
   CHAT_WITH: 'Chat with',
   PROFILE: 'Profile',
   QUESTIONS: 'Questions',
-  MATCHES: 'Matches'
+  MATCHES: 'Matches',
+  BOTH: 'Both',
+  NONE: 'None'
 };

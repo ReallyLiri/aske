@@ -27,10 +27,6 @@ export class QuestionsContainer extends BaseContainerComponent {
     }
 
     let {questions, completed} = await this.loadQuestions();
-    if (completed) {
-      this.props.navigationActions.pushNavigation(ROUTES.HOME);
-      return;
-    }
 
     let firstUnansweredQuestionIdx;
     if (!questions) {
@@ -38,7 +34,7 @@ export class QuestionsContainer extends BaseContainerComponent {
       await LocalStorage.setQuestions(questions);
       firstUnansweredQuestionIdx = 0;
     } else {
-      firstUnansweredQuestionIdx = questions.findIndex(q => !q.response);
+      firstUnansweredQuestionIdx = completed ? questions.length - 1 : questions.findIndex(q => !q.response);
     }
 
     this.setState({
@@ -49,6 +45,9 @@ export class QuestionsContainer extends BaseContainerComponent {
   }
 
   async onQuestionsCompleted() {
+    this.setState({
+      isReady: false
+    });
     this.props.questionActions.markQuestionsCompleted();
     const {user} = this.props.userState;
     await UserDataService.update(user, this.state.questions);
@@ -68,6 +67,14 @@ export class QuestionsContainer extends BaseContainerComponent {
       questions: this.state.questions,
       currentQuestionIdx: this.state.currentQuestionIdx + 1
     });
+  }
+
+  buttonStyle(associatedResponse) {
+    const selectedResponse = this.state.questions[this.state.currentQuestionIdx].response;
+    if (associatedResponse !== selectedResponse) {
+      return styles.button
+    }
+    return [styles.button, {borderColor: ColorScheme.text}]
   }
 
   render() {
@@ -92,17 +99,17 @@ export class QuestionsContainer extends BaseContainerComponent {
               </View>
             </View>
             <View style={styles.row}>
-              <TouchableOpacity style={styles.col} onPress={() => this.onQuestionResponse(responses.RIGHT_ANSWER)}>
-                <Text style={styles.imagePlaceholder}>...</Text>
-                <Image
-                  style={styles.button}
-                  source={{uri: leftPicture}}
-                />
-              </TouchableOpacity>
               <TouchableOpacity style={styles.col} onPress={() => this.onQuestionResponse(responses.LEFT_ANSWER)}>
                 <Text style={styles.imagePlaceholder}>...</Text>
                 <Image
-                  style={styles.button}
+                  style={this.buttonStyle(responses.LEFT_ANSWER)}
+                  source={{uri: leftPicture}}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.col} onPress={() => this.onQuestionResponse(responses.RIGHT_ANSWER)}>
+                <Text style={styles.imagePlaceholder}>...</Text>
+                <Image
+                  style={this.buttonStyle(responses.RIGHT_ANSWER)}
                   source={{uri: rightPicture}}
                 />
               </TouchableOpacity>
@@ -110,14 +117,14 @@ export class QuestionsContainer extends BaseContainerComponent {
             <View style={styles.row}>
               <View style={styles.col}>
                 <TouchableOpacity
-                  style={styles.button}
+                  style={this.buttonStyle(responses.BOTH_ANSWERS)}
                   onPress={() => this.onQuestionResponse(responses.BOTH_ANSWERS)}>
                   <Text style={styles.buttonText}>Both</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.col}>
                 <TouchableOpacity
-                  style={styles.button}
+                  style={this.buttonStyle(responses.NONE_ANSWERS)}
                   onPress={() => this.onQuestionResponse(responses.BOTH_ANSWERS)}>
                   <Text style={styles.buttonText}>None</Text>
                 </TouchableOpacity>

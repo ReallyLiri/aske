@@ -1,42 +1,40 @@
-import FireBase from "./firebase";
+import FireBase from "../infra/firebase";
 import { Strings } from "../data/strings";
 import { hashPassword } from "../infra/utils";
 
-const USERS_COLLECTION = "users";
+const AUTH_COLLECTION = "auth";
 
 export default class AuthService {
 
   static async login(username, password) {
     password = hashPassword(password);
-    const results = await FireBase.query(USERS_COLLECTION, 'userData.username', username);
-    if (!results || !results.length) {
+    const result = await FireBase.get(AUTH_COLLECTION, username);
+    if (!result) {
       return {
         error: Strings.ERROR_LOGIN
       }
     }
-    const result = results[0];
-    if (result.userData.password !== password) {
+    if (result.password !== password) {
       return {
         error: Strings.ERROR_LOGIN
       }
     }
     return {
-      userData: {...results[0].userData, id: results[0].id},
-      responses: results[0].responses
+      success: true
     };
   }
 
-  static async register(userData) {
-    userData.password = hashPassword(userData.password);
-    const existing = await FireBase.query(USERS_COLLECTION, 'userData.username', userData.username);
-    if (existing && existing.length) {
+  static async register(username, password) {
+    password = hashPassword(password);
+    const existing = !!(await FireBase.get(AUTH_COLLECTION, username));
+    if (existing) {
       return {
         error: Strings.ERROR_REGISTER
       }
     }
-    const userId = await FireBase.add(USERS_COLLECTION, {userData: userData, responses: []});
+    await FireBase.set(AUTH_COLLECTION, username, {username: username, password: password});
     return {
-      userData: {...userData, id: userId}
+      success: true
     };
   }
 

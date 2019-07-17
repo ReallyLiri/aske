@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
-import BaseContainerComponent from "../infra/baseContainerComponent";
+import BaseContainerComponent from "../containers/baseContainerComponent";
 
 
 function bindActionsCreators(actions, dispatch) {

@@ -2,23 +2,23 @@ import * as actions from '../actions/actionTypes'
 import Logging from '../../infra/logging'
 
 const initialState = {
-  user: null
+  userData: null
 };
 
-export default function user(state = initialState, action = {}) {
+export default function userData(state = initialState, action = {}) {
   switch (action.type) {
     case actions.SET_USER:
       Logging.debug(`UserReducer: Setting user...`);
-      Logging.debug(action.user);
+      Logging.debug(action.userData);
       return {
         ...state,
-        user: action.user
+        userData: action.userData
       };
     case actions.CLEAR_USER:
       Logging.debug(`UserReducer: Clearing user`);
       return {
         ...state,
-        user: null
+        userData: null
       };
     default:
       return state;

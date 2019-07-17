@@ -7,9 +7,8 @@ import {
   Image, StyleSheet
 } from 'react-native'
 
-import BaseContainerComponent from "../infra/baseContainerComponent";
+import BaseContainerComponent from "./baseContainerComponent";
 import connectComponent from "../redux/connect";
-import LocalStorage from '../infra/local-storage'
 import { Strings } from "../data/strings";
 import { ROUTES } from "../routes";
 import { uniteStyle } from "../theme/styleSheets";
@@ -32,28 +31,30 @@ export class ProfileContainer extends BaseContainerComponent {
   };
 
   async componentDidMount() {
-    if (!await this.guardUser()) {
+    if (!await this.guardUserData()) {
       return;
     }
     const {questions} = await this.loadQuestions();
     const hasAnyResponse = questions && questions.find(q => q.response);
-    const {user} = this.props.userState;
+    const {userData} = this.props.userState;
     this.setState({
       isReady: true,
       isNewUser: !hasAnyResponse,
-      name: user.name || '',
-      age: user.age || '',
-      phrase: user.phrase || ''
+      name: userData.name || '',
+      age: userData.age || '',
+      phrase: userData.phrase || ''
     })
   }
 
   async save() {
-    const {user} = this.props.userState;
-    const {questions, completed} = await this.loadQuestions();
-    const userData = {...user, name: this.state.name, age: this.state.age, phrase: this.state.phrase};
-    await UserDataService.update(userData, completed ? questions : null);
-    this.props.userActions.setUser(userData);
-    await LocalStorage.setUser(userData);
+    const userData = {
+      ...this.props.userState.userData,
+      name: this.state.name,
+      age: this.state.age,
+      phrase: this.state.phrase,
+    };
+    await UserDataService.update(userData);
+    this.props.userActions.setUserData(userData);
     this.props.history.push(ROUTES.HOME);
   };
 
@@ -65,7 +66,7 @@ export class ProfileContainer extends BaseContainerComponent {
       <View style={uniteStyle.container}>
         <TouchableOpacity
           onPress={() => this.props.history.push(ROUTES.PROFILE_PICTURE)}>
-          <Image style={styles.profilePicture} source={this.props.userState.user.image || DEFAULT_PICTURE}/>
+          <Image style={styles.profilePicture} source={this.props.userState.userData.image || DEFAULT_PICTURE}/>
         </TouchableOpacity>
         <Text style={uniteStyle.titleText}>{Strings.NAME}</Text>
         <TextInput

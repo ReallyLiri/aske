@@ -1,13 +1,13 @@
 import * as types from './actionTypes'
 
-export function setUser(user) {
+export function setUserData(userData) {
   return {
     type: types.SET_USER,
-    user: user
+    userData: userData
   };
 }
 
-export function clearUser() {
+export function clearUserData() {
   return {
     type: types.CLEAR_USER
   };

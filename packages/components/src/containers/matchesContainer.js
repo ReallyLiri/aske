@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet, Image, Dimensions } from "react-native";
 
-import BaseContainerComponent from '../infra/baseContainerComponent';
+import BaseContainerComponent from './baseContainerComponent';
 import connectComponent from "../redux/connect";
 import MatchingService from "../services/matchingService";
 import { uniteStyle } from "../theme/styleSheets";
@@ -10,32 +10,41 @@ import * as chatActions from "../redux/actions/chatActions";
 import { ColorScheme } from "../theme/colorScheme";
 import { mergeColors } from "../infra/utils";
 import { DEFAULT_PICTURE } from "../data/profilePictures";
+import UserDataService from "../services/userDataService";
+import { Strings } from "../data/strings";
 
 export class MatchesContainer extends BaseContainerComponent {
 
   constructor(props) {
     super(props);
-    this.state = {ready: false, matches: []};
+    this.state = {
+      isReady: false,
+      matches: []
+    };
   }
 
   async componentDidMount() {
-    if (!await this.guardUser()) {
+    if (!await this.guardUserData()) {
       return;
     }
     if (!await this.guardQuestions()) {
       return;
     }
-    const matches = await MatchingService.getMatches(this.props.userState.user.id);
-    this.setState({ready: true, matches: matches});
+    const matches = await MatchingService.getMatches(this.props.userState.userData.username);
+    const dataFetch = matches.map(match => UserDataService.get(match.username));
+    (await Promise.all(dataFetch)).forEach((response, index) => {
+      matches[index].userData = response.userData;
+    });
+    this.setState({isReady: true, matches: matches});
   }
 
   onMatchClick(match) {
     this.props.chatActions.setChatContact(match.userData);
-    this.props.history.push(`${ROUTES.CHAT}?u=${match.userData.id}`);
+    this.props.history.push(`${ROUTES.CHAT}?u=${encodeURI(match.userData.username)}`);
   }
 
   render() {
-    if (!this.state.ready) {
+    if (!this.state.isReady) {
       return this.loadingPlaceholder();
     }
     const matchWidth = Dimensions.get('window').width - 20;
@@ -45,14 +54,14 @@ export class MatchesContainer extends BaseContainerComponent {
           this.state.matches && this.state.matches.length ?
             this.state.matches.map((match, index) => (
               <TouchableOpacity
-                key={match.userData.id}
+                key={match.username}
                 style={[
                   styles.match,
                   {
                     backgroundColor: mergeColors(
                       ColorScheme.matchBackgroundMin,
                       ColorScheme.matchBackgroundMax,
-                      (1-index/this.state.matches.length)
+                      (1 - index / this.state.matches.length)
                     ),
                     alignSelf: 'center',
                     width: matchWidth
@@ -67,7 +76,7 @@ export class MatchesContainer extends BaseContainerComponent {
               </TouchableOpacity>
             ))
             :
-            <Text>No matches :(</Text>
+            <Text style={[uniteStyle.actionButtonText, {paddingTop: 200}]}>{Strings.NO_MATCHES}</Text>
         }
       </View>
     );

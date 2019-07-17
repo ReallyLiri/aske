@@ -21,5 +21,6 @@ export const Strings = {
   QUESTIONS: 'Questions',
   MATCHES: 'Matches',
   BOTH: 'Both',
-  NONE: 'None'
+  NONE: 'None',
+  NO_MATCHES: 'No matches yet...'
 };

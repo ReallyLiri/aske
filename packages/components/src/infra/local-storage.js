@@ -1,7 +1,6 @@
 import { AsyncStorage } from "./async-storage";
 
-const USER_KEY = 'USER_KEY';
-const QUESTIONS_KEY = 'QUESTIONS_KEY';
+const USERNAME_KEY = 'USERNAME_KEY';
 
 export default class LocalStorage {
 
@@ -21,30 +20,16 @@ export default class LocalStorage {
 
   // User:
 
-  static async getUser() {
-    return LocalStorage.get(USER_KEY);
+  static async getUsername() {
+    return LocalStorage.get(USERNAME_KEY);
   }
 
-  static async setUser(user) {
-    await LocalStorage.set(USER_KEY, user);
+  static async setUsername(user) {
+    await LocalStorage.set(USERNAME_KEY, user);
   }
 
-  static async clearUser() {
-    await LocalStorage.clear(USER_KEY);
-  }
-
-  // Questions:
-
-  static async getQuestions() {
-    return LocalStorage.get(QUESTIONS_KEY);
-  }
-
-  static async setQuestions(questions) {
-    await LocalStorage.set(QUESTIONS_KEY, questions);
-  }
-
-  static async clearQuestions() {
-    await LocalStorage.clear(QUESTIONS_KEY);
+  static async clearUsername() {
+    await LocalStorage.clear(USERNAME_KEY);
   }
 
 }

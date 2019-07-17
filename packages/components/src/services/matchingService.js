@@ -1,9 +1,9 @@
-import FireBase from "./firebase";
+import FireBase from "../infra/firebase";
 const maxHeapFn = require('@datastructures-js/max-heap');
 
 import {matchScore} from "../data/questionResponse"
 
-const USERS_COLLECTION = "users";
+const RESPONSES_COLLECTION = "responses";
 
 export default class MatchingService {
 
@@ -22,28 +22,27 @@ export default class MatchingService {
     for (let i = 0; i<top; i++) {
       const maxNode = maxHeap.extractMax();
       const score = maxNode.getKey();
-      const user = maxNode.getValue();
+      const username = maxNode.getValue();
       yield {
         score: score,
-        userData: user
+        username: username
       }
     }
   }
 
-  static async getMatches(userId, top=10) {
+  static async getMatches(username, top=10) {
 
-    const allData = await FireBase.getAll(USERS_COLLECTION);
-    const targetUserResponses = allData.find(data => data.id === userId).responses;
+    const allData = (await FireBase.getAll(RESPONSES_COLLECTION));
+    const targetUserResponses = allData.find(data => data.id === username).responses;
     const maxHeap = maxHeapFn();
 
-    allData.forEach(doc => {
-      if (doc.id === userId) {
+    allData.forEach(responsesItem => {
+      if (responsesItem.id === username) {
         return;
       }
-      const {responses} = doc;
-      const score = MatchingService.calculateScore(targetUserResponses, responses);
+      const score = MatchingService.calculateScore(targetUserResponses, responsesItem.responses);
       if (score > 0) {
-        maxHeap.insert(score, doc.userData);
+        maxHeap.insert(score, responsesItem.id);
       }
     });
 

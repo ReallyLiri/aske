@@ -4,7 +4,7 @@ import {
   Text,
   TouchableOpacity, StyleSheet
 } from 'react-native'
-import BaseContainerComponent from "../infra/baseContainerComponent";
+import BaseContainerComponent from "./baseContainerComponent";
 import connectComponent from "../redux/connect";
 import { Strings } from "../data/strings";
 import { ROUTES } from "../routes";
@@ -19,16 +19,16 @@ export class WelcomeContainer extends BaseContainerComponent {
         <Text style={style.welcome}>{Strings.WELCOME}</Text>
         <Text style={style.welcome}>U N I T E</Text>
         <View style={{paddingTop: 50}}>
-        <TouchableOpacity
-          style={uniteStyle.actionButton}
-          onPress={() => this.props.history.push(ROUTES.LOGIN)}>
-          <Text style={uniteStyle.actionButtonText}>{Strings.LOGIN}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={uniteStyle.actionButton}
-          onPress={() => this.props.history.push(ROUTES.SINGUP)}>
-          <Text style={uniteStyle.actionButtonText}>{Strings.SINGUP}</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={uniteStyle.actionButton}
+            onPress={() => this.props.history.push(ROUTES.LOGIN)}>
+            <Text style={uniteStyle.actionButtonText}>{Strings.LOGIN}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={uniteStyle.actionButton}
+            onPress={() => this.props.history.push(ROUTES.SIGNUP)}>
+            <Text style={uniteStyle.actionButtonText}>{Strings.SINGUP}</Text>
+          </TouchableOpacity>
         </View>
       </View>
     )

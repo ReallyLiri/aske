@@ -1,9 +1,9 @@
-import user from './userReducer'
+import userData from './userDataReducer'
 import questions from './questionsReducer'
 import chat from './chatReducer'
 
 export {
-  user,
+  userData,
   questions,
   chat
 }

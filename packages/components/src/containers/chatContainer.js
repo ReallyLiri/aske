@@ -2,7 +2,7 @@ import React from 'react'
 import { Text, View, TouchableOpacity, TextInput, StyleSheet, Image } from "react-native";
 import queryString from 'query-string';
 
-import BaseContainerComponent from "../infra/baseContainerComponent";
+import BaseContainerComponent from "./baseContainerComponent";
 import connectComponent from "../redux/connect";
 import ChatService from "../services/chatService";
 import { ROUTES } from "../routes";
@@ -12,12 +12,14 @@ import { ColorScheme } from "../theme/colorScheme";
 import { utcTimestampToDate } from "../infra/utils";
 import UserDataService from "../services/userDataService";
 import { DEFAULT_PICTURE } from "../data/profilePictures";
+import Logging from "../infra/logging";
 
 export class ChatContainer extends BaseContainerComponent {
 
   unsubscribe = null;
-  usersById = new Map();
+  usersByName = new Map();
   contactUserData = null;
+  channelId = null;
 
   state = {
     isReady: false,
@@ -32,29 +34,41 @@ export class ChatContainer extends BaseContainerComponent {
   }
 
   async componentDidMount() {
-    if (!await this.guardUser()) {
-      return;
-    }
-    if (!await this.guardQuestions()) {
+    if (!await this.guardUserData()) {
       return;
     }
 
-    const myUserData = this.props.userState.user;
+    const myUserData = this.props.userState.userData;
     this.contactUserData = this.props.chatState.contactUserData;
     if (!this.contactUserData) {
-      const contactUserId = queryString.parse(this.props.location.search).u;
-      if (!contactUserId) {
+      let contactUsername = queryString.parse(this.props.location.search).u;
+      if (!contactUsername) {
+        Logging.error('Navigated to chat page without context');
         this.props.history.replace(ROUTES.HOME);
         return;
       }
-      this.contactUserData = (await UserDataService.get(contactUserId)).userData;
+      contactUsername = decodeURI(contactUsername);
+      if (contactUsername === myUserData.username) {
+        Logging.error('Cannot chat with self');
+        this.props.history.replace(ROUTES.HOME);
+        return;
+      }
+      const response = await UserDataService.get(contactUsername);
+      if (!response) {
+        Logging.error(`Invalid username '${contactUsername}'`);
+        this.props.history.replace(ROUTES.HOME);
+        return;
+      }
+      this.contactUserData = response.userData;
     }
 
-    this.usersById.set(myUserData.id, myUserData);
-    this.usersById.set(this.contactUserData.id, this.contactUserData);
+    this.usersByName.set(myUserData.username, myUserData);
+    this.usersByName.set(this.contactUserData.username, this.contactUserData);
 
-    this.unsubscribe = ChatService.register(myUserData.id, this.contactUserData.id, this, ChatContainer.onNewMessage);
-    const messages = await ChatService.latestMessages(myUserData.id, this.contactUserData.id, 10);
+    this.channelId = await ChatService.getOrCreateChannel(myUserData, this.contactUserData.username, this.props.userActions.setUserData);
+
+    this.unsubscribe = ChatService.registerForNewMessages(this.channelId, myUserData.username, this, ChatContainer.onNewMessage);
+    const messages = await ChatService.latestMessages(this.channelId, myUserData.username, 10);
     this.setState({isReady: true, messages: messages});
   }
 
@@ -68,10 +82,9 @@ export class ChatContainer extends BaseContainerComponent {
     if (!this.state.nextMessage) {
       return;
     }
-    const myUserData = this.props.userState.user;
-    const {contactUserData} = this.props.chatState;
+    const myUserData = this.props.userState.userData;
     this.setState({nextMessage: ''});
-    await ChatService.publish(myUserData.id, contactUserData.id, this.state.nextMessage);
+    await ChatService.publishMessage(this.channelId, myUserData.username, this.state.nextMessage);
   }
 
   render() {
@@ -89,7 +102,7 @@ export class ChatContainer extends BaseContainerComponent {
             <Text
               style={{color: ColorScheme.text}}
               key={message.id}>
-              [{utcTimestampToDate(message.timestamp).toLocaleString()}] {this.usersById.get(message.owner).username} says:
+              [{utcTimestampToDate(message.timestamp).toLocaleString()}] {this.usersByName.get(message.source).username} says:
               "{message.text}"
             </Text>
           ))

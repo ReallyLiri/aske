@@ -5,55 +5,68 @@ import {
   Text,
   TouchableOpacity
 } from 'react-native'
-import BaseContainerComponent from "../infra/baseContainerComponent";
+import BaseContainerComponent from "./baseContainerComponent";
 import connectComponent from "../redux/connect";
 import * as userActions from "../redux/actions/userActions";
-import LocalStorage from '../infra/local-storage'
 import { Strings } from "../data/strings";
 import { ROUTES } from "../routes";
 import { condVisibility, uniteStyle } from "../theme/styleSheets";
 import AuthService from "../services/authService";
 import { randomPicture } from "../data/profilePictures";
+import UserDataService from "../services/userDataService";
+import LocalStorage from "../infra/local-storage";
 
 export class SignUpContainer extends BaseContainerComponent {
 
   state = {
-    userData: {
-      username: '',
-      password: '',
-      passwordVerify: '',
-      image: randomPicture()
-    },
+    isReady: true,
+    username: '',
+    password: '',
+    passwordVerify: '',
     error: null
   };
 
   onChangeText = (key, val) => {
-    this.setState({userData: {...this.state.userData, [key]: val}});
+    this.setState({[key]: val});
   };
 
   signUp = async () => {
-    if (this.state.userData.password !== this.state.userData.passwordVerify) {
+    if (this.state.password !== this.state.passwordVerify) {
       this.setState({
-        userData: {username: '', password: '', passwordVerify: ''},
+        username: '', password: '', passwordVerify: '',
         error: Strings.ERROR_PASSWORD
       });
       return;
     }
-    const response = await AuthService.register(this.state.userData);
+
+    this.setState({isReady: false});
+
+    const response = await AuthService.register(this.state.username, this.state.password);
     if (response.error) {
       this.setState({
-        userData: {username: '', password: '', passwordVerify: ''},
+        isReady: true,
+        username: '', password: '', passwordVerify: '',
         error: response.error
       });
       return;
     }
-    const {setUser} = this.props.userActions;
-    setUser(response.userData);
-    await LocalStorage.setUser(response.userData);
+
+    const userData = {
+      username: this.state.username,
+      image: randomPicture(),
+      channels: {}
+    };
+    this.props.userActions.setUserData(userData);
+    await LocalStorage.setUsername(userData.username);
+    await UserDataService.update(userData);
+
     this.props.history.replace(ROUTES.PROFILE);
   };
 
   render() {
+    if (!this.state.isReady) {
+      return this.loadingPlaceholder();
+    }
     return (
       <View style={[uniteStyle.container, {paddingTop: 150}]}>
         <Text style={uniteStyle.titleText}>{Strings.USERNAME}</Text>
@@ -62,7 +75,7 @@ export class SignUpContainer extends BaseContainerComponent {
           autoFocus
           autoCapitalize="none"
           onChangeText={val => this.onChangeText('username', val)}
-          value={this.state.userData.username}
+          value={this.state.username}
         />
         <Text style={uniteStyle.titleText}>{Strings.PASSWORD}</Text>
         <TextInput
@@ -70,7 +83,7 @@ export class SignUpContainer extends BaseContainerComponent {
           autoCapitalize="none"
           secureTextEntry={true}
           onChangeText={val => this.onChangeText('password', val)}
-          value={this.state.userData.password}
+          value={this.state.password}
         />
         <Text style={uniteStyle.titleText}>{Strings.PASSWORD_AGAIN}</Text>
         <TextInput
@@ -78,12 +91,13 @@ export class SignUpContainer extends BaseContainerComponent {
           autoCapitalize="none"
           secureTextEntry={true}
           onChangeText={val => this.onChangeText('passwordVerify', val)}
-          value={this.state.userData.passwordVerify}
+          value={this.state.passwordVerify}
         />
         <TouchableOpacity
+          disabled={!(this.state.username && this.state.password && this.state.passwordVerify)}
           style={[
             uniteStyle.actionButton,
-            condVisibility(this.state.userData.username && this.state.userData.password && this.state.userData.passwordVerify)
+            condVisibility(this.state.username && this.state.password && this.state.passwordVerify)
           ]}
           onPress={this.signUp}>
           <Text style={uniteStyle.actionButtonText}>{Strings.NEXT}</Text>

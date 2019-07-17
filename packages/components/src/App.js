@@ -16,7 +16,7 @@ import ChatContainer from "./containers/chatContainer";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import { ROUTES } from './routes';
-import FireBase from "./services/firebase";
+import FireBase from "./infra/firebase";
 import ProfileContainer from "./containers/profileContainer";
 import ProfilePictureContainer from "./containers/profilePictureContainer";
 
@@ -68,7 +68,7 @@ export default class App extends Component {
                   }
                 />
                 <Route
-                  path={ROUTES.SINGUP}
+                  path={ROUTES.SIGNUP}
                   render={
                     props => <SignUpContainer
                       {...props}

@@ -1,23 +1,17 @@
-import FireBase from "./firebase";
+import FireBase from "../infra/firebase";
 
 const USERS_COLLECTION = "users";
 
 export default class UserDataService {
 
-  static async update(userData, questions) {
-    const mappedResponses = questions && questions.length ? questions.map(
-      q => {
-        return {id: q.id, response: q.response}
-      }
-    ) : null;
-    await FireBase.set(USERS_COLLECTION, userData.id, {userData: userData, responses: mappedResponses});
+  static async update(userData) {
+    await FireBase.set(USERS_COLLECTION, userData.username, {userData: userData});
   }
 
-  static async get(userId) {
-    const result = await FireBase.get(USERS_COLLECTION, userId);
+  static async get(username) {
+    const result = await FireBase.get(USERS_COLLECTION, username);
     return {
-      userData: {...result.userData, id: userId},
-      responses: result.responses
+      userData: result.userData
     }
   }
 

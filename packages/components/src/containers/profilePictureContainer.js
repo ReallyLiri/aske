@@ -6,7 +6,7 @@ import {
   Dimensions, TouchableOpacity
 } from 'react-native'
 
-import BaseContainerComponent from "../infra/baseContainerComponent";
+import BaseContainerComponent from "./baseContainerComponent";
 import connectComponent from "../redux/connect";
 import { uniteStyle } from "../theme/styleSheets";
 import { PROFILE_PICTURES } from "../data/profilePictures";
@@ -19,12 +19,8 @@ export class ProfilePictureContainer extends BaseContainerComponent {
     isReady: false
   };
 
-  onChangeText = (key, val) => {
-    this.setState({[key]: val});
-  };
-
   async componentDidMount() {
-    if (!await this.guardUser()) {
+    if (!await this.guardUserData()) {
       return;
     }
     this.setState({
@@ -33,7 +29,7 @@ export class ProfilePictureContainer extends BaseContainerComponent {
   }
 
   onPictureSelected(url) {
-    this.props.userActions.setUser({...this.props.userState.user, image: url});
+    this.props.userActions.setUserData({...this.props.userState.userData, image: url});
     this.props.history.push(ROUTES.PROFILE);
   }
 

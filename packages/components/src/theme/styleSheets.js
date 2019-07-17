@@ -24,8 +24,7 @@ export const uniteStyle = StyleSheet.create({
     borderWidth: 5,
     borderColor: ColorScheme.button,
     fontSize: 18,
-    fontWeight: 'bold',
-    outline: 0
+    fontWeight: 'bold'
   },
   actionButton: {
     width: 150,

@@ -6,7 +6,7 @@ import {
   TouchableOpacity
 } from 'react-native'
 
-import BaseContainerComponent from "../infra/baseContainerComponent";
+import BaseContainerComponent from "./baseContainerComponent";
 import connectComponent from "../redux/connect";
 import * as userActions from "../redux/actions/userActions";
 import * as questionActions from "../redux/actions/questionActions";
@@ -15,11 +15,12 @@ import { Strings } from "../data/strings";
 import { ROUTES } from "../routes";
 import AuthService from "../services/authService";
 import { condVisibility, uniteStyle } from "../theme/styleSheets";
-import { QUESTIONS } from "../data/questions";
+import UserDataService from "../services/userDataService";
 
 export class LoginContainer extends BaseContainerComponent {
 
   state = {
+    isLoading: false,
     username: '',
     password: '',
     error: null
@@ -36,27 +37,21 @@ export class LoginContainer extends BaseContainerComponent {
       return;
     }
 
-    const {setUser} = this.props.userActions;
-    setUser(doc.userData);
-    await LocalStorage.setUser(doc.userData);
+    this.setState({isLoading: true});
 
-    if (doc.responses && doc.responses.length) {
-      const {setQuestions, markQuestionsCompleted} = this.props.questionActions;
-      const questions = QUESTIONS;
-      for (let i = 0; i < doc.responses.length; i++) {
-        questions[i].response = doc.responses[i].response;
-      }
-      setQuestions(questions);
-      await LocalStorage.setQuestions(questions);
-      if (doc.responses.length === questions.length) {
-        markQuestionsCompleted();
-      }
-    }
+    await LocalStorage.setUsername(this.state.username);
+
+    const userData = (await UserDataService.get(this.state.username)).userData;
+    this.props.userActions.setUserData(userData);
+    await this.loadQuestions();
 
     this.props.history.replace(ROUTES.HOME);
   };
 
   render() {
+    if (this.state.isLoading) {
+      return this.loadingPlaceholder();
+    }
     return (
       <View style={[uniteStyle.container, {paddingTop: 150}]}>
         <Text style={uniteStyle.titleText}>{Strings.USERNAME}</Text>

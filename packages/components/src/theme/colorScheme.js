@@ -4,6 +4,6 @@ export const ColorScheme = {
   button: '#8f61ff',
   lightText: 'white',
   text: '#c1abe7',
-  matchBackgroundMax: '#4844b2',
-  matchBackgroundMin: '#898989',
+  matchBackgroundMax: '#7B00FF',
+  matchBackgroundMin: '#190336',
 };

@@ -65,7 +65,7 @@ export class ChatContainer extends BaseContainerComponent {
     this.usersByName.set(myUserData.username, myUserData);
     this.usersByName.set(this.contactUserData.username, this.contactUserData);
 
-    this.channelId = await ChatService.getOrCreateChannel(myUserData, this.contactUserData.username, this.props.userActions.setUserData);
+    this.channelId = await ChatService.getOrCreateChannel(myUserData, this.contactUserData, this.props.userActions.setUserData);
 
     this.unsubscribe = ChatService.registerForNewMessages(this.channelId, myUserData.username, this, ChatContainer.onNewMessage);
     const messages = await ChatService.latestMessages(this.channelId, myUserData.username, 10);

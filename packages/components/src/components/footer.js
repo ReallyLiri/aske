@@ -52,6 +52,7 @@ class Footer extends Component {
         {this.link(ROUTES.PROFILE, Strings.PROFILE)}
         {this.link(ROUTES.QUESTIONS, Strings.QUESTIONS)}
         {this.link(ROUTES.HOME, Strings.MATCHES)}
+        {this.link(ROUTES.CHATS, Strings.CHATS)}
       </View>
     )
   }

@@ -19,6 +19,7 @@ import { ROUTES } from './routes';
 import FireBase from "./infra/firebase";
 import ProfileContainer from "./containers/profileContainer";
 import ProfilePictureContainer from "./containers/profilePictureContainer";
+import ChatListContainer from "./containers/chatListContainer";
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const reducer = combineReducers(reducers);
@@ -87,6 +88,14 @@ export default class App extends Component {
                   path={ROUTES.CHAT}
                   render={
                     props => <ChatContainer
+                      {...props}
+                    />
+                  }
+                />
+                <Route
+                  path={ROUTES.CHATS}
+                  render={
+                    props => <ChatListContainer
                       {...props}
                     />
                   }

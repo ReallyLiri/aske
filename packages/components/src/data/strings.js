@@ -22,5 +22,7 @@ export const Strings = {
   MATCHES: 'Matches',
   BOTH: 'Both',
   NONE: 'None',
-  NO_MATCHES: 'No matches yet...'
+  CHATS: 'Chats',
+  NO_MATCHES: 'No matches yet...',
+  NO_CHATS: 'No chats yet...'
 };

@@ -9,16 +9,20 @@ const MESSAGES = 'messages';
 
 export default class ChatService {
 
-  static async getOrCreateChannel(userData, contactUsername, setUserDataCallback) {
+  static async getOrCreateChannel(userData, contactUserData, setUserDataCallback) {
     const {channels} = userData;
-    if (contactUsername in channels) {
-      return channels[contactUsername];
+    if (contactUserData.username in channels) {
+      return channels[contactUserData.username];
     }
-    const channelId = await ChatService.createChannel([userData.username, contactUsername]);
-    channels[contactUsername] = channelId;
+    const channelId = await ChatService.createChannel([userData.username, contactUserData.username]);
+    channels[contactUserData.username] = channelId;
     userData.channels = channels;
     await UserDataService.update(userData);
     setUserDataCallback(userData);
+
+    contactUserData.channels[userData.username] = channelId;
+    await UserDataService.update(contactUserData);
+
     return channelId;
   }
 

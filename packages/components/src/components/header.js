@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  Platform
 } from 'react-native'
 import { withRouter } from '../infra/routing';
 
@@ -15,12 +16,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: ColorScheme.overlay,
     width: '100%',
-    height: 55
+    height: Platform.OS === 'ios' ? 95 : 55
   },
   title: {
     color: ColorScheme.text,
     fontSize: 50,
-    fontFamily: 'OldeEnglish'
+    fontFamily: 'OldeEnglish-Regular',
+    paddingTop: Platform.OS === 'ios' ? 40 : 0
   }
 });
 

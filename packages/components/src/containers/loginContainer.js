@@ -71,6 +71,7 @@ export class LoginContainer extends BaseContainerComponent {
           value={this.state.password}
         />
         <TouchableOpacity
+          disabled={!this.state.username || !this.state.password}
           style={[
             askeStyle.actionButton,
             condVisibility(this.state.username && this.state.password)

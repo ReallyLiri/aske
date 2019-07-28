@@ -52,7 +52,7 @@ const style = StyleSheet.create({
   title: {
     paddingTop: 30,
     color: ColorScheme.text,
-    fontFamily: 'OldeEnglish',
+    fontFamily: 'OldeEnglish-Regular',
     fontSize: 80
   }
 });

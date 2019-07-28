@@ -68,7 +68,7 @@ export class MatchesContainer extends BaseContainerComponent {
                   }
                 ]}
                 onPress={() => this.onMatchClick(match)}>
-                <Image style={styles.profilePicture} source={match.userData.image || DEFAULT_PICTURE}/>
+                <Image style={styles.profilePicture} source={{uri: match.userData.image || DEFAULT_PICTURE}}/>
                 <View>
                   <Text style={styles.matchName}>{match.userData.username}</Text>
                   <Text style={styles.matchPhrase}>{match.userData.phrase}</Text>
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     margin: 10,
     height: 50,
     width: 50,
-    borderRadius: '100%',
+    borderRadius: 100,
     borderWidth: 5,
     borderColor: ColorScheme.button,
     backgroundColor: 'white'

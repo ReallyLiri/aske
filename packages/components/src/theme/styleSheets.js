@@ -9,13 +9,13 @@ export const condVisibility = (predicate) => {
 export const askeStyle = StyleSheet.create({
   errorMessage: {
     color: 'red',
-    height: 20,
+    height: 30,
     fontSize: 20,
     marginBottom: 20
   },
   input: {
     width: 350,
-    height: 55,
+    height: 80,
     backgroundColor: 'transparent',
     color: ColorScheme.lightText,
     margin: 10,
@@ -27,8 +27,9 @@ export const askeStyle = StyleSheet.create({
     fontWeight: 'bold'
   },
   actionButton: {
+    flex: 1,
     width: 150,
-    height: 55,
+    height: 80,
     margin: 10,
     padding: 20,
     borderRadius: 14,

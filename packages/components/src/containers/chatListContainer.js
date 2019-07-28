@@ -69,7 +69,7 @@ export class ChatListContainer extends BaseContainerComponent {
                   }
                 ]}
                 onPress={() => this.onChatClick(channel)}>
-                <Image style={styles.profilePicture} source={channel.userData.image || DEFAULT_PICTURE}/>
+                <Image style={styles.profilePicture} source={{uri: channel.userData.image || DEFAULT_PICTURE}}/>
                 <View>
                   <Text style={styles.username}>{channel.userData.username}</Text>
                   <Text style={styles.userphrase}>{channel.userData.phrase}</Text>
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     margin: 10,
     height: 50,
     width: 50,
-    borderRadius: '100%',
+    borderRadius: 100,
     borderWidth: 5,
     borderColor: ColorScheme.button,
     backgroundColor: 'white'

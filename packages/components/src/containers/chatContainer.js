@@ -96,7 +96,7 @@ export class ChatContainer extends BaseContainerComponent {
         <Text style={[askeStyle.titleText, style.titleText]}>
           {`${Strings.CHAT_WITH} ${this.contactUserData.username}`}
         </Text>
-        <Image style={style.profilePicture} source={this.contactUserData.image || DEFAULT_PICTURE}/>
+        <Image style={style.profilePicture} source={{uri: this.contactUserData.image || DEFAULT_PICTURE}}/>
         {
           this.state.messages.map(message => (
             <Text
@@ -150,7 +150,7 @@ const style = StyleSheet.create({
     margin: 10,
     height: 100,
     width: 100,
-    borderRadius: '100%',
+    borderRadius: 100,
     borderWidth: 5,
     borderColor: ColorScheme.button,
     backgroundColor: 'white'

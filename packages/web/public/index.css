@@ -20,6 +20,6 @@ input:focus {outline:0;}
 }
 
 @font-face {
-    font-family: 'OldeEnglish';
+    font-family: 'OldeEnglish-Regular';
     src: local('OldeEnglish'), url(fonts/OldeEnglish.ttf) format('truetype');
 }

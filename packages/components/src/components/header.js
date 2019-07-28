@@ -15,12 +15,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: ColorScheme.overlay,
     width: '100%',
-    height: 50
+    height: 55
   },
   title: {
-    fontWeight: 'bold',
     color: ColorScheme.text,
-    fontSize: 25
+    fontSize: 50,
+    fontFamily: 'OldeEnglish'
   }
 });
 
@@ -33,7 +33,7 @@ class Header extends Component {
     }
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>U N I T E</Text>
+        <Text style={styles.title}>ASKE</Text>
       </View>
     )
   }

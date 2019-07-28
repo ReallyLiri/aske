@@ -1,5 +1,5 @@
 export const ColorScheme = {
-  background: '#4a2685',
+  background: 'black',
   overlay: '#6b37c1',
   button: '#8f61ff',
   lightText: 'white',

@@ -1,0 +1,5 @@
+
+@font-face {
+    font-family: 'OldeEnglish';
+    src: local('OldeEnglish'), url(../../../web/public/fonts/OldeEnglish.ttf) format('ttf');
+}

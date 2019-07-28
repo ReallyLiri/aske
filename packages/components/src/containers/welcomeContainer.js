@@ -17,7 +17,7 @@ export class WelcomeContainer extends BaseContainerComponent {
     return (
       <View style={[askeStyle.container, {paddingTop: 200}]}>
         <Text style={style.welcome}>{Strings.WELCOME}</Text>
-        <Text style={style.welcome}>U N I T E</Text>
+        <Text style={style.title}>ASKE</Text>
         <View style={{paddingTop: 50}}>
           <TouchableOpacity
             style={askeStyle.actionButton}
@@ -48,6 +48,12 @@ const style = StyleSheet.create({
     fontWeight: 'bold',
     color: ColorScheme.text,
     fontSize: 40
+  },
+  title: {
+    paddingTop: 30,
+    color: ColorScheme.text,
+    fontFamily: 'OldeEnglish',
+    fontSize: 80
   }
 });
 

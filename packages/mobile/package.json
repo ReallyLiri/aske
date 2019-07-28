@@ -7,7 +7,9 @@
     "start": "node ../../node_modules/react-native/local-cli/cli.js start --projectRoot=../../",
     "test": "jest",
     "studio": "open -a /Applications/Android\\ Studio.app ./android/",
-    "xcode": "open ios/Aske.xcodeproj"
+    "android": "react-native run-android",
+    "xcode": "open ios/Aske.xcodeproj",
+    "ios": "react-native run-ios"
   },
   "dependencies": {
     "react": "16.8.6",

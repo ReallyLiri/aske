@@ -11,7 +11,7 @@ import BaseContainerComponent from "./baseContainerComponent";
 import connectComponent from "../redux/connect";
 import { Strings } from "../data/strings";
 import { ROUTES } from "../routes";
-import { uniteStyle } from "../theme/styleSheets";
+import { askeStyle } from "../theme/styleSheets";
 import UserDataService from "../services/userDataService";
 import { ColorScheme } from "../theme/colorScheme";
 import { DEFAULT_PICTURE } from "../data/profilePictures";
@@ -63,39 +63,39 @@ export class ProfileContainer extends BaseContainerComponent {
       return this.loadingPlaceholder();
     }
     return (
-      <View style={uniteStyle.container}>
+      <View style={askeStyle.container}>
         <TouchableOpacity
           onPress={() => this.props.history.push(ROUTES.PROFILE_PICTURE)}>
           <Image style={styles.profilePicture} source={this.props.userState.userData.image || DEFAULT_PICTURE}/>
         </TouchableOpacity>
-        <Text style={uniteStyle.titleText}>{Strings.NAME}</Text>
+        <Text style={askeStyle.titleText}>{Strings.NAME}</Text>
         <TextInput
-          style={uniteStyle.input}
+          style={askeStyle.input}
           autoFocus
           autoCapitalize="none"
           onChangeText={val => this.onChangeText('name', val)}
           value={this.state.name}
         />
-        <Text style={uniteStyle.titleText}>{Strings.AGE}</Text>
+        <Text style={askeStyle.titleText}>{Strings.AGE}</Text>
         <TextInput
-          style={uniteStyle.input}
+          style={askeStyle.input}
           autoCapitalize="none"
           keyboardType='numeric'
           onChangeText={val => this.onChangeText('age', val)}
           value={this.state.age}
         />
-        <Text style={uniteStyle.titleText}>{Strings.PHRASE}</Text>
+        <Text style={askeStyle.titleText}>{Strings.PHRASE}</Text>
         <TextInput
           multiline={true}
-          style={[uniteStyle.input, {height: 120}]}
+          style={[askeStyle.input, {height: 120}]}
           autoCapitalize="none"
           onChangeText={val => this.onChangeText('phrase', val)}
           value={this.state.phrase}
         />
         <TouchableOpacity
-          style={uniteStyle.actionButton}
+          style={askeStyle.actionButton}
           onPress={() => this.save()}>
-          <Text style={uniteStyle.actionButtonText}>{this.state.isNewUser ? Strings.ENTER : Strings.SAVE}</Text>
+          <Text style={askeStyle.actionButtonText}>{this.state.isNewUser ? Strings.ENTER : Strings.SAVE}</Text>
         </TouchableOpacity>
       </View>
     )

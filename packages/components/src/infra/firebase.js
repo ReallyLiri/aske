@@ -7,9 +7,9 @@ export default class FireBase {
     if (!firebase.apps.length) {
       const firebaseConfig = {
         apiKey: "AIzaSyB6wsCwhKWlkBHMx5jqI7PXkXV28qZpbPs",
-        authDomain: "unite-d3b30.firebaseapp.com",
-        databaseURL: "https://unite-d3b30.firebaseio.com",
-        projectId: "unite-d3b30",
+        authDomain: "aske-d3b30.firebaseapp.com",
+        databaseURL: "https://aske-d3b30.firebaseio.com",
+        projectId: "aske-d3b30",
         storageBucket: "",
         messagingSenderId: "672071053188",
         appId: "1:672071053188:web:41c116b6f3ab9072"

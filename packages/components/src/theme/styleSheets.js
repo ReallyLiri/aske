@@ -6,7 +6,7 @@ export const condVisibility = (predicate) => {
   return {opacity: predicate ? 100 : 0}
 };
 
-export const uniteStyle = StyleSheet.create({
+export const askeStyle = StyleSheet.create({
   errorMessage: {
     color: 'red',
     height: 20,

@@ -1,4 +1,4 @@
-package com.unite;
+package com.aske;
 
 import com.facebook.react.ReactActivity;
 
@@ -12,6 +12,6 @@ public class MainActivity extends ReactActivity
     @Override
     protected String getMainComponentName()
     {
-        return "Unite";
+        return "Aske";
     }
 }

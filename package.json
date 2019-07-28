@@ -1,5 +1,5 @@
 {
-  "name": "unite",
+  "name": "aske",
   "private": true,
   "workspaces": {
     "packages": [
@@ -12,7 +12,7 @@
     "mobile": "yarn workspace mobile start",
     "web": "yarn workspace web start",
     "web:build": "yarn workspace web build",
-    "web:publish": "yarn web:build && aws s3 sync packages/web/dist/ s3://unite-app-bucket/",
+    "web:publish": "yarn web:build && aws s3 sync packages/web/dist/ s3://aske-app-bucket/",
     "studio": "yarn workspace mobile studio",
     "xcode": "yarn workspace mobile xcode"
   }

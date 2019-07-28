@@ -6,7 +6,7 @@ import connectComponent from '../redux/connect'
 import * as responses from "../data/questionResponse";
 import { ColorScheme } from "../theme/colorScheme";
 import { ROUTES } from "../routes";
-import { condVisibility, uniteStyle } from "../theme/styleSheets";
+import { condVisibility, askeStyle } from "../theme/styleSheets";
 import { Strings } from "../data/strings";
 import ResponsesService from "../services/responsesService";
 
@@ -154,14 +154,14 @@ export class QuestionsContainer extends BaseContainerComponent {
               disabled={this.state.currentQuestionIdx === 0}
               style={condVisibility(this.state.currentQuestionIdx > 0)}
               onPress={() => this.navigate('PREV')}>
-              <Text style={[uniteStyle.actionButtonText, {fontSize: 14, textAlign: 'left'}]}>← Previous</Text>
+              <Text style={[askeStyle.actionButtonText, {fontSize: 14, textAlign: 'left'}]}>← Previous</Text>
             </TouchableOpacity>
             <View style={{width: 200}}/>
             <TouchableOpacity
               disabled={!this.currentQuestion().response || this.state.inClickTransition}
               style={condVisibility(!!this.currentQuestion().response && !this.state.inClickTransition)}
               onPress={() => this.navigate('NEXT')}>
-              <Text style={[uniteStyle.actionButtonText, {fontSize: 14}]}>Next →</Text>
+              <Text style={[askeStyle.actionButtonText, {fontSize: 14}]}>Next →</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -8,7 +8,7 @@ import {
 
 import BaseContainerComponent from "./baseContainerComponent";
 import connectComponent from "../redux/connect";
-import { uniteStyle } from "../theme/styleSheets";
+import { askeStyle } from "../theme/styleSheets";
 import { PROFILE_PICTURES } from "../data/profilePictures";
 import { ColorScheme } from "../theme/colorScheme";
 import { ROUTES } from "../routes";
@@ -41,7 +41,7 @@ export class ProfilePictureContainer extends BaseContainerComponent {
     const borderWidth = 4;
     const imageDimension = (Dimensions.get('window').width / numColumns) - 20;
     return (
-      <View style={[uniteStyle.container]}>
+      <View style={[askeStyle.container]}>
         <FlatList
           style={{flex: 1, paddingTop: 30}}
           contentContainerStyle={{

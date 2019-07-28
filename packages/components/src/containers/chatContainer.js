@@ -6,7 +6,7 @@ import BaseContainerComponent from "./baseContainerComponent";
 import connectComponent from "../redux/connect";
 import ChatService from "../services/chatService";
 import { ROUTES } from "../routes";
-import { uniteStyle } from "../theme/styleSheets";
+import { askeStyle } from "../theme/styleSheets";
 import { Strings } from "../data/strings";
 import { ColorScheme } from "../theme/colorScheme";
 import { utcTimestampToDate } from "../infra/utils";
@@ -92,8 +92,8 @@ export class ChatContainer extends BaseContainerComponent {
       return this.loadingPlaceholder();
     }
     return (
-      <View style={uniteStyle.container}>
-        <Text style={[uniteStyle.titleText, style.titleText]}>
+      <View style={askeStyle.container}>
+        <Text style={[askeStyle.titleText, style.titleText]}>
           {`${Strings.CHAT_WITH} ${this.contactUserData.username}`}
         </Text>
         <Image style={style.profilePicture} source={this.contactUserData.image || DEFAULT_PICTURE}/>
@@ -114,16 +114,16 @@ export class ChatContainer extends BaseContainerComponent {
           paddingTop: 25
         }}>
           <TextInput
-            style={[uniteStyle.input, {width: 250}]}
+            style={[askeStyle.input, {width: 250}]}
             placeholderTextColor={ColorScheme.overlay}
             autoCapitalize="none"
             onChangeText={val => this.setState({nextMessage: val})}
             value={this.state.nextMessage}
           />
           <TouchableOpacity
-            style={[uniteStyle.actionButton, {width: 70}]}
+            style={[askeStyle.actionButton, {width: 70}]}
             onPress={() => this.publishMessage()}>
-            <Text style={[uniteStyle.actionButtonText, {fontSize: 16}]}>{Strings.SEND}</Text>
+            <Text style={[askeStyle.actionButtonText, {fontSize: 16}]}>{Strings.SEND}</Text>
           </TouchableOpacity>
         </View>
       </View>

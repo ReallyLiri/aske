@@ -10,7 +10,7 @@ import connectComponent from "../redux/connect";
 import * as userActions from "../redux/actions/userActions";
 import { Strings } from "../data/strings";
 import { ROUTES } from "../routes";
-import { condVisibility, uniteStyle } from "../theme/styleSheets";
+import { condVisibility, askeStyle } from "../theme/styleSheets";
 import AuthService from "../services/authService";
 import { randomPicture } from "../data/profilePictures";
 import UserDataService from "../services/userDataService";
@@ -68,26 +68,26 @@ export class SignUpContainer extends BaseContainerComponent {
       return this.loadingPlaceholder();
     }
     return (
-      <View style={[uniteStyle.container, {paddingTop: 150}]}>
-        <Text style={uniteStyle.titleText}>{Strings.USERNAME}</Text>
+      <View style={[askeStyle.container, {paddingTop: 150}]}>
+        <Text style={askeStyle.titleText}>{Strings.USERNAME}</Text>
         <TextInput
-          style={uniteStyle.input}
+          style={askeStyle.input}
           autoFocus
           autoCapitalize="none"
           onChangeText={val => this.onChangeText('username', val)}
           value={this.state.username}
         />
-        <Text style={uniteStyle.titleText}>{Strings.PASSWORD}</Text>
+        <Text style={askeStyle.titleText}>{Strings.PASSWORD}</Text>
         <TextInput
-          style={uniteStyle.input}
+          style={askeStyle.input}
           autoCapitalize="none"
           secureTextEntry={true}
           onChangeText={val => this.onChangeText('password', val)}
           value={this.state.password}
         />
-        <Text style={uniteStyle.titleText}>{Strings.PASSWORD_AGAIN}</Text>
+        <Text style={askeStyle.titleText}>{Strings.PASSWORD_AGAIN}</Text>
         <TextInput
-          style={uniteStyle.input}
+          style={askeStyle.input}
           autoCapitalize="none"
           secureTextEntry={true}
           onChangeText={val => this.onChangeText('passwordVerify', val)}
@@ -96,14 +96,14 @@ export class SignUpContainer extends BaseContainerComponent {
         <TouchableOpacity
           disabled={!(this.state.username && this.state.password && this.state.passwordVerify)}
           style={[
-            uniteStyle.actionButton,
+            askeStyle.actionButton,
             condVisibility(this.state.username && this.state.password && this.state.passwordVerify)
           ]}
           onPress={this.signUp}>
-          <Text style={uniteStyle.actionButtonText}>{Strings.NEXT}</Text>
+          <Text style={askeStyle.actionButtonText}>{Strings.NEXT}</Text>
         </TouchableOpacity>
         <Text style={[
-          uniteStyle.errorMessage,
+          askeStyle.errorMessage,
           condVisibility(this.state.error)
         ]}>
           {this.state.error}

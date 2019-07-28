@@ -8,26 +8,26 @@ import BaseContainerComponent from "./baseContainerComponent";
 import connectComponent from "../redux/connect";
 import { Strings } from "../data/strings";
 import { ROUTES } from "../routes";
-import { uniteStyle } from "../theme/styleSheets";
+import { askeStyle } from "../theme/styleSheets";
 import { ColorScheme } from "../theme/colorScheme";
 
 export class WelcomeContainer extends BaseContainerComponent {
 
   render() {
     return (
-      <View style={[uniteStyle.container, {paddingTop: 200}]}>
+      <View style={[askeStyle.container, {paddingTop: 200}]}>
         <Text style={style.welcome}>{Strings.WELCOME}</Text>
         <Text style={style.welcome}>U N I T E</Text>
         <View style={{paddingTop: 50}}>
           <TouchableOpacity
-            style={uniteStyle.actionButton}
+            style={askeStyle.actionButton}
             onPress={() => this.props.history.push(ROUTES.LOGIN)}>
-            <Text style={uniteStyle.actionButtonText}>{Strings.LOGIN}</Text>
+            <Text style={askeStyle.actionButtonText}>{Strings.LOGIN}</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={uniteStyle.actionButton}
+            style={askeStyle.actionButton}
             onPress={() => this.props.history.push(ROUTES.SIGNUP)}>
-            <Text style={uniteStyle.actionButtonText}>{Strings.SINGUP}</Text>
+            <Text style={askeStyle.actionButtonText}>{Strings.SINGUP}</Text>
           </TouchableOpacity>
         </View>
       </View>

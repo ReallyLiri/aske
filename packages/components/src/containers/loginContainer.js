@@ -14,7 +14,7 @@ import LocalStorage from '../infra/local-storage'
 import { Strings } from "../data/strings";
 import { ROUTES } from "../routes";
 import AuthService from "../services/authService";
-import { condVisibility, uniteStyle } from "../theme/styleSheets";
+import { condVisibility, askeStyle } from "../theme/styleSheets";
 import UserDataService from "../services/userDataService";
 
 export class LoginContainer extends BaseContainerComponent {
@@ -53,18 +53,18 @@ export class LoginContainer extends BaseContainerComponent {
       return this.loadingPlaceholder();
     }
     return (
-      <View style={[uniteStyle.container, {paddingTop: 150}]}>
-        <Text style={uniteStyle.titleText}>{Strings.USERNAME}</Text>
+      <View style={[askeStyle.container, {paddingTop: 150}]}>
+        <Text style={askeStyle.titleText}>{Strings.USERNAME}</Text>
         <TextInput
-          style={uniteStyle.input}
+          style={askeStyle.input}
           autoFocus
           autoCapitalize="none"
           onChangeText={val => this.setState({username: val, error: null})}
           value={this.state.username}
         />
-        <Text style={uniteStyle.titleText}>{Strings.PASSWORD}</Text>
+        <Text style={askeStyle.titleText}>{Strings.PASSWORD}</Text>
         <TextInput
-          style={uniteStyle.input}
+          style={askeStyle.input}
           autoCapitalize="none"
           secureTextEntry={true}
           onChangeText={val => this.setState({password: val, error: null})}
@@ -72,13 +72,13 @@ export class LoginContainer extends BaseContainerComponent {
         />
         <TouchableOpacity
           style={[
-            uniteStyle.actionButton,
+            askeStyle.actionButton,
             condVisibility(this.state.username && this.state.password)
           ]}
           onPress={this.login}>
-          <Text style={uniteStyle.actionButtonText}>{Strings.ENTER}</Text>
+          <Text style={askeStyle.actionButtonText}>{Strings.ENTER}</Text>
         </TouchableOpacity>
-        <Text style={[uniteStyle.errorMessage, condVisibility(this.state.error)]}>{this.state.error}</Text>
+        <Text style={[askeStyle.errorMessage, condVisibility(this.state.error)]}>{this.state.error}</Text>
       </View>
     )
   }

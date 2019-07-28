@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, StyleSheet, Image, Dimensions } from "rea
 
 import BaseContainerComponent from './baseContainerComponent';
 import connectComponent from "../redux/connect";
-import { uniteStyle } from "../theme/styleSheets";
+import { askeStyle } from "../theme/styleSheets";
 import { ROUTES } from "../routes";
 import * as chatActions from "../redux/actions/chatActions";
 import { ColorScheme } from "../theme/colorScheme";
@@ -54,7 +54,7 @@ export class ChatListContainer extends BaseContainerComponent {
     }
     const itemWidth = Dimensions.get('window').width - 20;
     return (
-      <View style={uniteStyle.container}>
+      <View style={askeStyle.container}>
         {
           this.state.channels && this.state.channels.length ?
             this.state.channels.map((channel, index) => (
@@ -77,7 +77,7 @@ export class ChatListContainer extends BaseContainerComponent {
               </TouchableOpacity>
             ))
             :
-            <Text style={[uniteStyle.actionButtonText, {paddingTop: 200}]}>{Strings.NO_CHATS}</Text>
+            <Text style={[askeStyle.actionButtonText, {paddingTop: 200}]}>{Strings.NO_CHATS}</Text>
         }
       </View>
     );

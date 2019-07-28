@@ -4,7 +4,7 @@ import { Text, View, TouchableOpacity, StyleSheet, Image, Dimensions } from "rea
 import BaseContainerComponent from './baseContainerComponent';
 import connectComponent from "../redux/connect";
 import MatchingService from "../services/matchingService";
-import { uniteStyle } from "../theme/styleSheets";
+import { askeStyle } from "../theme/styleSheets";
 import { ROUTES } from "../routes";
 import * as chatActions from "../redux/actions/chatActions";
 import { ColorScheme } from "../theme/colorScheme";
@@ -49,7 +49,7 @@ export class MatchesContainer extends BaseContainerComponent {
     }
     const matchWidth = Dimensions.get('window').width - 20;
     return (
-      <View style={uniteStyle.container}>
+      <View style={askeStyle.container}>
         {
           this.state.matches && this.state.matches.length ?
             this.state.matches.map((match, index) => (
@@ -76,7 +76,7 @@ export class MatchesContainer extends BaseContainerComponent {
               </TouchableOpacity>
             ))
             :
-            <Text style={[uniteStyle.actionButtonText, {paddingTop: 200}]}>{Strings.NO_MATCHES}</Text>
+            <Text style={[askeStyle.actionButtonText, {paddingTop: 200}]}>{Strings.NO_MATCHES}</Text>
         }
       </View>
     );

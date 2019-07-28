@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, Image, Dimensions } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, Image, Dimensions, Platform } from "react-native";
 
 import BaseContainerComponent from './baseContainerComponent';
 import connectComponent from "../redux/connect";
@@ -68,7 +68,7 @@ export class MatchesContainer extends BaseContainerComponent {
                   }
                 ]}
                 onPress={() => this.onMatchClick(match)}>
-                <Image style={styles.profilePicture} source={{uri: match.userData.image || DEFAULT_PICTURE}}/>
+                <Image style={askeStyle.profilePicture} source={{uri: match.userData.image || DEFAULT_PICTURE}}/>
                 <View>
                   <Text style={styles.matchName}>{match.userData.username}</Text>
                   <Text style={styles.matchPhrase}>{match.userData.phrase}</Text>
@@ -96,7 +96,7 @@ export class MatchesContainer extends BaseContainerComponent {
 const styles = StyleSheet.create({
   match: {
     alignSelf: 'stretch',
-    height: 55,
+    height: Platform.OS === 'ios' ? 105 : 55,
     margin: 5,
     borderRadius: 14,
     justifyContent: 'flex-start',
@@ -113,15 +113,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: ColorScheme.text,
     fontSize: 12
-  },
-  profilePicture: {
-    margin: 10,
-    height: 50,
-    width: 50,
-    borderRadius: 100,
-    borderWidth: 5,
-    borderColor: ColorScheme.button,
-    backgroundColor: 'white'
   }
 });
 

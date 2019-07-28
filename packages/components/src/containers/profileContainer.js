@@ -66,7 +66,7 @@ export class ProfileContainer extends BaseContainerComponent {
       <View style={askeStyle.container}>
         <TouchableOpacity
           onPress={() => this.props.history.push(ROUTES.PROFILE_PICTURE)}>
-          <Image style={styles.profilePicture} source={{uri: this.props.userState.userData.image || DEFAULT_PICTURE}}/>
+          <Image style={askeStyle.profilePicture} source={{uri: this.props.userState.userData.image || DEFAULT_PICTURE}}/>
         </TouchableOpacity>
         <Text style={askeStyle.titleText}>{Strings.NAME}</Text>
         <TextInput
@@ -109,17 +109,5 @@ export class ProfileContainer extends BaseContainerComponent {
     return {};
   }
 }
-
-const styles = StyleSheet.create({
-  profilePicture: {
-    margin: 10,
-    height: 100,
-    width: 100,
-    borderRadius: 100,
-    borderWidth: 5,
-    borderColor: ColorScheme.button,
-    backgroundColor: 'white'
-  }
-});
 
 export default connectComponent(ProfileContainer);

@@ -53,5 +53,14 @@ export const askeStyle = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  profilePicture: {
+    margin: 10,
+    height: 100,
+    width: 100,
+    borderRadius: 50,
+    borderWidth: 5,
+    borderColor: ColorScheme.button,
+    backgroundColor: 'white'
   }
 });

@@ -1,18 +1,19 @@
 import React from 'react'
-import { Text, View, TouchableOpacity, TextInput, StyleSheet, Image } from "react-native";
+import {Text, View, TouchableOpacity, TextInput, StyleSheet, Image} from "react-native";
 import queryString from 'query-string';
 
 import BaseContainerComponent from "./baseContainerComponent";
 import connectComponent from "../redux/connect";
 import ChatService from "../services/chatService";
-import { ROUTES } from "../routes";
-import { askeStyle } from "../theme/styleSheets";
-import { Strings } from "../data/strings";
-import { ColorScheme } from "../theme/colorScheme";
-import { utcTimestampToDate } from "../infra/utils";
+import {ROUTES} from "../routes";
+import {askeStyle} from "../theme/styleSheets";
+import {Strings} from "../data/strings";
+import {ColorScheme} from "../theme/colorScheme";
+import {utcTimestampToDate} from "../infra/utils";
 import UserDataService from "../services/userDataService";
-import { DEFAULT_PICTURE } from "../data/profilePictures";
+import {DEFAULT_PICTURE} from "../data/profilePictures";
 import Logging from "../infra/logging";
+import {Dimensions} from "react-native-web";
 
 export class ChatContainer extends BaseContainerComponent {
 
@@ -96,7 +97,7 @@ export class ChatContainer extends BaseContainerComponent {
         <Text style={[askeStyle.titleText, style.titleText]}>
           {`${Strings.CHAT_WITH} ${this.contactUserData.username}`}
         </Text>
-        <Image style={style.profilePicture} source={{uri: this.contactUserData.image || DEFAULT_PICTURE}}/>
+        <Image style={askeStyle.profilePicture} source={{uri: this.contactUserData.image || DEFAULT_PICTURE}}/>
         {
           this.state.messages.map(message => (
             <Text
@@ -110,18 +111,20 @@ export class ChatContainer extends BaseContainerComponent {
         <View style={{
           flex: 1,
           alignSelf: 'stretch',
-          flexDirection: 'row',
+          flexDirection: 'column',
           paddingTop: 25
         }}>
           <TextInput
-            style={[askeStyle.input, {width: 250}]}
+            autoFocus={true}
+            multiline
+            style={[askeStyle.input, {width: 'auto', height: 150}]}
             placeholderTextColor={ColorScheme.overlay}
             autoCapitalize="none"
             onChangeText={val => this.setState({nextMessage: val})}
             value={this.state.nextMessage}
           />
           <TouchableOpacity
-            style={[askeStyle.actionButton, {width: 70}]}
+            style={[askeStyle.actionButton, {width: 'auto'}]}
             onPress={() => this.publishMessage()}>
             <Text style={[askeStyle.actionButtonText, {fontSize: 16}]}>{Strings.SEND}</Text>
           </TouchableOpacity>
@@ -145,15 +148,6 @@ const style = StyleSheet.create({
   titleText: {
     textAlign: 'center',
     padding: 20
-  },
-  profilePicture: {
-    margin: 10,
-    height: 100,
-    width: 100,
-    borderRadius: 100,
-    borderWidth: 5,
-    borderColor: ColorScheme.button,
-    backgroundColor: 'white'
   }
 });
 

@@ -210,6 +210,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'stretch',
     padding: 10,
+    paddingLeft: 15,
     justifyContent: 'center'
   },
   imagePlaceholder: {
